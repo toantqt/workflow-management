@@ -1,0 +1,22 @@
+{
+  "name": "workflow-management",
+  "version": "1.0.0",
+  "description": "workflow management",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toantqt/workflow-management.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/toantqt/workflow-management/issues"
+  },
+  "homepage": "https://github.com/toantqt/workflow-management#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
