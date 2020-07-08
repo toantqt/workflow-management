@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const debug = console.log.bind(console);
 //generateToken – tạo token và verifyToken – xác minh token có hợp lệ hay không.
 //create toke
 let generateToken = (user, secretSignature, tokenLife) => {
@@ -6,7 +7,7 @@ let generateToken = (user, secretSignature, tokenLife) => {
     //dinh nghia thong tin user save to token
     const userData = {
       _id: user._id,
-      name: user.name,
+      username: user.username,
       email: user.email,
     };
     //thực hiện ký và tạo token

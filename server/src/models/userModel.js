@@ -8,12 +8,11 @@ const userSchema = new Schema(
     email: { type: String },
     password: { type: String },
     profile: {
-      avatar: { type: String ,default:""},
-      gender: { type: String ,default:""},
-      address: { type: String,default:"" },
-
+      avatar: { type: String, default: "" },
+      gender: { type: String, default: "" },
+      address: { type: String, default: "" },
     },
-    role: { type: String,default:'staff' },
+    role: { type: String, default: "staff" },
   },
   {
     timestamps: {
@@ -23,7 +22,6 @@ const userSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("User", userSchema);
 module.exports.hashPassword = async (password) => {
   try {
     const salt = await bcrypt.genSalt(10);
@@ -32,3 +30,17 @@ module.exports.hashPassword = async (password) => {
     throw new Error("Hashing failed");
   }
 };
+
+userSchema.statics = {
+  findByEmail(email) {
+    return this.findOne({ email: email }).exec();
+  },
+};
+
+//compare password
+userSchema.methods = {
+  comparePassword(password) {
+    return bcrypt.compare(password, this.password);
+  },
+};
+module.exports = mongoose.model("User", userSchema);
