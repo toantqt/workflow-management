@@ -2,7 +2,7 @@ const userModel = require('../models/userModel');
 const debug = console.log.bind(console);
 let createUser = (email,username,password)=>{
   return new Promise( async(resolve,reject)=>{
-    debug('create user');
+    //debug('create user');
     let userByEmail = await userModel.findOne({email});
     if(userByEmail){
       return reject({message: "email da ton tai"});
