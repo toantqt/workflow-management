@@ -10,7 +10,7 @@ let createUser = (email,username,password)=>{
     let userItem = {
       username: username,
       email: email,
-      password: hashPassword(password),
+      password: await userModel.hashPassword(password),
     }
     
     const newUser = await new userModel(userItem);
