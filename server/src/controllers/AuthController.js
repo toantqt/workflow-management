@@ -38,6 +38,7 @@ let login = async (req, res) => {
         _id: user._id,
         username: user.username,
         email: user.email,
+        role: user.role,
       };
       //thực hiện tạo mã Token, thời gian sống là 1 giờ
       const accessToken = await jwtHelper.generateToken(
