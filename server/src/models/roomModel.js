@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let Schema = mongoose.Schema;
-let roomModel = new Schema({
+let roomSchema = new Schema({
     namegroup:{type: String},
     owner:{
         ownerId:String,
@@ -15,4 +15,4 @@ let roomModel = new Schema({
     }
 });
 
-module.exports = mongoose.model('Room',roomModel);
+module.exports = mongoose.model('Room',roomSchema);
