@@ -6,4 +6,6 @@ let userSchema = Joi.object().keys({
   password: Joi.string().required(),
 });
 
+
+
 module.exports = userSchema;

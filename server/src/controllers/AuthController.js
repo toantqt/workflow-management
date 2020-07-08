@@ -1,7 +1,8 @@
 const jwtHelper = require("../helpers/jwt.helper");
+const userHelper = require('../helpers/user.helper');
 const debug = console.log.bind(console);
-
 let tokenList = {};
+const Joi = require("@hapi/joi");
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
 //ma secretKey
@@ -96,8 +97,39 @@ let refreshToken = async (req, res) => {
     });
   }
 };
-
+/*
+ * controller postRegister
+ * @param {*} req
+ * @param {*} res
+ */
+let postRegister =async(req,res)=>{
+  try{
+    //joi schema
+    let userSchema = Joi.object().keys({
+      email: Joi.string().email().required(),
+      username: Joi.string().required(),
+      password: Joi.string().required(),
+    });
+    let result = userSchema.validate(req.body);
+    //debug("aaaaa");
+    if(result){
+      return res.status(200).json(result.value);
+      // let createUser = await register.createUser(req.body.email,req.body.gender,req.body.password,req.protocol,req.get("host"));
+      // return res.status(200).json({createUser});
+    }
+    else{
+      return res.status(500).json({
+        message: "loi roi 4",
+      });
+    }
+  }catch(error){
+    return res.status(500).json({
+      message: "loi joi",
+    });
+  }
+}
 module.exports = {
   login: login,
   refreshToken: refreshToken,
+  postRegister:postRegister
 };
