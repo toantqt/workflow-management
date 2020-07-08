@@ -113,9 +113,11 @@ let postRegister =async(req,res)=>{
     let result = userSchema.validate(req.body);
     //debug("aaaaa");
     if(result){
-      return res.status(200).json(result.value);
-      // let createUser = await register.createUser(req.body.email,req.body.gender,req.body.password,req.protocol,req.get("host"));
-      // return res.status(200).json({createUser});
+     // return res.status(200).json(result.value);
+    
+      let createUser = await userHelper.createUser(req.body.email,req.body.username,req.body.password);
+      debug('result success');
+       return res.status(200).json({createUser});
     }
     else{
       return res.status(500).json({

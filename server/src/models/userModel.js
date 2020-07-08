@@ -6,11 +6,11 @@ const userSchema = new Schema(
     email: { type: String },
     password: { type: String },
     profile: {
-      avatar: { type: String },
-      gender: { type: String },
+      avatar: { type: String ,default:""},
+      gender: { type: String ,default:""},
       address: { type: String,default:"" },
     },
-    role: { type: String },
+    role: { type: String,default:'staff' },
   },
   {
     timestamps: {

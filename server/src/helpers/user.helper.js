@@ -1,11 +1,22 @@
-const Joi = require("@hapi/joi");
+const userModel = require('../models/userModel');
+const debug = console.log.bind(console);
+let createUser = (email,username,password)=>{
+  return new Promise( async(resolve,reject)=>{
+    debug('create user');
+    let userByEmail = await userModel.findOne({email});
+    if(userByEmail){
+      return reject({message: "email da ton tai"});
+    }
+    let userItem = {
+      username: username,
+      email: email,
+      password: hashPassword(password),
+    }
+    
+    const newUser = await new userModel(userItem);
+    await newUser.save();
+    return resolve({message:" send thanh cong"});
+  });
+}
 
-let userSchema = Joi.object().keys({
-  email: Joi.string().email().required(),
-  username: Joi.string().required(),
-  password: Joi.string().required(),
-});
-
-
-
-module.exports = userSchema;
+module.exports = {createUser:createUser};
