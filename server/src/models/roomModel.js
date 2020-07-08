@@ -4,10 +4,13 @@ let Schema = mongoose.Schema;
 let roomSchema = new Schema({
     namegroup:{type: String},
     owner:{
-        ownerId:String,
+        ownerId:{type: String},
         ref: 'userModel'
     },
-    members:[{userId:String, ref: 'userModel'}]
+    members:[{
+        userId:{type: String}, 
+        ref: 'userModel'
+    }]
 },{
     timestamps:{
             createdAt: 'createAt',

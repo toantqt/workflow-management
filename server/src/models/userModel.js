@@ -8,7 +8,7 @@ const userSchema = new Schema(
     profile: {
       avatar: { type: String },
       gender: { type: String },
-      address: { type: String },
+      address: { type: String,default:"" },
     },
     role: { type: String },
   },
