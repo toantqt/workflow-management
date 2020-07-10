@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -17,8 +18,19 @@ class LoginComponent extends Component {
   };
   onHandleChangeSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
-    //this.props.getChange(this.state);
+    //console.log(this.state);
+    axios
+      .post("http://localhost:5566/login", {
+        email: this.state.email,
+        password: this.state.password,
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   render() {
