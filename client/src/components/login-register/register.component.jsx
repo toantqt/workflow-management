@@ -23,6 +23,7 @@ class registerComponent extends Component {
 
   //handle submit form
   onHandleSubmit = (event) => {
+    event.preventDefault();
     axios
       .post("http://localhost:5566/register", {
         email: this.state.email,
@@ -45,7 +46,7 @@ class registerComponent extends Component {
           <div className="card-body">
             <h3 className="card-title text-center">Register</h3>
             <div className="card-text">
-              <form>
+              <form onSubmit={this.onHandleSubmit}>
                 <div className="form-group">
                   <label>Email address</label>
                   <input
@@ -76,11 +77,11 @@ class registerComponent extends Component {
                   />
                 </div>
                 <button type="submit" className="btn btn-primary btn-block">
-                  Sign in
+                  Register
                 </button>
 
                 <div className="sign-up">
-                  Don't have an account? <a>Create One</a>
+                  You have an account? <a>Sign in</a>
                 </div>
               </form>
             </div>
