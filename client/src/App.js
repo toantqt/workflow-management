@@ -1,13 +1,14 @@
-import React, { Component } from "react";
+import React from "react";
+import "./components/login-register/login.component.css";
+import LoginComponent from "./components/login-register/login.component";
 import RegisterComponent from "./components/login-register/register.component";
-class App extends Component {
-  render() {
-    return (
-      <div>
-        <RegisterComponent />
-      </div>
-    );
-  }
-}
 
+function App() {
+  return (
+    <div className="app">
+      <LoginComponent />
+      <RegisterComponent />
+    </div>
+  );
+}
 export default App;
