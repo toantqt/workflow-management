@@ -22,15 +22,6 @@ const userSchema = new Schema(
   }
 );
 
-module.exports.hashPassword = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
-  } catch (error) {
-    throw new Error("Hashing failed");
-  }
-};
-
 userSchema.statics = {
   findByEmail(email) {
     return this.findOne({ email: email }).exec();
@@ -44,3 +35,11 @@ userSchema.methods = {
   },
 };
 module.exports = mongoose.model("User", userSchema);
+module.exports.hashPassword = async (password) => {
+  try {
+    const salt = await bcrypt.genSalt(10);
+    return await bcrypt.hash(password, salt);
+  } catch (error) {
+    throw new Error("Hashing failed");
+  }
+};
