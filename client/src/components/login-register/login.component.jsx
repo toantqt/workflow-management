@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -21,17 +20,19 @@ class LoginComponent extends Component {
     console.log(this.state);
     //this.props.getChange(this.state);
   };
+
   render() {
     return (
       <div className="global-container">
         <div className="card login-form">
           <div className="card-body">
-            <h3 className="card-title text-center">Log in</h3>
+            <h3 className="card-title text-center login-title">Log in</h3>
             <div className="card-text">
               <form
                 action=""
                 method="POST"
                 onSubmit={this.onHandleChangeSubmit}
+                className="loginBox"
               >
                 <div className="form-group">
                   <label>Email address</label>
