@@ -1,13 +1,13 @@
-import React from "react";
-import "./login.css";
-import Login from "./components/Login";
-
-function App() {
-  return (
-    <div className="App">
-      <Login />
-    </div>
-  );
+import React, { Component } from "react";
+import RegisterComponent from "./components/login-register/register.component";
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <RegisterComponent />
+      </div>
+    );
+  }
 }
 
 export default App;
