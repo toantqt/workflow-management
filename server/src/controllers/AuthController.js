@@ -151,17 +151,19 @@ let updateProfile = async (req, res) => {
     const newData = {
       email: req.body.email,
       username: req.body.username,
+      password: req.body.password,
+      profile: {
+        avatar: req.body.avatar,
+        gender: req.body.gender,
+        address: req.body.address,
+      },
     };
 
     //update profile
     //dang bi loi
     let updateData = await userHelper.updateData(newData);
-    debug(updateData.success);
-    if (updateData.success) {
-      return res.status(200).json({ message: updateData.success });
-    } else {
-      debug(updateData.error);
-      return res.status(500).json({ message: updateData.error });
+    if (updateData) {
+      return res.status(200).json({ message: updateData.message });
     }
   } catch (error) {
     return res.status(500).json({ message: "update failed" });

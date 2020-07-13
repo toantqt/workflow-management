@@ -23,8 +23,19 @@ const userSchema = new Schema(
 );
 
 userSchema.statics = {
+  //find by email
   findByEmail(email) {
     return this.findOne({ email: email }).exec();
+  },
+
+  //find by username
+  findByUsername(username) {
+    return this.findOne({ username: username }).exec();
+  },
+
+  //find and update
+  findAndUpdate(newData) {
+    return this.findOneAndUpdate({ email: email }, newData);
   },
 };
 

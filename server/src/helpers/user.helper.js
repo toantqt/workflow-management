@@ -22,19 +22,17 @@ let createUser = (email, username, password) => {
 let updateData = (newData) => {
   return new Promise(async (resolve, reject) => {
     const username = newData.username;
+    const email = newData.email;
 
-    let findUsername = await userModel.findOne({ username });
-    if (findUsername) {
-      debug("den dc day");
-      return reject({ error: "username da ton tai" });
+    let findUsername = await userModel.findByUsername(username);
+    // debug(findUsername);
+    if (findUsername != null) {
+      return reject({ message: "username already exist update failed" });
+    } else {
+      debug("aaaa");
+      let updateNewData = await userModel.findOneAndUpdate(email, newData);
+      return resolve({ message: "update successfully" });
     }
-    return resolve({ success: "username hop le" });
-
-    // if (findUsername != null) {
-    //   debug("!null");
-    //   return reject({ message: "username da ton tai" });
-    // }
-    // return resolve({ message: "username hop le" });
   });
 };
 module.exports = { createUser: createUser, updateData: updateData };
