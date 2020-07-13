@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./register.component.css";
+import { Link } from "react-router-dom";
+import { register } from "./userFunctions";
 class registerComponent extends Component {
   constructor(props) {
     super(props);
@@ -24,19 +26,34 @@ class registerComponent extends Component {
   //handle submit form
   onHandleSubmit = (event) => {
     event.preventDefault();
-    axios
-      .post("http://localhost:5566/register", {
-        email: this.state.email,
-        username: this.state.username,
-        password: this.state.password,
-      })
+    const newUser = {
+      email: this.state.email,
+      username: this.state.username,
+      password: this.state.password,
+    };
+    register(newUser)
       .then((res) => {
-        console.log(res);
-        console.log(res.data);
+        if (res) {
+          this.props.history.push("/login");
+        }
       })
       .catch((error) => {
         console.log(error);
       });
+
+    // axios
+    //   .post("http://localhost:5566/register", {
+    //     email: this.state.email,
+    //     username: this.state.username,
+    //     password: this.state.password,
+    //   })
+    //   .then((res) => {
+    //     console.log(res);
+    //     console.log(res.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   render() {
@@ -81,7 +98,7 @@ class registerComponent extends Component {
                 </button>
 
                 <div className="sign-up">
-                  Do have an account? <a href="#s">Sign in</a>
+                  Do have an account? <Link to="/login">Sign in</Link>
                 </div>
               </form>
             </div>

@@ -4,6 +4,7 @@ const debug = console.log.bind(console);
 let tokenList = {};
 const Joi = require("@hapi/joi");
 const User = require("../models/userModel");
+const { update } = require("../models/userModel");
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
 //ma secretKey
@@ -144,8 +145,31 @@ let postRegister = async (req, res) => {
     });
   }
 };
+
+let updateProfile = async (req, res) => {
+  try {
+    const newData = {
+      email: req.body.email,
+      username: req.body.username,
+    };
+
+    //update profile
+    //dang bi loi
+    let updateData = await userHelper.updateData(newData);
+    debug(updateData.success);
+    if (updateData.success) {
+      return res.status(200).json({ message: updateData.success });
+    } else {
+      debug(updateData.error);
+      return res.status(500).json({ message: updateData.error });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: "update failed" });
+  }
+};
 module.exports = {
   login: login,
   refreshToken: refreshToken,
   postRegister: postRegister,
+  updateProfile: updateProfile,
 };

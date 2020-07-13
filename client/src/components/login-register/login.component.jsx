@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import { login } from "./userFunctions";
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -7,6 +9,13 @@ class LoginComponent extends Component {
       email: "",
       password: "",
     };
+  }
+  componentDidMount() {
+    const token = localStorage.userToken;
+    if (token) {
+      this.props.history.push("/home");
+    }
+    this.props.history.push("/login");
   }
   onHandleChange = (event) => {
     let target = event.target;
@@ -18,19 +27,33 @@ class LoginComponent extends Component {
   };
   onHandleChangeSubmit = (event) => {
     event.preventDefault();
+
+    const User = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    login(User).then((res) => {
+      if (res) {
+        this.props.history.push("/home");
+      }
+    });
     //console.log(this.state);
-    axios
-      .post("http://localhost:5566/login", {
-        email: this.state.email,
-        password: this.state.password,
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    // axios
+    //   .post("http://localhost:5566/login", {
+    //     email: this.state.email,
+    //     password: this.state.password,
+    //   })
+    //   .then((res) => {
+    //     if (res.data.accessToken) {
+    //       localStorage.setItem("user", JSON.stringify(res.data));
+    //     }
+    //     console.log("no access token");
+    //     // console.log(res.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   };
 
   render() {
@@ -71,7 +94,7 @@ class LoginComponent extends Component {
                 </button>
 
                 <div className="sign-up">
-                  Don't have an account? <a href="#s">Create One</a>
+                  Don't have an account? <Link to="/register">Create One</Link>
                 </div>
               </form>
             </div>
