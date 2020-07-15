@@ -13,17 +13,16 @@ function App() {
   return (
     <BrowserRouter>
       <div>
-        <Route exact path="/" component={LoginComponent} />
         <Route path="/edit-profile" component={EditProfileComponent}></Route>
         <Route
           path="/login"
           render={() =>
-            isLoggedIn() ? <Redirect to="/home" /> : <LoginComponent />
+            isLoggedIn() ? <Redirect to="/" /> : <LoginComponent />
           }
         ></Route>
         <Route path="/register" component={RegisterComponent}></Route>
         <Route
-          path="/home"
+          path="/"
           render={() =>
             isLoggedIn() ? <HomeComponent /> : <Redirect to="/login" />
           }

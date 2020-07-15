@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { login } from "./userFunctions";
+import { createHashHistory } from "history";
 class LoginComponent extends Component {
   constructor(props) {
     super(props);
@@ -33,9 +34,9 @@ class LoginComponent extends Component {
     };
 
     login(User).then((res) => {
-      console.log("aaa" + this.props.history);
+      const history = createHashHistory();
       if (res) {
-        this.props.history.push("/home");
+        history.push("/");
       }
     });
     //console.log(this.state);
