@@ -15,10 +15,12 @@ const accessTokenSecret =
 let isAuth = async (req, res, next) => {
   // Lấy token được gửi lên từ phía client, thông thường tốt nhất là các bạn nên truyền token vào header
   const tokenFromClient =
-    req.body.token || req.query.token || req.headers["x-access-token"];
+    req.body.token || req.query.token || req.header("authorization");
+  console.log(tokenFromClient);
   if (tokenFromClient) {
     //neu ton tai
     try {
+      debug(tokenFromClient);
       //thực hiện giải mã token xem có hợp lệ ko
       const decoded = await jwtHelper.verifyToken(
         tokenFromClient,
@@ -26,6 +28,7 @@ let isAuth = async (req, res, next) => {
       );
       //nếu token hop le, lưu thông tin giải mả được vào đối tượng req, dùng cho các xử lý ở phía sau.
       req.jwtDecoded = decoded;
+
       // cho phep req đi tiếp sang controller
       next();
     } catch (error) {

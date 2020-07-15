@@ -28,6 +28,7 @@ let login = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     let user = await User.findByEmail(email);
+    debug(user.fullName);
     if (user == null) {
       res.status(404).json({ message: "email failed" });
     } else {
@@ -40,6 +41,7 @@ let login = async (req, res) => {
         username: user.username,
         email: user.email,
         role: user.role,
+        fullName: user.fullName,
       };
       //thực hiện tạo mã Token, thời gian sống là 1 giờ
       const accessToken = await jwtHelper.generateToken(
@@ -146,25 +148,55 @@ let postRegister = async (req, res) => {
   }
 };
 
+//get Profile
+let getProfile = async (req, res) => {
+  debug("hhahaah");
+  try {
+    const username = req.params.username;
+    let getDataUser = await userHelper.getDataUser(username);
+    debug(getDataUser);
+    return res.status(200).json(getDataUser);
+  } catch (error) {
+    return res.status(500).json({ message: "get profile failed" });
+  }
+};
+
+//post /updateProfile
 let updateProfile = async (req, res) => {
   try {
+    //password curren
+    const password = req.body.password;
+    const email = req.body.email;
+    const _id = req.body._id;
     const newData = {
-      email: req.body.email,
       username: req.body.username,
-      password: req.body.password,
+      password: await User.hashPassword(req.body.newPassword),
+      fullName: req.body.fullName,
       profile: {
         avatar: req.body.avatar,
         gender: req.body.gender,
         address: req.body.address,
       },
     };
+    debug(newData);
+    //find email and compare password
+    let user = await User.findByEmail(email);
 
+    if (user == null) {
+      return res.status(404).json({ message: "email not exists" });
+    } else {
+      let checkPassword = await user.comparePassword(password);
+      if (!checkPassword) {
+        return res.status(404).json({ message: "password failed" });
+      }
+      debug("den dc day");
+      let updateData = await userHelper.updateData(_id, newData);
+      if (updateData) {
+        return res.status(200).json({ message: updateData.message });
+      }
+    }
     //update profile
     //dang bi loi
-    let updateData = await userHelper.updateData(newData);
-    if (updateData) {
-      return res.status(200).json({ message: updateData.message });
-    }
   } catch (error) {
     return res.status(500).json({ message: "update failed" });
   }
@@ -174,4 +206,5 @@ module.exports = {
   refreshToken: refreshToken,
   postRegister: postRegister,
   updateProfile: updateProfile,
+  getProfile: getProfile,
 };

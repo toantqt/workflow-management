@@ -10,6 +10,7 @@ let initAPIs = (app) => {
   //Sử dụng authMiddleware.isAuth trước những api cần xác thực
   router.use(AuthMiddleWare.isAuth);
   //list Protect APIs:
+  router.get("/update-profile/:username", AuthController.getProfile);
   router.post("/update-profile", AuthController.updateProfile);
   router.get("/friends", FriendController.friendLists);
 

@@ -1,0 +1,28 @@
+.btn-label {
+  position: relative;
+  left: -12px;
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 3px 0 0 3px;
+}
+.btn-labeled {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.btn {
+  margin-top: 3px;
+  background-color: #0056b3 !important;
+}
+.btn-float {
+  margin-left: -20px;
+}
+
+.navbar-light {
+  border-radius: 0px !important;
+  height: 10px !important;
+}
+
+.dropdown-menu {
+  height: 100px;
+}

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { login } from "./userFunctions";
 class LoginComponent extends Component {
   constructor(props) {
@@ -11,11 +10,11 @@ class LoginComponent extends Component {
     };
   }
   componentDidMount() {
-    const token = localStorage.userToken;
-    if (token) {
-      this.props.history.push("/home");
-    }
-    this.props.history.push("/login");
+    // const token = localStorage.userToken;
+    // if (token) {
+    //   this.props.history.push("/home");
+    // }
+    // this.props.history.push("/login");
   }
   onHandleChange = (event) => {
     let target = event.target;
@@ -34,6 +33,7 @@ class LoginComponent extends Component {
     };
 
     login(User).then((res) => {
+      console.log("aaa" + this.props.history);
       if (res) {
         this.props.history.push("/home");
       }

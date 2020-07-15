@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const userSchema = new Schema(
   {
     username: { type: String },
+    fullName: { type: String, default: "" },
     email: { type: String },
     password: { type: String },
     profile: {
@@ -34,8 +35,8 @@ userSchema.statics = {
   },
 
   //find and update
-  findAndUpdate(newData) {
-    return this.findOneAndUpdate({ email: email }, newData);
+  findAndUpdate(_id, newData) {
+    return this.findByIdAndUpdate(_id, newData).exec();
   },
 };
 

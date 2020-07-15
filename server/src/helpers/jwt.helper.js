@@ -10,6 +10,7 @@ let generateToken = (user, secretSignature, tokenLife) => {
       username: user.username,
       email: user.email,
       role: user.role,
+      fullName: user.fullName,
     };
     //thực hiện ký và tạo token
     jwt.sign(
@@ -37,9 +38,11 @@ let verifyToken = (token, secretkey) => {
   return new Promise((resolve, reject) => {
     jwt.verify(token, secretkey, (error, decoded) => {
       if (error) {
+        debug(error);
         return reject(error);
       }
-      resolve(decoded);
+
+      return resolve(decoded);
     });
   });
 };

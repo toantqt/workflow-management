@@ -19,20 +19,36 @@ let createUser = (email, username, password) => {
   });
 };
 
-let updateData = (newData) => {
+let updateData = (_id, newData) => {
+  debug("aaaa");
   return new Promise(async (resolve, reject) => {
     const username = newData.username;
-    const email = newData.email;
 
     let findUsername = await userModel.findByUsername(username);
     // debug(findUsername);
     if (findUsername != null) {
       return reject({ message: "username already exist update failed" });
     } else {
-      debug("aaaa");
-      let updateNewData = await userModel.findOneAndUpdate(email, newData);
+      let updateNewData = await userModel.findAndUpdate(_id, newData);
       return resolve({ message: "update successfully" });
     }
   });
 };
-module.exports = { createUser: createUser, updateData: updateData };
+
+//get data user
+let getDataUser = (username) => {
+  return new Promise(async (resolve, reject) => {
+    let findData = await userModel.findByUsername(username);
+    if (findData == null) {
+      return reject({ message: "data user is not exist" });
+    } else {
+      return resolve(findData);
+    }
+  });
+};
+
+module.exports = {
+  createUser: createUser,
+  updateData: updateData,
+  getDataUser: getDataUser,
+};
