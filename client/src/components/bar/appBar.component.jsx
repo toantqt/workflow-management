@@ -16,7 +16,7 @@ class AppBarComponent extends Component {
               <li className="nav-item">
                 <button type="button" className="btn btn-success btn-float ">
                   <Link
-                    to="/home"
+                    to="/"
                     style={{ textDecoration: "none", color: "white" }}
                   >
                     <i className="fas fa-home"></i>

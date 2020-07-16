@@ -2,7 +2,7 @@ const router = require("express").Router();
 const AuthMiddleWare = require("../middleware/AuthMiddleware");
 const AuthController = require("../controllers/AuthController");
 const FriendController = require("../controllers/FriendController");
-
+const RoomController = require("../controllers/RoomController");
 let initAPIs = (app) => {
   router.post("/login", AuthController.login);
   router.post("/refresh-token", AuthController.refreshToken);
@@ -13,7 +13,8 @@ let initAPIs = (app) => {
   router.get("/update-profile/:username", AuthController.getProfile);
   router.post("/update-profile", AuthController.updateProfile);
   router.get("/friends", FriendController.friendLists);
-
+  router.post("/add-room", RoomController.addRoom);
+  router.get("/getroom", RoomController.getRoom);
   return app.use("/", router);
 };
 

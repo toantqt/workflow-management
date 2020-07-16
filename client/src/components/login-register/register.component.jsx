@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./register.component.css";
 import { Link } from "react-router-dom";
 import { register } from "./userFunctions";
+import { createHashHistory } from "history";
 class registerComponent extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ class registerComponent extends Component {
   //handle submit form
   onHandleSubmit = (event) => {
     event.preventDefault();
+    const history = createHashHistory();
     const newUser = {
       email: this.state.email,
       username: this.state.username,
