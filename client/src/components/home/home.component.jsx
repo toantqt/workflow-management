@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
+import RoomComponent from "../home-room/room.component";
 import { getListRoom } from "./homeFunction";
 
 class HomeComponent extends Component {
