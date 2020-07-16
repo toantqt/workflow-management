@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
+import { getListRoom } from "./homeFunction";
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -13,6 +14,7 @@ class HomeComponent extends Component {
 
       accessToken: "",
       role: "",
+      room: [],
     };
   }
   componentDidMount() {
@@ -25,6 +27,17 @@ class HomeComponent extends Component {
       email: decoded.data.email,
       role: decoded.data.role,
       accessToken: accessToken,
+    });
+
+    //get list room
+    getListRoom(accessToken).then((res) => {
+      const name = res.data.getRoom;
+      name.forEach((element) => {
+        this.setState({
+          room: [...this.state.room, element.nameRoom],
+        });
+      });
+      console.log(this.state.room);
     });
   }
 
