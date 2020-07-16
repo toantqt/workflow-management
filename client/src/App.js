@@ -14,12 +14,6 @@ function App() {
     <BrowserRouter>
       <div>
         {/* <Route path="/edit-profile" component={EditProfileComponent}></Route> */}
-        <Route
-          path="/edit-profile"
-          render={() =>
-            isLoggedIn() ? <EditProfileComponent /> : <Redirect to="/login" />
-          }
-        ></Route>
 
         <Route
           path="/login"
@@ -38,6 +32,12 @@ function App() {
           path="/"
           render={() =>
             isLoggedIn() ? <HomeComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+        <Route
+          path="/edit-profile/"
+          render={() =>
+            isLoggedIn() ? <EditProfileComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>

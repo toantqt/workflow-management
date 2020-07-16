@@ -11,6 +11,17 @@ class SidebarComponent extends Component {
     return false;
   };
   render() {
+    //list room
+    const listRoom = this.props.data.room.map((room, index) => {
+      return (
+        <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+          <a href="#" className="nav-link">
+            <i className="fa fa-pencil" aria-hidden="true"></i>
+            {room}
+          </a>
+        </li>
+      );
+    });
     if (this.checkRole()) {
       return (
         <div
@@ -44,22 +55,11 @@ class SidebarComponent extends Component {
                       aria-expanded="false"
                       aria-controls="other-fruits"
                     >
-                      <i class="fas fa-layer-group" aria-hidden="true"></i>
+                      <i className="fas fa-layer-group" aria-hidden="true"></i>
                       List Room
                     </a>
                     <ul id="other-fruits" className="flex-column collapse">
-                      <li className="nav-item">
-                        <a href="#" className="nav-link">
-                          <i className="fa fa-pencil" aria-hidden="true"></i>
-                          Room 1
-                        </a>
-                      </li>
-                      <li className="nav-item ">
-                        <a href="#" className="nav-link">
-                          <i className="fa fa-pencil" aria-hidden="true"></i>
-                          Room 2
-                        </a>
-                      </li>
+                      {listRoom}
                     </ul>
                   </li>
                 </ul>
@@ -102,22 +102,11 @@ class SidebarComponent extends Component {
                       aria-expanded="false"
                       aria-controls="other-fruits"
                     >
-                      <i class="fas fa-layer-group" aria-hidden="true"></i>
+                      <i className="fas fa-layer-group" aria-hidden="true"></i>
                       List Room
                     </a>
                     <ul id="other-fruits" className="flex-column collapse">
-                      <li className="nav-item">
-                        <a href="#" className="nav-link">
-                          <i className="fa fa-pencil" aria-hidden="true"></i>
-                          Room 1
-                        </a>
-                      </li>
-                      <li className="nav-item ">
-                        <a href="#" className="nav-link">
-                          <i className="fa fa-pencil" aria-hidden="true"></i>
-                          Room 2
-                        </a>
-                      </li>
+                      {listRoom}
                     </ul>
                   </li>
                 </ul>

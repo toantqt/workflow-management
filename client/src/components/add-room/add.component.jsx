@@ -11,7 +11,7 @@ class AddComponent extends Component {
           <ul id="sidebar-editable-nav" className="nav flex-column">
             <li className="nav-item">
               <a href="/admin/customers" className="nav-link">
-                <i class="fas fa-plus" aria-hidden="true"></i>
+                <i className="fas fa-plus" aria-hidden="true"></i>
                 Add Room
               </a>
             </li>
