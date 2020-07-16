@@ -10,7 +10,7 @@ class AddComponent extends Component {
         <div className="category-content">
           <ul id="sidebar-editable-nav" className="nav flex-column">
             <li className="nav-item">
-              <a href="/admin/customers" className="nav-link">
+              <a href="/admin/customers" data-toggle="tab" className="nav-link">
                 <i className="fas fa-plus" aria-hidden="true"></i>
                 Add Room
               </a>

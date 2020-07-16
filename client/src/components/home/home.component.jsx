@@ -50,7 +50,9 @@ class HomeComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        <SidebarComponent data={this.state} />
+        <div className="row">
+          <SidebarComponent data={this.state} />
+        </div>
       </div>
     );
   }
