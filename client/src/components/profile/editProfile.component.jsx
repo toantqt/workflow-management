@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
 import { showProfile, updateProfile } from "../profile/profileFunctions";
-import AppBarComponent from "../bar/appBar.component";
+import AppBarComponent from "../navbar/appBar.component";
 class EditProfileComponent extends Component {
   constructor(props) {
     super(props);

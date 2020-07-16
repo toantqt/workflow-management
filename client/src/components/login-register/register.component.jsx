@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./register.component.css";
 import { Link } from "react-router-dom";
 import { register } from "./userFunctions";
+import { createHashHistory } from "history";
 class registerComponent extends Component {
   constructor(props) {
     super(props);
@@ -32,8 +33,9 @@ class registerComponent extends Component {
     };
     register(newUser)
       .then((res) => {
+        const history = createHashHistory();
         if (res) {
-          this.props.history.push("/login");
+          history.push("/");
         }
       })
       .catch((error) => {

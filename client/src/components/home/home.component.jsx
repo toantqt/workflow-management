@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
-import AppBarComponent from "../bar/appBar.component";
+import AppBarComponent from "../navbar/appBar.component";
+import SidebarComponent from "../sidebar/sidebar.component";
 
 class HomeComponent extends Component {
   constructor(props) {
@@ -11,6 +12,7 @@ class HomeComponent extends Component {
       email: "",
 
       accessToken: "",
+      role: "",
     };
   }
   componentDidMount() {
@@ -21,6 +23,7 @@ class HomeComponent extends Component {
     this.setState({
       username: decoded.data.username,
       email: decoded.data.email,
+      role: decoded.data.role,
       accessToken: accessToken,
     });
   }
@@ -30,22 +33,11 @@ class HomeComponent extends Component {
     localStorage.clear();
   };
 
-  //console.log(this.state);
-
   render() {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        <h1>Hello {this.state.username}</h1>
-        <Link className="logout" onClick={this.handleLogout} to="/login">
-          Logout
-        </Link>
-        <Link
-          className="edit-profile"
-          to={`/edit-profile/email=${this.state.username}`}
-        >
-          Edit Profile
-        </Link>
+        <SidebarComponent data={this.state} />
       </div>
     );
   }

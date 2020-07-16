@@ -5,7 +5,7 @@ import RegisterComponent from "./components/login-register/register.component";
 import { Route, BrowserRouter } from "react-router-dom";
 import HomeComponent from "./components/home/home.component";
 import EditProfileComponent from "./components/profile/editProfile.component";
-import ButtonAppBar from "./components/bar/appBar.component";
+import ButtonAppBar from "./components/navbar/appBar.component";
 import { isLoggedIn } from "./components/auth.jsx";
 import { Redirect } from "react-router";
 
@@ -20,7 +20,12 @@ function App() {
             isLoggedIn() ? <Redirect to="/" /> : <LoginComponent />
           }
         ></Route>
-        <Route path="/register" component={RegisterComponent}></Route>
+        <Route
+          path="/register"
+          render={() =>
+            isLoggedIn() ? <Redirect to="/" /> : <RegisterComponent />
+          }
+        ></Route>
         <Route
           path="/"
           render={() =>
