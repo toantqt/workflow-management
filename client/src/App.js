@@ -34,6 +34,7 @@ function App() {
           }
         ></Route>
         <Route
+          exact
           path="/"
           render={() =>
             isLoggedIn() ? <HomeComponent /> : <Redirect to="/login" />
