@@ -5,3 +5,12 @@ export const isLoggedIn = () => {
   }
   return false;
 };
+// import React, { Component } from "react";
+
+// class isLoggedIn extends Component {
+//   render() {
+//     return <div></div>;
+//   }
+// }
+
+// export default isLoggedIn;

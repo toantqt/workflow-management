@@ -38,6 +38,16 @@ userSchema.statics = {
   findAndUpdate(_id, newData) {
     return this.findByIdAndUpdate(_id, newData).exec();
   },
+  // kiem tra admin web
+  CheckAdmin(id) {
+    return this.findOne(
+      { $and: [{ _id: id }, { role: "admin" }] },
+      { password: 0 }
+    ).exec();
+  },
+  findUserById(id) {
+    return this.findOne({ _id: id }, { password: 0 }).exec();
+  },
 };
 
 //compare password

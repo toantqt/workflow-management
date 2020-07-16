@@ -26,6 +26,7 @@ class registerComponent extends Component {
   //handle submit form
   onHandleSubmit = (event) => {
     event.preventDefault();
+    const history = createHashHistory();
     const newUser = {
       email: this.state.email,
       username: this.state.username,
