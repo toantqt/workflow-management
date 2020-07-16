@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
+import RoomComponent from "../home-room/room.component";
 import { getListRoom } from "./homeFunction";
 
 class HomeComponent extends Component {
@@ -50,7 +51,10 @@ class HomeComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        <SidebarComponent data={this.state} />
+        <div className="row">
+          <SidebarComponent data={this.state} />
+          <RoomComponent />
+        </div>
       </div>
     );
   }
