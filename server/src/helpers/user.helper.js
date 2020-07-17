@@ -46,9 +46,16 @@ let getDataUser = (username) => {
     }
   });
 };
-
+let getUser = (keyword) => {
+  return new Promise(async (resolve, reject) => {
+    let findUser = await userModel.findUser(keyword);
+    // console.log(findUser);
+    resolve(findUser);
+  });
+};
 module.exports = {
   createUser: createUser,
   updateData: updateData,
   getDataUser: getDataUser,
+  getUser: getUser,
 };

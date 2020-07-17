@@ -3,6 +3,7 @@ const AuthMiddleWare = require("../middleware/AuthMiddleware");
 const AuthController = require("../controllers/AuthController");
 const FriendController = require("../controllers/FriendController");
 const RoomController = require("../controllers/RoomController");
+const UserController = require("../controllers/UserController");
 let initAPIs = (app) => {
   router.post("/login", AuthController.login);
   router.post("/refresh-token", AuthController.refreshToken);
@@ -15,6 +16,7 @@ let initAPIs = (app) => {
   router.get("/friends", FriendController.friendLists);
   router.post("/add-room", RoomController.addRoom);
   router.get("/getroom", RoomController.getRoom);
+  router.get("/finduser/:find", UserController.findUser);
   return app.use("/", router);
 };
 
