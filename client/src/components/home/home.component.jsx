@@ -4,6 +4,7 @@ import jwt_decode from "jwt-decode";
 import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
 import RoomComponent from "../home-room/room.component";
+import RoomModal from "../add-room/roomModal";
 import { getListRoom } from "./homeFunction";
 
 class HomeComponent extends Component {
@@ -54,6 +55,7 @@ class HomeComponent extends Component {
   render() {
     return (
       <div>
+        <RoomModal />
         <AppBarComponent username={this.state.username} />
         <div className="row" style={{ margin: "0 auto " }}>
           <SidebarComponent data={this.state} />

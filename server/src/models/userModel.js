@@ -48,6 +48,20 @@ userSchema.statics = {
   findUserById(id) {
     return this.findOne({ _id: id }, { password: 0 }).exec();
   },
+  findUser(keyword) {
+    return this.find(
+      {
+        username: { $regex: new RegExp(keyword, "i") },
+        // {
+        //   $or: [
+        //     { username: { $regex: new RegExp(keyword, "i") } },
+        //     { fullName: { $regex: new RegExp(keyword, "i") } },
+        //   ],
+        // },
+      },
+      { _id: 1, username: 1 }
+    ).exec();
+  },
 };
 
 //compare password
@@ -56,6 +70,7 @@ userSchema.methods = {
     return bcrypt.compare(password, this.password);
   },
 };
+
 module.exports = mongoose.model("User", userSchema);
 module.exports.hashPassword = async (password) => {
   try {

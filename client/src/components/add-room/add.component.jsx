@@ -14,7 +14,7 @@ class AddComponent extends Component {
               data-toggle="modal"
               data-target="#exampleModal"
             >
-              <a className="nav-link">
+              <a href="#addroom" className="nav-link">
                 <i className="fas fa-plus" aria-hidden="true"></i>
                 Add Room
               </a>

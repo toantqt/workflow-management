@@ -5,7 +5,7 @@ let roomSchema = new Schema(
   {
     nameRoom: { type: String },
     ownerId: { type: String },
-    members: [{ userId: String }],
+    members: [{ userId: String, default: "" }],
   },
   {
     timestamps: {

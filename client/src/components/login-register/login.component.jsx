@@ -27,7 +27,6 @@ class LoginComponent extends Component {
   };
   onHandleChangeSubmit = (event) => {
     event.preventDefault();
-
     const User = {
       email: this.state.email,
       password: this.state.password,
