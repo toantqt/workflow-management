@@ -9,8 +9,12 @@ class AddComponent extends Component {
         </div>
         <div className="category-content">
           <ul id="sidebar-editable-nav" className="nav flex-column">
-            <li className="nav-item">
-              <a href="/admin/customers" className="nav-link">
+            <li
+              className="nav-item"
+              data-toggle="modal"
+              data-target="#exampleModal"
+            >
+              <a className="nav-link">
                 <i className="fas fa-plus" aria-hidden="true"></i>
                 Add Room
               </a>

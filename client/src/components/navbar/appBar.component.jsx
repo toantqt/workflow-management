@@ -25,12 +25,39 @@ class AppBarComponent extends Component {
               </li>
               &nbsp;
               <li className="nav-item ">
-                <button type="button" className="btn btn-labeled btn-success">
+                <button
+                  type="button"
+                  className="btn btn-labeled btn-success dropdown-toggle"
+                  id="dropdownMenuButton"
+                  data-toggle="dropdown"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
                   <span className="btn-label">
                     <i className="fas fa-tasks"></i>
                   </span>
                   Project
                 </button>
+                <div
+                  class="dropdown-menu"
+                  aria-labelledby="dropdownMenuButton"
+                  style={{ width: "300px", height: "400px" }}
+                >
+                  <form
+                    class="form-inline my-2 my-lg-0"
+                    style={{ marginLeft: "9%" }}
+                  >
+                    <input
+                      class="form-control mr-sm-2"
+                      type="search"
+                      placeholder="Search"
+                      aria-label="Search"
+                    />
+                    <button class="btn btn-success my-2 my-sm-0" type="submit">
+                      Search
+                    </button>
+                  </form>
+                </div>
               </li>
               <li className="nav-item dropdown"></li>
               <li className="nav-item"></li>
@@ -62,7 +89,11 @@ class AppBarComponent extends Component {
                       className="edit-profile dropdown-item"
                       to={`/edit-profile/email=${this.props.username}`}
                     >
-                      <i className="fas fa-user-circle fa-2x"></i>
+                      <i
+                        className="fas fa-user-circle "
+                        style={{ fontSize: "22px" }}
+                      ></i>
+                      &nbsp;&nbsp;
                       <span style={{ fontSize: "15px" }}>Profile Setting</span>
                     </Link>
                     <ul className="nav nav-tabs">
@@ -73,7 +104,11 @@ class AppBarComponent extends Component {
                       to="/login"
                       className="dropdown-item mt-2"
                     >
-                      <i className="fas fa-sign-out-alt fa-2x"></i>
+                      <i
+                        className="fas fa-sign-out-alt"
+                        style={{ fontSize: "22px" }}
+                      ></i>
+                      &nbsp;&nbsp;
                       <span style={{ fontSize: "15px" }}>Logout</span>
                     </Link>
                     <br />

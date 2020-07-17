@@ -7,6 +7,7 @@ import HomeComponent from "./components/home/home.component";
 import EditProfileComponent from "./components/profile/editProfile.component";
 import ButtonAppBar from "./components/navbar/appBar.component";
 import { isLoggedIn } from "./components/auth.jsx";
+import PrivateRoomComponent from "./components/room/private-room.component";
 //import { Redirect } from "react-router";
 
 function App() {
@@ -38,6 +39,17 @@ function App() {
           path="/edit-profile/"
           render={() =>
             isLoggedIn() ? <EditProfileComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+
+        <Route
+          path="/room/:id"
+          render={({ match }) =>
+            isLoggedIn() ? (
+              <PrivateRoomComponent id={match.params.id} />
+            ) : (
+              <Redirect to="/login" />
+            )
           }
         ></Route>
       </div>

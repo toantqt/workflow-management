@@ -1,6 +1,7 @@
 const Room = require("../helpers/room.helper");
 const userModel = require("../models/userModel");
 const roomModel = require("../models/roomModel");
+const debug = console.log.bind(console);
 let addRoom = async (req, res) => {
   try {
     let admin = req.body.admin;
@@ -41,4 +42,17 @@ let getRoom = async (req, res) => {
     });
   }
 };
-module.exports = { addRoom: addRoom, getRoom: getRoom };
+
+let findRoom = async (req, res) => {
+  try {
+    const id = req.params.id;
+    console.log(id);
+    let getDataRoom = await roomModel.getDataRoom(id);
+
+    return res.status(200).json({ data: getDataRoom });
+  } catch (error) {
+    return res.status(500).json({ message: "No room" });
+  }
+};
+
+module.exports = { addRoom: addRoom, getRoom: getRoom, findRoom: findRoom };

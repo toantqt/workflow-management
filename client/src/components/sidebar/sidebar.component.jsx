@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./sidebar.component.css";
 import AddComponent from "../add-room/add.component";
+import { Link } from "react-router-dom";
 
 class SidebarComponent extends Component {
   checkRole = () => {
@@ -15,10 +16,10 @@ class SidebarComponent extends Component {
     const listRoom = this.props.data.room.map((room, index) => {
       return (
         <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-          <a href="#" className="nav-link">
+          <Link className="nav-link" to={`/room/${room.id}`}>
             <i className="fa fa-pencil" aria-hidden="true"></i>
-            {room}
-          </a>
+            {room.name}
+          </Link>
         </li>
       );
     });

@@ -32,10 +32,14 @@ class HomeComponent extends Component {
 
     //get list room
     getListRoom(accessToken).then((res) => {
-      const name = res.data.getRoom;
-      name.forEach((element) => {
+      const room = res.data.getRoom;
+      console.log(room);
+      room.forEach((element) => {
         this.setState({
-          room: [...this.state.room, element.nameRoom],
+          room: [
+            ...this.state.room,
+            { id: element._id, name: element.nameRoom },
+          ],
         });
       });
       console.log(this.state.room);
@@ -51,9 +55,9 @@ class HomeComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        <div className="row">
+        <div className="row" style={{ margin: "0 auto " }}>
           <SidebarComponent data={this.state} />
-          <RoomComponent />
+          <RoomComponent data={this.state} />
         </div>
       </div>
     );
