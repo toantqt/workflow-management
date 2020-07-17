@@ -5,6 +5,7 @@ import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
 import RoomComponent from "../home-room/room.component";
 import RoomModal from "../add-room/roomModal";
+import FooterComponent from "../footer/footer.component";
 import { getListRoom } from "./homeFunction";
 
 class HomeComponent extends Component {
@@ -61,6 +62,7 @@ class HomeComponent extends Component {
           <SidebarComponent data={this.state} />
           <RoomComponent data={this.state} />
         </div>
+        <FooterComponent />
       </div>
     );
   }
