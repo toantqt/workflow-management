@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import AppBarComponent from "../navbar/appBar.component";
 import SidebarComponent from "../sidebar/sidebar.component";
@@ -34,7 +34,7 @@ class HomeComponent extends Component {
     //get list room
     getListRoom(accessToken).then((res) => {
       const room = res.data.getRoom;
-      console.log(room);
+      // console.log(room);
       room.forEach((element) => {
         this.setState({
           room: [
@@ -43,7 +43,7 @@ class HomeComponent extends Component {
           ],
         });
       });
-      console.log(this.state.room);
+      //   console.log(this.state.room);
     });
   }
 
