@@ -35,7 +35,7 @@ class HomeComponent extends Component {
     //get list room
     getListRoom(accessToken).then((res) => {
       const room = res.data.getRoom;
-      console.log(room);
+
       room.forEach((element) => {
         this.setState({
           room: [
@@ -44,7 +44,6 @@ class HomeComponent extends Component {
           ],
         });
       });
-      console.log(this.state.room);
     });
   }
 

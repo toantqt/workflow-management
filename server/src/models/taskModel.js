@@ -8,15 +8,15 @@ let taskSchema = new Schema(
     list: [
       {
         name: String,
-        key: Boolean,
-        default: false,
+        key: { type: Boolean, default: false },
+        idStaff: String,
       },
     ],
     idStaff: { type: String },
     note: { type: String },
     start: { type: Date, default: Date.now },
     deadline: { type: Date, default: null },
-    done: { type: Boolean, default: false },
+    status: { type: Boolean, default: false },
   },
   {
     timestamps: {

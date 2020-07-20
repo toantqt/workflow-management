@@ -39,21 +39,24 @@ class AppBarComponent extends Component {
                   Project
                 </button>
                 <div
-                  class="dropdown-menu"
+                  className="dropdown-menu"
                   aria-labelledby="dropdownMenuButton"
                   style={{ width: "300px", height: "400px" }}
                 >
                   <form
-                    class="form-inline my-2 my-lg-0"
+                    className="form-inline my-2 my-lg-0"
                     style={{ marginLeft: "9%" }}
                   >
                     <input
-                      class="form-control mr-sm-2"
+                      className="form-control mr-sm-2"
                       type="search"
                       placeholder="Search"
                       aria-label="Search"
                     />
-                    <button class="btn btn-success my-2 my-sm-0" type="submit">
+                    <button
+                      className="btn btn-success my-2 my-sm-0"
+                      type="submit"
+                    >
                       Search
                     </button>
                   </form>

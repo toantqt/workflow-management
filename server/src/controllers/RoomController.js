@@ -1,6 +1,7 @@
 const Room = require("../helpers/room.helper");
 //const userModel = require("../models/userModel");
 const roomModel = require("../models/roomModel");
+const userModel = require("../models/userModel");
 const debug = console.log.bind(console);
 let addRoom = async (req, res) => {
   try {
@@ -46,10 +47,22 @@ let getRoom = async (req, res) => {
 let findRoom = async (req, res) => {
   try {
     const id = req.params.id;
-    console.log(id);
-    let getDataRoom = await roomModel.getDataRoom(id);
 
-    return res.status(200).json({ data: getDataRoom });
+    let getDataRoom = await roomModel.getDataRoom(id);
+    console.log(getDataRoom.members);
+    let dataMember = getDataRoom.members.map(async (e) => {
+      const data = await userModel.findUserById(e.userId);
+      debug("aaa" + data);
+      return (e = data); //return many promise
+    });
+
+    //promise
+    let inforMember = await Promise.all(dataMember);
+    // console.log(inforMember);
+    //
+    return res
+      .status(200)
+      .json({ data: getDataRoom, inforMember: inforMember });
   } catch (error) {
     return res.status(500).json({ message: "No room" });
   }
