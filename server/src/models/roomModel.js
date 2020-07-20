@@ -21,5 +21,10 @@ roomSchema.statics = {
   getRoom() {
     return this.find({}).exec();
   },
+
+  //find room and get data
+  getDataRoom(id) {
+    return this.findOne({ _id: id }).exec();
+  },
 };
 module.exports = mongoose.model("Room", roomSchema);

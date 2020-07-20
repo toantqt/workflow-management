@@ -16,7 +16,11 @@ let initAPIs = (app) => {
   router.get("/friends", FriendController.friendLists);
   router.post("/add-room", RoomController.addRoom);
   router.get("/getroom", RoomController.getRoom);
+
+  router.get("/room/:id", RoomController.findRoom);
+
   router.get("/finduser/:find", UserController.findUser);
+
   return app.use("/", router);
 };
 
