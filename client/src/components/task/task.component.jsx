@@ -2,6 +2,20 @@ import React, { Component } from "react";
 
 class TaskComponent extends Component {
   render() {
+    let listTask = this.props.data.tasks.map((element, index) => {
+      return (
+        <tr key={index}>
+          <th scope="row">{index}</th>
+          <td>{element.inforAuthor.username}</td>
+          <td>{element.e.title}</td>
+          <td>{element.e.start}</td>
+          <td>{element.e.deadline}</td>
+          <td style={{ color: "red" }}>
+            <i class="fas fa-exclamation"></i>
+          </td>
+        </tr>
+      );
+    });
     return (
       <div className="col-9 mt-4 ">
         <i className="fas fa-list-ol fa-2x"></i> &nbsp;
@@ -36,32 +50,7 @@ class TaskComponent extends Component {
                   <th scope="col">Status</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>aa</td>
-                  <td>aa</td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>Thornton</td>
-                  <td>@fat</td>
-                  <td>aa</td>
-                  <td>aa</td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>the Bird</td>
-                  <td>@twitter</td>
-                  <td>aa</td>
-                  <td>aa</td>
-                </tr>
-              </tbody>
+              <tbody>{listTask}</tbody>
             </table>
           </div>
           <div className="tab-pane" id="tabs-2" role="tabpanel">
