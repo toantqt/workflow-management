@@ -11,7 +11,7 @@ class TaskComponent extends Component {
           <td>{element.e.start}</td>
           <td>{element.e.deadline}</td>
           <td style={{ color: "red" }}>
-            <i class="fas fa-exclamation"></i>
+            <i className="fas fa-exclamation"></i>
           </td>
         </tr>
       );
