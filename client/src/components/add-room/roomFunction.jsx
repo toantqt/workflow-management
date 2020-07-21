@@ -7,6 +7,7 @@ export const addRoom = (accessToken, add) => {
       {
         nameRoom: add.nameRoom,
         ownerId: add.ownerId,
+        member: add.member,
       },
       {
         headers: { Authorization: `${accessToken}` },

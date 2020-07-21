@@ -55,6 +55,9 @@ class RoomModal extends Component {
     const add = {
       nameRoom: this.state.nameRoom,
       ownerId: this.state.ownerId,
+      member: {
+        userId: this.state.ownerId,
+      },
     };
     if (add.ownerId === "" || add.nameRoom === "") return;
     //add-room

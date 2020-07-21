@@ -9,7 +9,7 @@ let addRoom = async (req, res) => {
     //let admin = req.body.admin;
     let ownerId = req.body.ownerId;
     let nameRoom = req.body.nameRoom;
-    // let memberId = req.body.member;
+    let memberId = req.body.member;
     //console.log(memberId);
     //let CheckAdmin = await userModel.CheckAdmin(admin);
     //let CheckUser = await User.findUserById(ownerId);
@@ -24,7 +24,7 @@ let addRoom = async (req, res) => {
     //     message: "nguoi dung khong ton tai",
     //   });
     // }
-    let createRoom = await Room.addRoom(ownerId, nameRoom);
+    let createRoom = await Room.addRoom(ownerId, nameRoom, memberId);
 
     return res.status(200).json({ createRoom });
   } catch (error) {
@@ -55,11 +55,12 @@ let findRoom = async (req, res) => {
     //get infor user in room
     let dataMember = getDataRoom.members.map(async (e) => {
       const data = await userModel.findUserById(e.userId);
-      debug("aaa" + data);
+      //debug("aaa" + data);
       return (e = data); //return many promise
     });
     //promise
     let inforMember = await Promise.all(dataMember);
+
     // console.log(inforMember);
 
     //get task in room

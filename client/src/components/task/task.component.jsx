@@ -1,15 +1,66 @@
 import React, { Component } from "react";
-
+import { getList } from "./taskFunction";
+import BoardTaskComponent from "../board-task/board-task.component";
 class TaskComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showComponent: false,
+      idTask: "",
+      lists: [],
+    };
+  }
+
+  //handle click event
+  handleClick = async (event) => {
+    const id = event.target.id;
+    await this.setState({
+      idTask: id,
+      showComponent: true,
+      lists: [],
+    });
+
+    getList(this.props.accessToken, this.state.idTask).then(async (res) => {
+      const arrList = res.list;
+
+      await arrList.forEach(async (e) => {
+        await this.setState({
+          lists: [
+            ...this.state.lists,
+            {
+              name: e.name,
+              idStaff: e.idStaff,
+              note: e.note,
+              status: e.status,
+            },
+          ],
+        });
+        console.log(this.state);
+      });
+      // await this.setState({
+      //   showComponent: true,
+      //   lists: [...this.state.lists, {}]
+      // });
+      console.log(this.state);
+    });
+  };
   render() {
     let listTask = this.props.data.tasks.map((element, index) => {
+      index = index + 1;
+      let dates = (string) => {
+        var options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(string).toLocaleDateString([], options);
+      };
+
       return (
         <tr key={index}>
           <th scope="row">{index}</th>
           <td>{element.inforAuthor.username}</td>
-          <td>{element.e.title}</td>
-          <td>{element.e.start}</td>
-          <td>{element.e.deadline}</td>
+          <td id={element.e._id} onClick={this.handleClick}>
+            {element.e.title}
+          </td>
+          <td>{dates(element.e.start)}</td>
+          <td>{dates(element.e.deadline)}</td>
           <td style={{ color: "red" }}>
             <i className="fas fa-exclamation"></i>
           </td>
@@ -57,6 +108,9 @@ class TaskComponent extends Component {
             <p>Finish</p>
           </div>
         </div>
+        {this.state.showComponent ? (
+          <BoardTaskComponent data={this.state} />
+        ) : null}
       </div>
     );
   }

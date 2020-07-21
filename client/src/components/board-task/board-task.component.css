@@ -1,0 +1,23 @@
+.board {
+  padding: 3rem;
+  text-align: center;
+  color: #fff;
+  background: url(https://picsum.photos/260/80?image=652&blur) center center
+    no-repeat;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  width: 280px;
+  height: 100px;
+  border-radius: 0.25rem;
+}
+
+.create {
+  background: url(https://img.freepik.com/free-photo/abstract-surface-textures-white-concrete-stone-wall_74190-8184.jpg?size=626&ext=jpg)
+    center center no-repeat;
+  color: #ccc;
+}
+
+.create:hover {
+  background: rgb(139, 139, 139) !important;
+}

@@ -31,7 +31,7 @@ class LoginComponent extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-
+    console.log(User);
     login(User).then((res) => {
       const history = createHashHistory();
       if (res) {

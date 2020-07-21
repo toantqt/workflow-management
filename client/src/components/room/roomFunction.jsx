@@ -13,3 +13,23 @@ export const getDataRoom = async (accessToken, roomId) => {
       console.log(error);
     });
 };
+
+export const addTask = (accessToken, task) => {
+  return axios
+    .post(
+      "http://localhost:5566/add-task",
+      {
+        title: task.title,
+        deadline: task.deadline,
+        idStaff: task.idStaff,
+        roomId: task.roomId,
+      },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => console.log(error));
+};

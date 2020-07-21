@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const debug = console.log.bind(console);
 let Schema = mongoose.Schema;
 let taskSchema = new Schema(
   {
@@ -31,8 +31,31 @@ taskSchema.statics = {
     return this.create(item);
   },
 
+  //show task in room
   getTaskRoom(id) {
     return this.find({ roomId: id }).exec();
+  },
+
+  //add list in task
+  addListTask(idTask, data) {
+    return this.findByIdAndUpdate(
+      { _id: idTask },
+      {
+        $push: {
+          list: {
+            name: data.name,
+            idStaff: data.idStaff,
+            status: data.status,
+            note: data.note,
+          },
+        },
+      },
+      { safe: true, upsert: true, new: true }
+    ).exec();
+  },
+
+  getDataList(idTask) {
+    return this.findOne({ _id: idTask }).exec();
   },
 };
 
