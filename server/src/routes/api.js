@@ -21,6 +21,7 @@ let initAPIs = (app) => {
 
   router.get("/finduser/:find", UserController.findUser);
 
+  router.post("/add-task", RoomController.addTask);
   return app.use("/", router);
 };
 
