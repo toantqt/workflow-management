@@ -17,8 +17,11 @@ class PrivateRoomComponent extends Component {
       nameRoom: "",
       roomId: "",
       members: [],
+
       startDate: new Date(), // goi date
       title: "",
+
+      tasks: [],
     };
   }
 
@@ -46,7 +49,23 @@ class PrivateRoomComponent extends Component {
             ownerId: res.data.ownerId,
           });
         });
-        //console.log(this.state);
+
+        // arr task, push task to taskarray in state
+        let arrTasks = res.inforTask;
+
+        console.log(res);
+        // console.log(arrTasks);
+        await arrTasks.forEach(async (e) => {
+          console.log("e: " + e);
+          await arrMembers.forEach((member) => {
+            if (e.idStaff === member._id) {
+              this.setState({
+                tasks: [...this.state.tasks, { e: e, inforAuthor: member }],
+              });
+              console.log(this.state.tasks);
+            }
+          });
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -95,7 +114,6 @@ class PrivateRoomComponent extends Component {
     });
     return (
       <div>
-        <div>{listMember}</div>
         <div
           class="modal fade"
           id="exampleModal"
@@ -153,6 +171,7 @@ class PrivateRoomComponent extends Component {
                   type="button"
                   className="btn btn-primary"
                   onClick={this.onHandleChangeSubmit}
+                  data-dismiss="modal"
                 >
                   Save changes
                 </button>
@@ -163,7 +182,7 @@ class PrivateRoomComponent extends Component {
         <AppBarComponent username={this.state.username} />
         <div className="row" style={{ margin: "0 auto " }}>
           <RoomSidebarComponent data={this.state} />
-          <TaskComponent />
+          <TaskComponent data={this.state} />
         </div>
       </div>
     );

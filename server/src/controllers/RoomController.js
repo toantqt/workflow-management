@@ -2,6 +2,7 @@ const Room = require("../helpers/room.helper");
 //const userModel = require("../models/userModel");
 const roomModel = require("../models/roomModel");
 const userModel = require("../models/userModel");
+const taskModel = require("../models/taskModel");
 const debug = console.log.bind(console);
 let addRoom = async (req, res) => {
   try {
@@ -48,22 +49,45 @@ let findRoom = async (req, res) => {
   try {
     const id = req.params.id;
 
+    //get Data in room
     let getDataRoom = await roomModel.getDataRoom(id);
-    console.log(getDataRoom.members);
+
+    //get infor user in room
     let dataMember = getDataRoom.members.map(async (e) => {
       const data = await userModel.findUserById(e.userId);
-      debug("aaa" + data);
+      //debug("aaa" + data);
       return (e = data); //return many promise
     });
-
     //promise
     let inforMember = await Promise.all(dataMember);
-    console.log("ket qua");
-    console.log(inforMember);
+
+    // console.log(inforMember);
+
+    //get task in room
+    let getTaskRoom = await taskModel.getTaskRoom(id);
+    //console.log("get task room : " + getTaskRoom);
+
+    //get info author in task
+    let getAuthor = getTaskRoom.map(async (e) => {
+      let getInforAuthor = await userModel.findUserById(e.idStaff);
+      //console.log(getInforAuthor);
+      e.inforAuthor = getInforAuthor;
+      // console.log("e: " + e.i);
+      return e;
+    });
+
+    let inforTask = await Promise.all(getAuthor);
+    //console.log("aa " + inforTask);
+    inforTask.forEach((e) => {
+      console.log("infor author  " + e);
+    });
+
     //
-    return res
-      .status(200)
-      .json({ data: getDataRoom, inforMember: inforMember });
+    return res.status(200).json({
+      data: getDataRoom,
+      inforMember: inforMember,
+      inforTask: inforTask,
+    });
   } catch (error) {
     return res.status(500).json({ message: "No room" });
   }

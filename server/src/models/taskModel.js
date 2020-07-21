@@ -8,15 +8,14 @@ let taskSchema = new Schema(
     list: [
       {
         name: String,
-        key: { type: Boolean, default: false },
+        status: { type: Boolean, default: false },
         idStaff: String,
+        note: { type: String, default: "" },
       },
     ],
-    idStaff: { type: String },
-    note: { type: String },
+    idStaff: String,
     start: { type: Date, default: Date.now },
     deadline: { type: Date, default: null },
-    status: { type: Boolean, default: false },
   },
   {
     timestamps: {
@@ -25,5 +24,16 @@ let taskSchema = new Schema(
     },
   }
 );
+
+taskSchema.statics = {
+  //add task to db
+  createNew(item) {
+    return this.create(item);
+  },
+
+  getTaskRoom(id) {
+    return this.find({ roomId: id }).exec();
+  },
+};
 
 module.exports = mongoose.model("Task", taskSchema);
