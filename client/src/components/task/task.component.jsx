@@ -1,14 +1,27 @@
 import React, { Component } from "react";
 import { getList } from "./taskFunction";
 import BoardTaskComponent from "../board-task/board-task.component";
+import jwt_decode from "jwt-decode";
+
 class TaskComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showComponent: false,
       idTask: "",
+      idStaff: "",
+      idUser: "",
       lists: [],
     };
+  }
+  componentDidMount() {
+    const token = localStorage.userToken;
+    const tokenJSON = JSON.parse(localStorage.userToken);
+    const accessToken = tokenJSON.accessToken;
+    const decoded = jwt_decode(token);
+    this.setState({
+      idUser: decoded.data._id,
+    });
   }
 
   //handle click event
@@ -22,26 +35,35 @@ class TaskComponent extends Component {
 
     getList(this.props.accessToken, this.state.idTask).then(async (res) => {
       const arrList = res.list;
+      // await this.setState({
+      //   idStaff: residStaff,
+      // });
 
-      await arrList.forEach(async (e) => {
-        await this.setState({
-          lists: [
-            ...this.state.lists,
-            {
-              name: e.name,
-              idStaff: e.idStaff,
-              note: e.note,
-              status: e.status,
-            },
-          ],
+      //if list in task === 0 then idStaff = res.idStaff
+      if (arrList.length === 0) {
+        this.setState({
+          idStaff: res.idStaff,
         });
-        console.log(this.state);
-      });
+      } else {
+        await arrList.forEach(async (e) => {
+          await this.setState({
+            lists: [
+              ...this.state.lists,
+              {
+                name: e.name,
+                idStaff: e.idStaff,
+                note: e.note,
+                status: e.status,
+              },
+            ],
+            idStaff: e.idStaff,
+          });
+        });
+      }
       // await this.setState({
       //   showComponent: true,
       //   lists: [...this.state.lists, {}]
       // });
-      console.log(this.state);
     });
   };
   render() {

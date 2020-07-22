@@ -6,6 +6,7 @@ export const getList = async (accessToken, idTask) => {
       headers: { Authorization: `${accessToken}` },
     })
     .then((res) => {
+      console.log(res.data);
       return res.data;
     })
     .catch((error) => {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import AppBarComponent from "../navbar/appBar.component";
 import RoomSidebarComponent from "../roomSidebar/room-sidebar.component";
 import TaskComponent from "../task/task.component";
+import ModalListComponent from "../board-task/modal-list.component";
 import jwt_decode from "jwt-decode";
 import { getDataRoom, addTask } from "./roomFunction";
 import DatePicker from "react-datepicker";
@@ -182,6 +183,7 @@ class PrivateRoomComponent extends Component {
             </div>
           </div>
         </div>
+        <ModalListComponent />
         <AppBarComponent username={this.state.username} />
         <div className="row" style={{ margin: "0 auto " }}>
           <RoomSidebarComponent data={this.state} />
