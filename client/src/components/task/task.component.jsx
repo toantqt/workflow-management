@@ -1,25 +1,63 @@
 import React, { Component } from "react";
-
+import "./task.css";
+import BootstrapTable from "react-bootstrap-table-next";
+import paginationFactory from "react-bootstrap-table2-paginator";
+import * as ReactBootStrap from "react-bootstrap";
+//cau hinh size datatable react table
+const pagination = paginationFactory({
+  sizePerPage: 2,
+});
 class TaskComponent extends Component {
   render() {
-    let listTask = this.props.data.tasks.map((element, index) => {
+    // cau hinh ten  cot
+    let colums = [
+      { dataField: "stt", text: "STT" },
+      { dataField: "idStaff", text: "Author" },
+      { dataField: "title", text: "Work Content" },
+      { dataField: "createAt", text: "Date Post" },
+      { dataField: "deadline", text: "Deadline" },
+      { dataField: "status", text: "Status" },
+    ];
+    //dua data vao table
+    let player = [];
+    this.props.data.tasks.map(async (element, index) => {
       let dates = (string) => {
         var options = { year: "numeric", month: "long", day: "numeric" };
         return new Date(string).toLocaleDateString([], options);
       };
-
-      return (
-        <tr key={index}>
-          <th scope="row">{index}</th>
-          <td>{element.inforAuthor.username}</td>
-          <td>{element.e.title}</td>
-          <td>{dates(element.e.start)}</td>
-          <td>{dates(element.e.deadline)}</td>
-          <td style={{ color: "red" }}>
-            <i class="fas fa-exclamation"></i>
-          </td>
-        </tr>
-      );
+      let abc = {
+        stt: index,
+        idStaff: element.inforAuthor.username,
+        title: element.e.title,
+        createAt: dates(element.e.start),
+        deadline: dates(element.e.deadline),
+        status: element.e.status ? (
+          <i style={{ color: "blue" }} class="fas fa-check"></i>
+        ) : (
+          <i style={{ color: "red" }} class="fas fa-exclamation"></i>
+        ),
+      };
+      return player.push(abc);
+    });
+    // data lish Finish
+    let Finish = [];
+    this.props.data.tasks.map(async (element, index) => {
+      let dates = (string) => {
+        var options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(string).toLocaleDateString([], options);
+      };
+      let abc = {};
+      if (element.e.status) {
+        abc = {
+          stt: index,
+          idStaff: element.inforAuthor.username,
+          title: element.e.title,
+          createAt: dates(element.e.start),
+          deadline: dates(element.e.deadline),
+          status: <i style={{ color: "blue" }} class="fas fa-check"></i>,
+        };
+        return Finish.push(abc);
+      }
     });
     return (
       <div className="col-9 mt-4 ">
@@ -44,22 +82,20 @@ class TaskComponent extends Component {
         </ul>
         <div className="tab-content">
           <div className="tab-pane active" id="tabs-1" role="tabpanel">
-            <table className="table" id="example">
-              <thead className="thead-dark">
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Author</th>
-                  <th scope="col">Work Content</th>
-                  <th scope="col">Date Post</th>
-                  <th scope="col">Deadline</th>
-                  <th scope="col">Status</th>
-                </tr>
-              </thead>
-              <tbody>{listTask}</tbody>
-            </table>
+            <BootstrapTable
+              keyField="idStaff"
+              data={player}
+              columns={colums}
+              pagination={pagination}
+            />
           </div>
           <div className="tab-pane" id="tabs-2" role="tabpanel">
-            <p>Finish</p>
+            <BootstrapTable
+              keyField="idStaff"
+              data={Finish}
+              columns={colums}
+              pagination={pagination}
+            />
           </div>
         </div>
       </div>
