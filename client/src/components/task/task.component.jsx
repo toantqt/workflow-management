@@ -23,41 +23,41 @@ class TaskComponent extends Component {
     };
   }
 
-  //handle click event
-  handleClick = async (event) => {
-    const id = event.target.id;
-    await this.setState({
-      idTask: id,
-      showComponent: true,
-      lists: [],
-    });
-
-    getList(this.props.accessToken, this.state.idTask).then(async (res) => {
-      const arrList = res.list;
-
-      await arrList.forEach(async (e) => {
-        await this.setState({
-          lists: [
-            ...this.state.lists,
-            {
-              name: e.name,
-              idStaff: e.idStaff,
-              note: e.note,
-              status: e.status,
-            },
-          ],
-        });
-        console.log(this.state);
-      });
-      // await this.setState({
-      //   showComponent: true,
-      //   lists: [...this.state.lists, {}]
-      // });
-      console.log(this.state);
-    });
-  };
   render() {
+    // bac event list task
+    const rowEvents = {
+      onClick: async (e, row, rowIndex) => {
+        // console.log(e);
+        // console.log(rowIndex);
+        console.log(row);
+        console.log(row.status.key); // cau hinh key trong status laf id task
+        await this.setState({
+          idTask: row.status.key,
+          showComponent: true,
+          lists: [],
+        });
 
+        getList(this.props.accessToken, this.state.idTask).then(async (res) => {
+          const arrList = res.list;
+
+          await arrList.forEach(async (e) => {
+            await this.setState({
+              lists: [
+                ...this.state.lists,
+                {
+                  name: e.name,
+                  idStaff: e.idStaff,
+                  note: e.note,
+                  status: e.status,
+                },
+              ],
+            });
+            console.log(this.state);
+          });
+          console.log(this.state);
+        });
+      },
+    };
     // cau hinh ten  cot
     let colums = [
       { dataField: "stt", text: "STT" },
@@ -70,8 +70,7 @@ class TaskComponent extends Component {
     //dua data vao table
     let player = [];
     this.props.data.tasks.map(async (element, index) => {
-
-    // let listTask = this.props.data.tasks.map((element, index) => {
+      // let listTask = this.props.data.tasks.map((element, index) => {
       index = index + 1;
 
       let dates = (string) => {
@@ -86,9 +85,17 @@ class TaskComponent extends Component {
         createAt: dates(element.e.start),
         deadline: dates(element.e.deadline),
         status: element.e.status ? (
-          <i style={{ color: "blue" }} class="fas fa-check"></i>
+          <i
+            style={{ color: "blue" }}
+            className="fas fa-check"
+            key={element.e._id}
+          ></i>
         ) : (
-          <i style={{ color: "red" }} class="fas fa-exclamation"></i>
+          <i
+            style={{ color: "red" }}
+            className="fas fa-exclamation"
+            key={element.e._id}
+          ></i>
         ),
       };
       return player.push(abc);
@@ -108,11 +115,16 @@ class TaskComponent extends Component {
           title: element.e.title,
           createAt: dates(element.e.start),
           deadline: dates(element.e.deadline),
-          status: <i style={{ color: "blue" }} class="fas fa-check"></i>,
+          status: (
+            <i
+              style={{ color: "blue" }}
+              className="fas fa-check"
+              key={element.e._id}
+            ></i>
+          ),
         };
         return Finish.push(abc);
       }
-
 
       return (
         <tr key={index}>
@@ -128,13 +140,13 @@ class TaskComponent extends Component {
           </td>
         </tr>
       );
-
     });
+
     return (
       <div className="col-9 mt-4 ">
         <i className="fas fa-list-ol fa-2x"></i> &nbsp;
         <span style={{ fontSize: "30px" }}>Task Assignment</span>
-        {/* <ul className="nav nav-tabs mt-3 mb-3" role="tablist">
+        <ul className="nav nav-tabs mt-3 mb-3" role="tablist">
           <li className="nav-item active">
             <a
               className="nav-link "
@@ -150,22 +162,24 @@ class TaskComponent extends Component {
               Finish
             </a>
           </li>
-        </ul> */}
+        </ul>
         <div className="tab-content">
           <div className="tab-pane active" id="tabs-1" role="tabpanel">
             <BootstrapTable
-              keyField="idStaff"
+              keyField="stt"
               data={player}
               columns={colums}
               pagination={pagination}
+              rowEvents={rowEvents} // goi event
             />
           </div>
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
-              keyField="idStaff"
+              keyField="stt"
               data={Finish}
               columns={colums}
               pagination={pagination}
+              rowEvents={rowEvents}
             />
           </div>
         </div>

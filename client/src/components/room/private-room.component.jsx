@@ -37,7 +37,7 @@ class PrivateRoomComponent extends Component {
     let id = this.props.id;
     getDataRoom(accessToken, id)
       .then(async (res) => {
-        console.log(res.data._id);
+        // console.log(res.data._id);
         let arrMembers = res.inforMember;
         //console.log(arrMembers);
         await arrMembers.forEach(async (e) => {
@@ -53,16 +53,16 @@ class PrivateRoomComponent extends Component {
         // arr task, push task to taskarray in state
         let arrTasks = res.inforTask;
 
-        console.log(res);
+        //  console.log(res);
         // console.log(arrTasks);
         await arrTasks.forEach(async (e) => {
-          console.log("e: " + e);
+          //  console.log("e: " + e);
           await arrMembers.forEach((member) => {
             if (e.idStaff === member._id) {
               this.setState({
                 tasks: [...this.state.tasks, { e: e, inforAuthor: member }],
               });
-              console.log(this.state.tasks);
+              //   console.log(this.state.tasks);
             }
           });
         });
@@ -102,7 +102,7 @@ class PrivateRoomComponent extends Component {
       idStaff: this.state.id,
       roomId: this.state.roomId,
     };
-    console.log(task);
+    //  console.log(task);
     // console.log(new Date(task.deadline));
     addTask(accessToken, task).then((res) => {
       console.log("them nhiem vu thanh cong");
@@ -122,10 +122,10 @@ class PrivateRoomComponent extends Component {
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">
                   Them Viec
                 </h5>
                 <button
@@ -152,7 +152,7 @@ class PrivateRoomComponent extends Component {
                   </div>
 
                   <div className="form-group">
-                    <label for="">ngày kêt thúc</label>
+                    <label>ngày kêt thúc</label>
                     <DatePicker
                       selected={this.state.startDate}
                       onChange={this.handleChange}

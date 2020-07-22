@@ -8,7 +8,7 @@ class BoardTaskComponent extends Component {
   render() {
     const board = this.props.data.lists.map((e, index) => {
       return (
-        <div className="board ml-3">
+        <div className="board ml-3" key={index}>
           <h6 style={{ fontSize: "20px" }}>{e.name}</h6>
         </div>
       );
@@ -18,7 +18,7 @@ class BoardTaskComponent extends Component {
       <div>
         <hr />
         <div className="title mb-3">
-          <i class="fas fa-clipboard-list fa-2x"></i>&nbsp;&nbsp;
+          <i className="fas fa-clipboard-list fa-2x"></i>&nbsp;&nbsp;
           <span style={{ fontSize: "30px" }}>Board</span>
         </div>
         <div className="row">

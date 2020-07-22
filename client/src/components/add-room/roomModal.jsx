@@ -202,7 +202,7 @@ class RoomModal extends Component {
                     style={{ display: this.state.display }}
                   >
                     <h3>Manager :</h3>
-                    <div class="search-user-list-content">
+                    <div className="search-user-list-content">
                       <ul>{showuser}</ul>
                     </div>
                   </span>
