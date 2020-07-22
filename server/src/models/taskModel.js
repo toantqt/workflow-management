@@ -16,6 +16,7 @@ let taskSchema = new Schema(
     idStaff: String,
     start: { type: Date, default: Date.now },
     deadline: { type: Date, default: null },
+    status: { type: Boolean, default: false },
   },
   {
     timestamps: {
