@@ -71,7 +71,7 @@ class PrivateRoomComponent extends Component {
         console.log(error);
       });
   }
-  // luu date vao sate
+  // luu date vao state
   handleChange = (date) => {
     this.setState({
       startDate: date,
@@ -115,9 +115,9 @@ class PrivateRoomComponent extends Component {
     return (
       <div>
         <div
-          class="modal fade"
+          className="modal fade"
           id="exampleModal"
-          tabindex="-1"
+          tabIndex="-1"
           role="dialog"
           aria-labelledby="exampleModalLabel"
           aria-hidden="true"
@@ -130,17 +130,18 @@ class PrivateRoomComponent extends Component {
                 </h5>
                 <button
                   type="button"
-                  class="close"
+                  className="close"
                   data-dismiss="modal"
                   aria-label="Close"
                 >
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
+
               <div className="modal-body">
                 <form action="" method="POST" role="form">
                   <div className="form-group">
-                    <label for="">tiêu đề</label>
+                    <label>tiêu đề</label>
                     <input
                       type="text"
                       className="form-control"
@@ -159,6 +160,7 @@ class PrivateRoomComponent extends Component {
                   </div>
                 </form>
               </div>
+
               <div className="modal-footer">
                 <button
                   type="button"
@@ -167,6 +169,7 @@ class PrivateRoomComponent extends Component {
                 >
                   Close
                 </button>
+
                 <button
                   type="button"
                   className="btn btn-primary"
@@ -182,7 +185,10 @@ class PrivateRoomComponent extends Component {
         <AppBarComponent username={this.state.username} />
         <div className="row" style={{ margin: "0 auto " }}>
           <RoomSidebarComponent data={this.state} />
-          <TaskComponent data={this.state} />
+          <TaskComponent
+            data={this.state}
+            accessToken={this.state.accessToken}
+          />
         </div>
       </div>
     );

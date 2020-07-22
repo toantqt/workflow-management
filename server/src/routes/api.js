@@ -25,6 +25,12 @@ let initAPIs = (app) => {
   //add task
   router.post("/add-task", TaskController.addTask);
 
+  //add list task in tasks
+  router.post("/add-list-task", TaskController.addListTask);
+
+  //get list task in tasks
+  router.get("/get-list-task/:idTask", TaskController.getListTask);
+
   return app.use("/", router);
 };
 

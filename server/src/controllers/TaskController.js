@@ -24,4 +24,45 @@ const addTask = async (req, res) => {
   }
 };
 
-module.exports = { addTask: addTask };
+// add listtask in task
+const addListTask = async (req, res) => {
+  try {
+    let idTask = req.body.idTask;
+    let data = {
+      name: req.body.name,
+      idStaff: req.body.idStaff,
+      status: req.body.status,
+      note: req.body.note,
+    };
+
+    debug(data.name + idTask);
+
+    //save list to db
+    let saveListTask = await taskModel.addListTask(idTask, data);
+    if (saveListTask) {
+      return res.status(200).json(saveListTask);
+    }
+    console.log("error");
+  } catch (error) {
+    res.status(500).json({ message: "add list failed" });
+  }
+};
+
+//get list task in tasks
+const getListTask = async (req, res) => {
+  try {
+    const idTask = req.params.idTask;
+
+    let getDataList = await taskModel.getDataList(idTask);
+    console.log(getDataList);
+    return res.status(200).json(getDataList);
+  } catch (error) {
+    return res.status(500).json({ message: "get list failed" });
+  }
+};
+
+module.exports = {
+  addTask: addTask,
+  addListTask: addListTask,
+  getListTask: getListTask,
+};
