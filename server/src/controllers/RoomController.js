@@ -92,5 +92,44 @@ let findRoom = async (req, res) => {
     return res.status(500).json({ message: "No room" });
   }
 };
+let findUserAddRoom = async (req, res) => {
+  console.log("tai room controller");
+  // console.log(req.query.findname);
+  // console.log(req.query.roomid);
+  let checkRoom = await roomModel.checkRoom(req.query.roomid);
+  if (checkRoom) {
+    //console.log("co phong nha" + checkRoom);
+    let memberId = [];
+    checkRoom.members.forEach((e) => {
+      memberId.push(e.userId);
+    });
+    //console.log(memberId);
+    let finduser = await userModel.findUserAddRoom(
+      memberId,
+      req.query.findname
+    );
+    //console.log(finduser);
+    return res.status(200).json({ finduser });
+  } else {
+    console.log("ko co phong nha");
+  }
+};
 
-module.exports = { addRoom: addRoom, getRoom: getRoom, findRoom: findRoom };
+let addUserRoom = async (req, res) => {
+  let checkRoom = await roomModel.checkRoom(req.body._id);
+  if (checkRoom) {
+    console.log(req.body);
+    req.body.members.forEach(async (e) => {
+      await roomModel.addUserRoom(req.body._id, e);
+    });
+    //  await roomModel.addUserRoom(req.body._id, req.body.members);
+  }
+  return res.status(200).json({ message: "success" });
+};
+module.exports = {
+  addRoom: addRoom,
+  getRoom: getRoom,
+  findRoom: findRoom,
+  findUserAddRoom: findUserAddRoom,
+  addUserRoom: addUserRoom,
+};

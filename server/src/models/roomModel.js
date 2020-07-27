@@ -26,5 +26,18 @@ roomSchema.statics = {
   getDataRoom(id) {
     return this.findOne({ _id: id }).exec();
   },
+  checkRoom(id) {
+    return this.findOne({ _id: id }).exec();
+  },
+  // add new user
+  addUserRoom(id, idUser) {
+    return this.findByIdAndUpdate(id, {
+      $push: {
+        members: {
+          $each: [{ userId: idUser }],
+        },
+      },
+    }).exec();
+  },
 };
 module.exports = mongoose.model("Room", roomSchema);

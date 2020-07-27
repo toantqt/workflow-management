@@ -30,13 +30,18 @@ userSchema.statics = {
   },
 
   //find by username
-  findByUsername(username) {
-    return this.findOne({ username: username }).exec();
+  findByUsername(id, username) {
+    return this.find({
+      $and: [{ _id: { $nin: id } }, { username: username }],
+    }).exec();
   },
-
+  //get profile
+  getProfile(id) {
+    return this.findOne({ _id: id }).exec();
+  },
   //find and update
-  findAndUpdate(_id, newData) {
-    return this.findByIdAndUpdate(_id, newData).exec();
+  findAndUpdate(id, newData) {
+    return this.findByIdAndUpdate(id, newData).exec();
   },
   // kiem tra admin web
   CheckAdmin(id) {
@@ -47,6 +52,9 @@ userSchema.statics = {
   },
   findUserById(id) {
     return this.findOne({ _id: id }, { password: 0 }).exec();
+  },
+  findUserById(id) {
+    return this.findById(id).exec();
   },
   findUser(keyword) {
     return this.find(
@@ -61,6 +69,19 @@ userSchema.statics = {
       },
       { _id: 1, username: 1 }
     ).exec();
+  },
+  findUserAddRoom(memberId, keyword) {
+    return this.find({
+      $and: [
+        { _id: { $nin: memberId } },
+        {
+          $or: [
+            { username: { $regex: new RegExp(keyword, "i") } },
+            { email: { $regex: new RegExp(keyword, "i") } },
+          ],
+        },
+      ],
+    });
   },
 };
 

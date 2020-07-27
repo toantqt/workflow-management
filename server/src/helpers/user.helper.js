@@ -20,25 +20,29 @@ let createUser = (email, username, password) => {
 };
 
 let updateData = (_id, newData) => {
-  debug("aaaa");
+  //console.log(_id);
+  //console.log(newData.username);
   return new Promise(async (resolve, reject) => {
-    const username = newData.username;
+    if (newData.username) {
+      const username = newData.username;
+      let findUsername = await userModel.findByUsername(_id, username);
+      // debug(findUsername);
 
-    let findUsername = await userModel.findByUsername(username);
-    // debug(findUsername);
-    if (findUsername != null) {
-      return reject({ message: "username already exist update failed" });
-    } else {
-      let updateNewData = await userModel.findAndUpdate(_id, newData);
-      return resolve({ message: "update successfully" });
+      if (findUsername.length !== 0) {
+        debug("iiiii");
+        return reject({ message: "username already exist update failed" });
+      }
     }
+    await userModel.findAndUpdate(_id, newData);
+    //console.log("aloalalala");
+    return resolve({ message: "update successfully" });
   });
 };
 
 //get data user
-let getDataUser = (username) => {
+let getDataUser = (id) => {
   return new Promise(async (resolve, reject) => {
-    let findData = await userModel.findByUsername(username);
+    let findData = await userModel.getProfile(id);
     if (findData == null) {
       return reject({ message: "data user is not exist" });
     } else {
@@ -46,6 +50,7 @@ let getDataUser = (username) => {
     }
   });
 };
+//tim kiem nguoi
 let getUser = (keyword) => {
   return new Promise(async (resolve, reject) => {
     let findUser = await userModel.findUser(keyword);
