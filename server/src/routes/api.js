@@ -5,6 +5,7 @@ const FriendController = require("../controllers/FriendController");
 const RoomController = require("../controllers/RoomController");
 const UserController = require("../controllers/UserController");
 const TaskController = require("../controllers/TaskController");
+const ListController = require("../controllers/ListController");
 let initAPIs = (app) => {
   router.post("/login", AuthController.login);
   router.post("/refresh-token", AuthController.refreshToken);
@@ -31,6 +32,29 @@ let initAPIs = (app) => {
   //get list task in tasks
   router.get("/get-list-task/:idTask", TaskController.getListTask);
 
+  //get data list in task
+  router.get("/get-data-list/:idList", TaskController.getDataList);
+
+  //get work in listmodel
+  //create work
+  router.post("/create-work", ListController.createWork);
+
+  //add work in list
+  router.post("/add-work", ListController.addWork);
+  router.post("/add-doing", ListController.addDoing);
+  router.post("/add-done", ListController.addDone);
+
+  //update doing work in list
+  router.post("/doing-work", ListController.doingWork);
+
+  //update list work from doing work
+  router.post("/doing-to-list", ListController.doingToList);
+
+  router.post("/doing-to-done", ListController.doingToDone);
+  router.post("/done-to-doing", ListController.doneToDoing);
+
+  router.post("/list-to-done", ListController.listToDone);
+  router.post("/done-to-list", ListController.doneToList);
   return app.use("/", router);
 };
 

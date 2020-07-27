@@ -3,6 +3,7 @@ const Task = require("../helpers/task.helper");
 const roomModel = require("../models/roomModel");
 const userModel = require("../models/userModel");
 const taskModel = require("../models/taskModel");
+const listModel = require("../models/listTaskModel");
 const debug = console.log.bind(console);
 
 const addTask = async (req, res) => {
@@ -53,7 +54,7 @@ const getListTask = async (req, res) => {
   try {
     const idTask = req.params.idTask;
 
-    let getDataList = await taskModel.getDataList(idTask);
+    let getDataList = await taskModel.getListTask(idTask);
     console.log(getDataList);
     return res.status(200).json(getDataList);
   } catch (error) {
@@ -61,8 +62,24 @@ const getListTask = async (req, res) => {
   }
 };
 
+//get data list task in List
+const getDataList = async (req, res) => {
+  try {
+    const idList = req.params.idList;
+    //console.log(idList)
+    //get data in list (task model)
+    //and get list work in (listTaskmodel)
+    const data = await taskModel.getDataList(idList);
+    const listWork = await listModel.getWork(idList);
+    return res.status(200).json({ data: data, listWork: listWork });
+  } catch (error) {
+    return res.status(500).json({ message: "not data in list" });
+  }
+};
+
 module.exports = {
   addTask: addTask,
   addListTask: addListTask,
   getListTask: getListTask,
+  getDataList: getDataList,
 };

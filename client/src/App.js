@@ -8,6 +8,7 @@ import EditProfileComponent from "./components/profile/editProfile.component";
 import ButtonAppBar from "./components/navbar/appBar.component";
 import { isLoggedIn } from "./components/auth.jsx";
 import PrivateRoomComponent from "./components/room/private-room.component";
+import ListTaskComponent from "./components/list-task/list-task.component";
 //import { Redirect } from "react-router";
 
 function App() {
@@ -47,6 +48,17 @@ function App() {
           render={({ match }) =>
             isLoggedIn() ? (
               <PrivateRoomComponent id={match.params.id} />
+            ) : (
+              <Redirect to="/login" />
+            )
+          }
+        ></Route>
+
+        <Route
+          path="/task/:id"
+          render={({ match }) =>
+            isLoggedIn() ? (
+              <ListTaskComponent id={match.params.id} />
             ) : (
               <Redirect to="/login" />
             )

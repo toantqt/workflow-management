@@ -1,0 +1,350 @@
+import React, { Component } from "react";
+import "./DnD-task.component.css";
+import InputComponent from "./input.component";
+import { addWork, addDoing, addDone } from "../list-task/listTaskFunction";
+class DnDTaskComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: [],
+      inputWork: [],
+      inputDoing: [],
+      inputDone: [],
+      work: "",
+      doing: "",
+      done: "",
+    };
+  }
+
+  // componentWillMount() {
+  //   this.props.data.lists.forEach((e) => {
+  //     this.setState({ data: [...this.state.data, e] });
+  //   });
+  // }
+
+  handleClick = (status) => {
+    if (status === "work") {
+      this.setState({ inputWork: [...this.state.inputWork, ""] });
+    }
+    if (status === "doing") {
+      this.setState({ inputDoing: [...this.state.inputDoing, ""] });
+    }
+    if (status === "done") {
+      this.setState({ inputDone: [...this.state.inputDone, ""] });
+    }
+  };
+
+  //handle close
+  handleClose = (status) => {
+    if (status === "work") {
+      this.setState({ inputWork: [] });
+    }
+    if (status === "doing") {
+      this.setState({ inputDoing: [] });
+    }
+    if (status === "done") {
+      this.setState({ inputDone: [] });
+    }
+  };
+
+  //handle submit form
+  onHandleSubmit = (event, status) => {
+    event.preventDefault();
+    const data = {
+      listId: this.props.data.idList,
+      nameWork: this.state.work,
+      nameDoing: this.state.doing,
+      nameDone: this.state.done,
+    };
+    console.log(data);
+    if (status === "work") {
+      addWork(this.props.data.accessToken, data)
+        .then((res) => {
+          return window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    if (status === "doing") {
+      addDoing(this.props.data.accessToken, data)
+        .then((res) => {
+          return window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    if (status === "done") {
+      addDone(this.props.data.accessToken, data)
+        .then((res) => {
+          return window.location.reload();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
+  //onHandeChange input
+  onHandleChange = (event) => {
+    const name = event.target.name;
+
+    this.setState({
+      [name]: event.target.value,
+    });
+    console.log(this.state);
+  };
+  //onDragOver
+  onDragOver = (event) => {
+    event.preventDefault();
+  };
+
+  //onDragStart
+  onDragStart = (event, id) => {
+    console.log("dragStart: ", id);
+    event.dataTransfer.setData("id", id);
+  };
+
+  //ondrop
+  onDrop = (event, status) => {
+    let id = event.dataTransfer.getData("id");
+    console.log("id: " + id);
+    console.log("status: " + status);
+    console.log("props: ", this.props.data);
+    let tasks = this.props.data.lists.filter((task) => {
+      if (task.name === id) {
+        task.status = status;
+      }
+      console.log(task);
+      return task;
+    });
+    this.setState({ data: [...this.state.data, tasks] });
+
+    // if (status === "work") {
+    //   let tasks = this.props.data.doing.filter((task) => {
+    //     console.log(task);
+    //     if (task.name === id) {
+    //       task.status = status;
+    //     }
+    //     console.log(task);
+    //     return task;
+    //   });
+    //   this.setState({ work: [...this.state.work, tasks] });
+    // } else if (status === "doing") {
+    //   let tasks = this.props.data.doing.filter((task) => {
+    //     if (task.name === id) {
+    //       task.status = status;
+    //     }
+    //     console.log(task);
+    //     return task;
+    //   });
+    //   this.setState({ doing: [...this.state.doing, tasks] });
+    // } else {
+    //   let tasks = this.props.data.done.filter((task) => {
+    //     if (task.name === id) {
+    //       task.status = status;
+    //     }
+    //     console.log(task);
+    //     return task;
+    //   });
+    //   this.setState({ done: [...this.state.done, tasks] });
+    // }
+  };
+
+  render() {
+    const tasks = {
+      work: [],
+      doing: [],
+      done: [],
+    };
+    console.log(this.state);
+
+    this.props.data.lists.forEach((element) => {
+      tasks[element.status].push(
+        <div
+          key={element.name}
+          onDragStart={(e) => this.onDragStart(e, element.name)}
+          draggable
+          className="draggable panel-body"
+        >
+          {element.name}
+        </div>
+      );
+    });
+    const inputWork = this.state.inputWork.map((e) => {
+      return (
+        <div className="panel-body">
+          <form onSubmit={(e) => this.onHandleSubmit(e, "work")}>
+            <input
+              type="text"
+              className="form-control"
+              name="work"
+              onChange={this.onHandleChange}
+            />
+            <button type="submit" class="btn btn-primary btn-list">
+              Add
+            </button>
+            <button
+              class="btn btn-primary ml-2 btn-list"
+              onClick={() => this.handleClose("work")}
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </form>
+        </div>
+      );
+    });
+
+    const inputDoing = this.state.inputDoing.map((e) => {
+      return (
+        <div className="panel-body">
+          <form onSubmit={(e) => this.onHandleSubmit(e, "doing")}>
+            <input
+              type="text"
+              className="form-control"
+              name="doing"
+              onChange={this.onHandleChange}
+            />
+            <button type="submit" class="btn btn-primary btn-list">
+              Add
+            </button>
+            <button
+              class="btn btn-primary ml-2 btn-list"
+              onClick={() => this.handleClose("doing")}
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </form>
+        </div>
+      );
+    });
+
+    const inputDone = this.state.inputDone.map((e) => {
+      return (
+        <div className="panel-body">
+          <form onSubmit={(e) => this.onHandleSubmit(e, "done")}>
+            <input
+              type="text"
+              className="form-control"
+              name="done"
+              onChange={this.onHandleChange}
+            />
+            <button type="submit" class="btn btn-primary btn-list">
+              Add
+            </button>
+            <button
+              class="btn btn-primary ml-2 btn-list"
+              onClick={() => this.handleClose("done")}
+            >
+              <i class="fas fa-times"></i>
+            </button>
+          </form>
+        </div>
+      );
+    });
+    // this.props.data.work.forEach((element) => {
+    //   tasks[element.status].push(
+    //     <div
+    //       key={element.name}
+    //       onDragStart={(e) => this.onDragStart(e, element.name)}
+    //       draggable
+    //       className="draggable panel-body"
+    //     >
+    //       {element.name}
+    //     </div>
+    //   );
+    // });
+    // this.props.data.doing.forEach((element) => {
+    //   console.log("aa" + element);
+    //   tasks[element.status].push(
+    //     <div
+    //       key={element.name}
+    //       onDragStart={(e) => this.onDragStart(e, element.name)}
+    //       draggable
+    //       className="draggable panel-body"
+    //     >
+    //       {element.name}
+    //     </div>
+    //   );
+    // });
+    // this.props.data.done.forEach((element) => {
+    //   console.log("aa" + element);
+    //   tasks[element.status].push(
+    //     <div
+    //       key={element.name}
+    //       onDragStart={(e) => this.onDragStart(e, element.name)}
+    //       draggable
+    //       className="draggable panel-body"
+    //     >
+    //       {element.name}
+    //     </div>
+    //   );
+    // });
+    console.log(tasks);
+    return (
+      <div>
+        <div className="row" style={{ margin: "0 auto " }}>
+          <div
+            className="panel panel-default col-3"
+            style={{ marginLeft: "160px" }}
+            onDragOver={(e) => this.onDragOver(e)}
+            onDrop={(e) => {
+              this.onDrop(e, "work");
+            }}
+          >
+            <div className="panel-heading">
+              <span>Work</span>
+              <i
+                class="fas fa-pen"
+                style={{ float: "right" }}
+                onClick={() => this.handleClick("work")}
+              ></i>
+            </div>
+            {tasks.work}
+
+            {inputWork}
+          </div>
+          <div
+            className="panel panel-default col-3 ml-5"
+            onDragOver={(e) => this.onDragOver(e)}
+            onDrop={(e) => {
+              this.onDrop(e, "doing");
+            }}
+          >
+            <div className="panel-heading">
+              <span>Doing</span>
+              <i
+                class="fas fa-pen"
+                style={{ float: "right" }}
+                onClick={() => this.handleClick("doing")}
+              ></i>
+            </div>
+            {tasks.doing}
+            {inputDoing}
+          </div>
+          <div
+            className="panel panel-default col-3 ml-5"
+            onDragOver={(e) => this.onDragOver(e)}
+            onDrop={(e) => {
+              this.onDrop(e, "done");
+            }}
+          >
+            <div className="panel-heading">
+              <span>Done</span>
+              <i
+                class="fas fa-pen"
+                style={{ float: "right" }}
+                onClick={() => this.handleClick("done")}
+              ></i>
+            </div>
+            {tasks.done}
+            {inputDone}
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default DnDTaskComponent;

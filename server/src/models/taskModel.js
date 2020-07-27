@@ -55,8 +55,15 @@ taskSchema.statics = {
     ).exec();
   },
 
-  getDataList(idTask) {
+  //get data List
+  getListTask(idTask) {
     return this.findOne({ _id: idTask }).exec();
+  },
+
+  getDataList(idList) {
+    return this.findOne({})
+      .select({ list: { $elemMatch: { _id: idList } } })
+      .exec();
   },
 };
 

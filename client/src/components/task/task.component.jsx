@@ -33,6 +33,7 @@ class TaskComponent extends Component {
     const decoded = jwt_decode(token);
     this.setState({
       idUser: decoded.data._id,
+      accessToken: accessToken,
     });
   }
 
@@ -71,6 +72,7 @@ class TaskComponent extends Component {
                     idStaff: e.idStaff,
                     note: e.note,
                     status: e.status,
+                    _id: e._id,
                   },
                 ],
                 idStaff: e.idStaff,
