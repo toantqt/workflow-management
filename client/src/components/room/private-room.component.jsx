@@ -393,8 +393,6 @@ class PrivateRoomComponent extends Component {
           </div>
         </div>
 
-        <ModalListComponent />
-
         <AppBarComponent username={this.state.username} />
         <div className="row" style={{ margin: "0 auto " }}>
           <RoomSidebarComponent data={this.state} />
