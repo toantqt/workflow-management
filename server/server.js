@@ -5,6 +5,14 @@ const app = express();
 const port = process.env.PORT || 5566;
 const morgan = require("morgan");
 const cors = require("cors");
+const fileupload = require("express-fileupload");
+// const cloudinary = require("cloudinary").v2;
+
+// cloudinary.config({
+//   cloud_name: "phathuynh",
+//   api_key: "412296536584643",
+//   api_secret: "CNVYYGRUt8pDUvm7_2UWzuFsLHU",
+// });
 // connect mongodb
 mongoose.connect("mongodb://localhost:27017/work-management", {
   useNewUrlParser: true,
@@ -26,6 +34,12 @@ app.use(express.json());
 //morgan
 app.use(morgan("dev"));
 
+// goi fileupload
+app.use(
+  fileupload({
+    useTempFiles: true,
+  })
+);
 // goi router
 initRouter(app);
 

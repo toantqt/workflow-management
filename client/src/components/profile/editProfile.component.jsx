@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import jwt_decode from "jwt-decode";
-import { showProfile, updateProfile } from "../profile/profileFunctions";
+import {
+  showProfile,
+  updateProfile,
+  updatePassword,
+  updateAvatar,
+} from "../profile/profileFunctions";
 import AppBarComponent from "../navbar/appBar.component";
+import { Image } from "cloudinary-react";
 class EditProfileComponent extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +25,10 @@ class EditProfileComponent extends Component {
       gender: "",
 
       role: "",
+      userAvatar: null,
+      oldAvatar: "",
+      profile: false,
+      upAvatar: false,
     };
   }
 
@@ -35,71 +45,134 @@ class EditProfileComponent extends Component {
       _id: decoded.data._id,
     });
     console.log(decoded.data);
-    showProfile(decoded.data.username, accessToken)
+    showProfile(decoded.data._id, accessToken)
       .then((res) => {
         this.setState({
           avatar: res.profile.avatar,
           address: res.profile.address,
           gender: res.profile.gender,
-
-          role: res.role,
         });
+        console.log(this.state);
       })
       .catch((error) => {
         console.log(error);
       });
+    console.log(this.state);
   }
 
   //handle edit profile
-  handleEditProfile = () => {
-    showProfile(this.state.username, this.state.accessToken)
-      .then((res) => {
-        this.setState({
-          profile: {
-            avatar: res.avatar,
-            address: res.address,
-            gender: res.gender,
-          },
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // handleEditProfile = () => {
+  //   showProfile(this.state.username, this.state.accessToken)
+  //     .then((res) => {
+  //       this.setState({
+  //         profile: {
+  //           avatar: res.avatar,
+  //           address: res.address,
+  //           gender: res.gender,
+  //         },
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   //handle change input
   onHandleChange = (event) => {
+    if (event.target.type === "file") {
+      //console.log(event.target.files[0]);
+      let reader = new FileReader();
+      reader.onload = function () {
+        let dataURL = reader.result;
+        let output = document.getElementById("showhinh");
+        output.src = dataURL;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      // console.log(formData);
+      this.setState({
+        oldAvatar: this.state.avatar,
+        userAvatar: event.target.files[0],
+        upAvatar: true,
+      });
+    }
+
     const target = event.target;
     const name = target.name;
     const value = target.type === "checkbox" ? target.checked : target.value;
     this.setState({
       [name]: value,
     });
+
+    if (event.target.type !== "password" && event.target.type !== "file") {
+      this.setState({
+        profile: true,
+      });
+      console.log(this.state);
+    }
   };
 
   //handle submit form
   onHandleSubmit = (event) => {
     event.preventDefault();
-    const { password, newPassword, confirmNewPassword } = this.state;
-    if (password !== "" && newPassword !== "" && confirmNewPassword !== "") {
-      if (newPassword !== confirmNewPassword) {
-        alert("password dont match");
-      } else {
-        updateProfile(this.state, this.state.accessToken)
-          .then((res) => {
-            console.log(res);
-            if (res) {
-              alert("update success");
-              window.location.reload();
-            }
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
-    }
     console.log(this.state);
+    const { password, newPassword, confirmNewPassword } = this.state;
+    if (password !== "" && newPassword !== confirmNewPassword) {
+      alert("password dont match");
+    }
+    if (
+      password !== "" &&
+      newPassword === confirmNewPassword &&
+      newPassword !== ""
+    ) {
+      let user = {
+        id: this.state._id,
+        password: this.state.password,
+        newPassword: this.state.newPassword,
+      };
+      updatePassword(user, this.state.accessToken).then((res) => {
+        if (res) {
+          alert("update password success");
+          window.location.reload();
+        }
+      });
+    }
+
+    //update profile
+    if (this.state.profile) {
+      let user = {
+        id: this.state._id,
+        username: this.state.username,
+        fullName: this.state.fullName,
+        email: this.state.email,
+        address: this.state.address,
+        gender: this.state.gender,
+        avatar: this.state.avatar,
+      };
+      updateProfile(user, this.state.accessToken).then((res) => {
+        if (res) {
+          alert("update  success");
+          window.location.reload();
+        }
+      });
+    }
+
+    if (this.state.upAvatar) {
+      let upAvatar = {
+        id: this.state._id,
+        oldAvatar: this.state.oldAvatar,
+        gender: this.state.gender,
+        address: this.state.address,
+        userAvatar: this.state.userAvatar,
+      };
+      updateAvatar(upAvatar, this.state.accessToken).then((res) => {
+        if (res) {
+          alert("update avatar  success");
+          window.location.reload();
+        }
+      });
+    }
   };
+  // console.log(this.state);
 
   render() {
     return (
@@ -116,22 +189,34 @@ class EditProfileComponent extends Component {
                       <div className="e-profile">
                         <div className="row">
                           <div className="col-12 col-sm-auto mb-3">
-                            <div className="mx-auto" style={{ width: "140px" }}>
+                            <div className="mx-auto">
                               <div
                                 className="d-flex justify-content-center align-items-center rounded"
                                 style={{
-                                  height: "140px",
-                                  backgroundColor: "rgb(233, 236, 239)",
+                                  height: "150px",
+                                  width: "130px",
+                                  paddingBottom: "20px",
+                                  // backgroundColor: "rgb(233, 236, 239)",
                                 }}
                               >
-                                <span
+                                {/* <img
+                                  src="http://res.cloudinary.com/phathuynh/image/upload/v1595489472/f4elpq1tbud82cea6kmo.jpg"
+                                  id="showhinh"
                                   style={{
-                                    color: "rgb(166, 168, 170)",
-                                    font: "bold 8pt Arial",
+                                    height: "100%",
+                                    width: "100%",
+                                    borderRadius: "100%",
+
+                                    // backgroundColor: "rgb(233, 236, 239)",
                                   }}
-                                >
-                                  140x140
-                                </span>
+                                ></img> */}
+                                <Image
+                                  id="showhinh"
+                                  cloudName="phathuynh"
+                                  publicId={this.state.avatar}
+                                  height="100%"
+                                  borderRadius="100%"
+                                />
                               </div>
                             </div>
                           </div>
@@ -142,13 +227,18 @@ class EditProfileComponent extends Component {
                                 {this.state.username}
                               </h4>
                               <div className="mt-2">
-                                <button
-                                  className="btn btn-primary"
-                                  type="button"
-                                >
-                                  <i className="fa fa-fw fa-camera" />
-                                  <span>Change Photo</span>
-                                </button>
+                                <label>
+                                  <input
+                                    style={{ display: "none" }}
+                                    type="file"
+                                    name="avatar"
+                                    onChange={this.onHandleChange}
+                                  />
+                                  <span className="btn btn-primary">
+                                    <i className="fa fa-fw fa-camera" />
+                                    <span>Change Photo</span>
+                                  </span>
+                                </label>
                               </div>
                             </div>
                             <div className="text-center text-sm-right">

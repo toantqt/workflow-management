@@ -14,8 +14,10 @@ let initAPIs = (app) => {
   router.use(AuthMiddleWare.isAuth);
   //list Protect APIs:
   router.get("/finduser/:find", UserController.findUser);
-  router.get("/update-profile/:username", AuthController.getProfile);
+  router.get("/update-profile/:id", AuthController.getProfile);
   router.post("/update-profile", AuthController.updateProfile);
+  router.post("/update-password", AuthController.updatePassword);
+  router.post("/update-avatar", AuthController.updateAvatar);
   router.get("/friends", FriendController.friendLists);
 
   //rooom
@@ -55,6 +57,10 @@ let initAPIs = (app) => {
 
   router.post("/list-to-done", ListController.listToDone);
   router.post("/done-to-list", ListController.doneToList);
+
+  router.get("/find-user-addroom", RoomController.findUserAddRoom);
+  router.post("/add-user-room", RoomController.addUserRoom);
+
   return app.use("/", router);
 };
 

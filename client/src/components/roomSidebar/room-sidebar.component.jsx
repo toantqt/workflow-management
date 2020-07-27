@@ -81,6 +81,16 @@ class RoomSidebarComponent extends Component {
                       Add Task
                     </a>
                   </li>
+                  <li
+                    className="nav-item"
+                    data-toggle="modal"
+                    data-target="#addMemberModal"
+                  >
+                    <a href="#addroom" className="nav-link">
+                      <i className="fas fa-plus" aria-hidden="true"></i>
+                      Add User
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>

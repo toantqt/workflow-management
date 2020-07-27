@@ -1,10 +1,17 @@
 const jwtHelper = require("../helpers/jwt.helper");
 const userHelper = require("../helpers/user.helper");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: "phathuynh",
+  api_key: "412296536584643",
+  api_secret: "CNVYYGRUt8pDUvm7_2UWzuFsLHU",
+});
 const debug = console.log.bind(console);
 let tokenList = {};
 const Joi = require("@hapi/joi");
 const User = require("../models/userModel");
-const { update } = require("../models/userModel");
+const { result } = require("lodash");
+// const { update } = require("../models/userModel");
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
 //ma secretKey
@@ -150,11 +157,11 @@ let postRegister = async (req, res) => {
 
 //get Profile
 let getProfile = async (req, res) => {
-  debug("hhahaah");
+  //debug("hhahaah");
   try {
-    const username = req.params.username;
-    let getDataUser = await userHelper.getDataUser(username);
-    debug(getDataUser);
+    const id = req.params.id;
+    let getDataUser = await userHelper.getDataUser(id);
+    // debug(getDataUser);
     return res.status(200).json(getDataUser);
   } catch (error) {
     return res.status(500).json({ message: "get profile failed" });
@@ -164,41 +171,100 @@ let getProfile = async (req, res) => {
 //post /updateProfile
 let updateProfile = async (req, res) => {
   try {
-    //password curren
-    const password = req.body.password;
-    const email = req.body.email;
-    const _id = req.body._id;
+    //console.log(req.body);
     const newData = {
       username: req.body.username,
-      password: await User.hashPassword(req.body.newPassword),
       fullName: req.body.fullName,
       profile: {
-        avatar: req.body.avatar,
         gender: req.body.gender,
         address: req.body.address,
+        avatar: req.body.avatar,
       },
     };
-    debug(newData);
+    //debug(newData);
     //find email and compare password
-    let user = await User.findByEmail(email);
+    let user = await User.findByEmail(req.body.email);
 
     if (user == null) {
       return res.status(404).json({ message: "email not exists" });
-    } else {
-      let checkPassword = await user.comparePassword(password);
+    }
+    //console.log(req.body.email);
+    let updateData = await userHelper.updateData(req.body._id, newData);
+    if (updateData) {
+      return res.status(200).json({ message: updateData.message });
+    }
+    // return res.status(200).json({ message: "success" });
+  } catch (error) {
+    return res.status(500).json({ message: "update failed" });
+  }
+};
+let updatePassword = async (req, res) => {
+  try {
+    console.log(req.body);
+    console.log(req.body.password);
+    console.log(req.body._id);
+    let user = await User.findUserById(req.body._id);
+    console.log(user);
+    if (user) {
+      let checkPassword = await user.comparePassword(req.body.password);
       if (!checkPassword) {
         return res.status(404).json({ message: "password failed" });
       }
-      debug("den dc day");
-      let updateData = await userHelper.updateData(_id, newData);
-      if (updateData) {
-        return res.status(200).json({ message: updateData.message });
-      }
+    } else {
+      return res.status(404).json({ message: "email not exists" });
     }
-    //update profile
-    //dang bi loi
+
+    let newData = {
+      password: await User.hashPassword(req.body.newPassword),
+    };
+    console.log("dasdasd");
+    let updateData = await userHelper.updateData(req.body._id, newData);
+    if (updateData) {
+      return res.status(200).json({ message: updateData.message });
+    }
+    // return res.status(200).json({ message: "success" });
   } catch (error) {
-    return res.status(500).json({ message: "update failed" });
+    return res.status(500).json({ message: "update failed password" });
+  }
+};
+let updateAvatar = async (req, res) => {
+  try {
+    // console.log("file up");
+    //console.log(req.files);
+    let file = req.files.avatar;
+    // console.log(file);
+    console.log(req.body.oldAvatar);
+
+    cloudinary.uploader
+      .upload(file.tempFilePath, (err, result) => {
+        console.log("error", err);
+        console.log("result", result);
+      })
+      .then(async (result) => {
+        let newData = {
+          profile: {
+            avatar: result.public_id,
+            gender: req.body.gender,
+            address: req.body.address,
+          },
+        };
+        // console.log(newData);
+        let updateData = await userHelper.updateData(req.body.id, newData);
+        if (updateData) {
+          // goi phuong thuc delete image tren cloudinary
+          cloudinary.api.delete_resources([req.body.oldAvatar], function (
+            error,
+            result
+          ) {
+            console.log(result, error);
+          });
+
+          return res.status(200).json({ message: updateData.message });
+        }
+      });
+    return res.status(200).json({ message: "success" });
+  } catch (error) {
+    return res.status(500).json({ message: "update failed avatar" });
   }
 };
 module.exports = {
@@ -207,4 +273,6 @@ module.exports = {
   postRegister: postRegister,
   updateProfile: updateProfile,
   getProfile: getProfile,
+  updatePassword: updatePassword,
+  updateAvatar: updateAvatar,
 };
