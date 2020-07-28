@@ -154,7 +154,41 @@ const doneToList = async (req, res) => {
     return res.status(500).json({ message: "update list failed " });
   }
 };
-
+//mang chung
+let respectiveArray = (ArrayNew, ArrayOld) => {
+  let Array = [];
+  ArrayNew.forEach(async (ele) => {
+    //console.log(ele._id);
+    ArrayOld.forEach(async (e) => {
+      if (ele._id == e._id) {
+        // console.log(e);
+        Array.push(ele);
+      }
+    });
+  });
+  return Array;
+};
+// mang rieng New
+let differentArrayNew = (ArrayNew, ArrayOld) => {
+  let Array = [];
+  let bl = false;
+  for (let i = 0; i < ArrayNew.length; i++) {
+    // console.log(ArrayNew[i]);
+    for (let j = 0; j < ArrayOld.length; j++) {
+      if (ArrayNew[i]._id == ArrayOld[j]._id) {
+        bl = false;
+        break;
+      } else {
+        bl = true;
+      }
+    }
+    if (bl) {
+      Array.push(ArrayNew[i]);
+    }
+    bl = false;
+  }
+  return Array;
+};
 let updataListTask = async (req, res) => {
   try {
     // console.log(req.body);
@@ -167,34 +201,34 @@ let updataListTask = async (req, res) => {
       if (workNew.length === 0) {
         console.log("pull");
       } else {
-        let respectiveArray = [];
-        let differentArray = [];
-        workNew.forEach(async (ele) => {
-          //console.log(ele._id);
-          getDataListTask.lists.forEach(async (e) => {
-            if (ele._id == e._id) {
-              // console.log(e);
-              respectiveArray.push(ele);
-            }
-          });
-        });
-        let bl = false;
-        for (let i = 0; i < workNew.length; i++) {
-          // console.log(workNew[i]);
-          for (let j = 0; j < getDataListTask.lists.length; j++) {
-            if (workNew[i]._id == getDataListTask.lists[j]._id) {
-              bl = false;
-              break;
-            } else {
-              bl = true;
-            }
-          }
-          if (bl) {
-            differentArray.push(workNew[i]);
-          }
-          bl = false;
-        }
-
+        let Array = respectiveArray(workNew, getDataListTask.lists);
+        let differentArray = differentArrayNew(workNew, getDataListTask.lists);
+        // workNew.forEach(async (ele) => {
+        //   //console.log(ele._id);
+        //   getDataListTask.lists.forEach(async (e) => {
+        //     if (ele._id == e._id) {
+        //       // console.log(e);
+        //       respectiveArray.push(ele);
+        //     }
+        //   });
+        // });
+        // let bl = false;
+        // for (let i = 0; i < workNew.length; i++) {
+        //   // console.log(workNew[i]);
+        //   for (let j = 0; j < getDataListTask.lists.length; j++) {
+        //     if (workNew[i]._id == getDataListTask.lists[j]._id) {
+        //       bl = false;
+        //       break;
+        //     } else {
+        //       bl = true;
+        //     }
+        //   }
+        //   if (bl) {
+        //     differentArray.push(workNew[i]);
+        //   }
+        //   bl = false;
+        // }
+        console.log(Array);
         console.log(differentArray);
       }
     }
