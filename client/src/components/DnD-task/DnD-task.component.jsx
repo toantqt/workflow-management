@@ -12,7 +12,7 @@ class DnDTaskComponent extends Component {
     super(props);
     this.state = {
       idList: this.props.data.idList,
-      accessToken: this.props.data.accessToken,
+
       data: [],
       inputWork: [],
       inputDoing: [],
@@ -169,9 +169,9 @@ class DnDTaskComponent extends Component {
     const done = [];
     this.state.data[length - 1].forEach(async (e) => {
       if (e.status === "doing") {
-        await work.push(e);
-      } else if (e.status === "work") {
         await doing.push(e);
+      } else if (e.status === "work") {
+        await work.push(e);
       } else {
         await done.push(e);
       }
@@ -179,8 +179,13 @@ class DnDTaskComponent extends Component {
     console.log(work);
     console.log(doing);
     console.log(done);
-    const data = [this.state.idList, work, doing, done];
-    sendData(this.state.accessToken, data)
+    const data = {
+      idList: this.state.idList,
+      work: work,
+      doing: doing,
+      done: done,
+    };
+    sendData(this.props.data.accessToken, data)
       .then((res) => {
         console.log(res);
       })
