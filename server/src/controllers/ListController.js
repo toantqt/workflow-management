@@ -193,6 +193,28 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
   return Array;
 };
 
+//mang rieng cu
+let differentArrayOld = (ArrayNew, ArrayOld) => {
+  let Array = [];
+  let bl = false;
+  for (let i = 0; i < ArrayOld.length; i++) {
+    // console.log(ArrayNew[i]);
+    for (let j = 0; j < ArrayNew.length; j++) {
+      if (ArrayOld[i]._id == ArrayNew[j]._id) {
+        bl = false;
+        break;
+      } else {
+        bl = true;
+      }
+    }
+    if (bl) {
+      Array.push(ArrayOld[i]);
+    }
+    bl = false;
+  }
+  return Array;
+};
+
 let updataListTask = async (req, res) => {
   try {
     // console.log(req.body);
@@ -201,15 +223,32 @@ let updataListTask = async (req, res) => {
     let doneNew = req.body.data.done;
     //console.log(workNew);
     let getDataListTask = await listModel.getWork(req.body.data.idList);
+
     if (getDataListTask) {
       if (workNew.length === 0) {
-        console.log("pull");
+        const pullWork = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.lists
+        );
       } else {
-        let Array = respectiveArray(workNew, getDataListTask.lists);
-        let differentArray = differentArrayNew(workNew, getDataListTask.lists);
+      }
 
-        console.log(Array);
-        console.log(differentArray);
+      //doing
+      if (doingNew.length === 0) {
+        const pullDoing = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.doing
+        );
+      } else {
+      }
+
+      //done
+      if (doneNew.length === 0) {
+        const pullDone = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.done
+        );
+      } else {
       }
     }
     return res.status(200).json({ message: "dones" });
