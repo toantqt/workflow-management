@@ -182,7 +182,6 @@ let updataListTask = async (req, res) => {
 
         console.log(respectiveArray);
 
-        const myDifferences = differenceBy(workNew, getDataListTask.lists, _id);
         console.log(myDifferences);
       }
     }
