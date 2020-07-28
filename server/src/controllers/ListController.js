@@ -1,6 +1,5 @@
 const listModel = require("../models/listTaskModel");
 const debug = console.log.bind(console);
-const lodash = require("lodash");
 const createWork = async (req, res) => {
   try {
     const data = { listId: req.body.listId };
@@ -169,7 +168,7 @@ let updataListTask = async (req, res) => {
         console.log("pull");
       } else {
         let respectiveArray = [];
-        //  let differentArray = [];
+        let differentArray = [];
         workNew.forEach(async (ele) => {
           //console.log(ele._id);
           getDataListTask.lists.forEach(async (e) => {
@@ -179,14 +178,24 @@ let updataListTask = async (req, res) => {
             }
           });
         });
-        let Obj3 = lodash.differenceWith(
-          workNew,
-          getDataListTask.lists,
-          function (o1, o2) {
-            return o1["_id"] != o2["_id"];
+        let bl = false;
+        for (let i = 0; i < workNew.length; i++) {
+          // console.log(workNew[i]);
+          for (let j = 0; j < getDataListTask.lists.length; j++) {
+            if (workNew[i]._id == getDataListTask.lists[j]._id) {
+              bl = false;
+              break;
+            } else {
+              bl = true;
+            }
           }
-        );
-        console.log(Obj3);
+          if (bl) {
+            differentArray.push(workNew[i]);
+          }
+          bl = false;
+        }
+
+        console.log(differentArray);
       }
     }
     return res.status(200).json({ message: "dones" });
