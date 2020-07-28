@@ -8,7 +8,7 @@ class RoomComponent extends Component {
       return (
         <div className="card" style={{ width: "20rem" }} key={index}>
           <img
-            className="card-img-top"
+            className="card-img-top img-style"
             src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
             alt="Card image cap"
             style={{ width: "100%", height: "130px" }}

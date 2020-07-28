@@ -1,6 +1,6 @@
 const listModel = require("../models/listTaskModel");
 const debug = console.log.bind(console);
-
+const lodash = require("lodash");
 const createWork = async (req, res) => {
   try {
     const data = { listId: req.body.listId };
@@ -158,9 +158,38 @@ const doneToList = async (req, res) => {
 
 let updataListTask = async (req, res) => {
   try {
-    console.log(req.body.data);
-    let getDataListTask = await listModel.getWork(req.body.data.id);
-    return res.status(200).json({});
+    // console.log(req.body);
+    let workNew = req.body.data.work;
+    let doingNew = req.body.data.doing;
+    let doneNew = req.body.data.done;
+    //console.log(workNew);
+    let getDataListTask = await listModel.getWork(req.body.data.idList);
+    if (getDataListTask) {
+      if (workNew.length === 0) {
+        console.log("pull");
+      } else {
+        let respectiveArray = [];
+        //  let differentArray = [];
+        workNew.forEach(async (ele) => {
+          //console.log(ele._id);
+          getDataListTask.lists.forEach(async (e) => {
+            if (ele._id == e._id) {
+              // console.log(e);
+              respectiveArray.push(ele);
+            }
+          });
+        });
+        let Obj3 = lodash.differenceWith(
+          workNew,
+          getDataListTask.lists,
+          function (o1, o2) {
+            return o1["_id"] != o2["_id"];
+          }
+        );
+        console.log(Obj3);
+      }
+    }
+    return res.status(200).json({ message: "dones" });
   } catch (error) {
     return res.status(500).json({ message: "update list failed " });
   }
