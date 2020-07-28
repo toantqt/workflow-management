@@ -221,11 +221,29 @@ let updataListTask = async (req, res) => {
       if (workNew.length === 0) {
         console.log("pull");
       } else {
-        let Array = respectiveArray(workNew, getDataListTask.lists);
-        let differentArray = differentArrayNew(workNew, getDataListTask.lists);
+        // let Array = respectiveArray(workNew, getDataListTask.lists);
+        let differentArrayN = differentArrayNew(workNew, getDataListTask.lists);
         let differentArrayO = differentArrayOld(workNew, getDataListTask.lists);
-        console.log(differentArrayO);
-        console.log(differentArray);
+        //console.log(differentArrayO);
+        //console.log(differentArrayN);
+        if (differentArrayO.length !== 0) {
+          console.log("OOO");
+          let Array = differentArrayO.map((e) => {
+            return { id: e._id, status: e.status };
+          });
+
+          Array.forEach(async (e) => {
+            await listModel.updataOld(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
+        if (differentArrayN.length !== 0) {
+          console.log("NNN");
+          differentArrayN.forEach(async (e) => {
+            await listModel.updataNew(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
       }
     }
     return res.status(200).json({ message: "dones" });

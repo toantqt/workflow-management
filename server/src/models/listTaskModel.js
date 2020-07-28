@@ -92,7 +92,6 @@ listTaskSchema.statics = {
       { safe: true, upsert: true, new: true }
     ).exec();
   },
-
   //push work to doingWork
   doingWork(data) {
     return this.findByIdAndUpdate(
@@ -231,6 +230,73 @@ listTaskSchema.statics = {
       },
       { safe: true, upsert: true, new: true }
     ).exec();
+  },
+  updataOld(array, id) {
+    if (array.status === "work") {
+      return this.update(
+        { listId: id },
+        {
+          $pull: { lists: { _id: array.id } },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    }
+    if (array.status === "doing") {
+      return this.update(
+        { listId: id },
+        {
+          $pull: { doing: { _id: array.id } },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    }
+    if (array.status === "done") {
+      return this.update(
+        { listId: id },
+        {
+          $pull: { done: { _id: array.id } },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    }
+  },
+  updataNew(array, id) {
+    if (array.status === "work") {
+      return this.findOneAndUpdate(
+        { listId: id },
+        {
+          $push: {
+            lists: {
+              $each: [array],
+            },
+          },
+        }
+      ).exec();
+    }
+    if (array.status === "doing") {
+      return this.findOneAndUpdate(
+        { listId: id },
+        {
+          $push: {
+            doing: {
+              $each: [array],
+            },
+          },
+        }
+      ).exec();
+    }
+    if (array.status === "done") {
+      return this.findOneAndUpdate(
+        { listId: id },
+        {
+          $push: {
+            done: {
+              $each: [array],
+            },
+          },
+        }
+      ).exec();
+    }
   },
 };
 
