@@ -189,6 +189,26 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
   }
   return Array;
 };
+let differentArrayOld = (ArrayNew, ArrayOld) => {
+  let Array = [];
+  let bl = false;
+  for (let i = 0; i < ArrayOld.length; i++) {
+    // console.log(ArrayNew[i]);
+    for (let j = 0; j < ArrayNew.length; j++) {
+      if (ArrayOld[i]._id == ArrayNew[j]._id) {
+        bl = false;
+        break;
+      } else {
+        bl = true;
+      }
+    }
+    if (bl) {
+      Array.push(ArrayOld[i]);
+    }
+    bl = false;
+  }
+  return Array;
+};
 let updataListTask = async (req, res) => {
   try {
     // console.log(req.body);
@@ -203,32 +223,8 @@ let updataListTask = async (req, res) => {
       } else {
         let Array = respectiveArray(workNew, getDataListTask.lists);
         let differentArray = differentArrayNew(workNew, getDataListTask.lists);
-        // workNew.forEach(async (ele) => {
-        //   //console.log(ele._id);
-        //   getDataListTask.lists.forEach(async (e) => {
-        //     if (ele._id == e._id) {
-        //       // console.log(e);
-        //       respectiveArray.push(ele);
-        //     }
-        //   });
-        // });
-        // let bl = false;
-        // for (let i = 0; i < workNew.length; i++) {
-        //   // console.log(workNew[i]);
-        //   for (let j = 0; j < getDataListTask.lists.length; j++) {
-        //     if (workNew[i]._id == getDataListTask.lists[j]._id) {
-        //       bl = false;
-        //       break;
-        //     } else {
-        //       bl = true;
-        //     }
-        //   }
-        //   if (bl) {
-        //     differentArray.push(workNew[i]);
-        //   }
-        //   bl = false;
-        // }
-        console.log(Array);
+        let differentArrayO = differentArrayOld(workNew, getDataListTask.lists);
+        console.log(differentArrayO);
         console.log(differentArray);
       }
     }
