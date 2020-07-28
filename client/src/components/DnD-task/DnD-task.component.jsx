@@ -1,11 +1,18 @@
 import React, { Component } from "react";
 import "./DnD-task.component.css";
 import InputComponent from "./input.component";
-import { addWork, addDoing, addDone } from "../list-task/listTaskFunction";
+import {
+  addWork,
+  addDoing,
+  addDone,
+  sendData,
+} from "../list-task/listTaskFunction";
 class DnDTaskComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      idList: this.props.data.idList,
+      accessToken: this.props.data.accessToken,
       data: [],
       inputWork: [],
       inputDoing: [],
@@ -93,7 +100,7 @@ class DnDTaskComponent extends Component {
     this.setState({
       [name]: event.target.value,
     });
-    console.log(this.state);
+    // console.log(this.state);
   };
   //onDragOver
   onDragOver = (event) => {
@@ -109,9 +116,9 @@ class DnDTaskComponent extends Component {
   //ondrop
   onDrop = (event, status) => {
     let id = event.dataTransfer.getData("id");
-    console.log("id: " + id);
-    console.log("status: " + status);
-    console.log("props: ", this.props.data);
+    // console.log("id: " + id);
+    // console.log("status: " + status);
+    // console.log("props: ", this.props.data);
     let tasks = this.props.data.lists.filter((task) => {
       if (task.name === id) {
         task.status = status;
@@ -152,12 +159,43 @@ class DnDTaskComponent extends Component {
     // }
   };
 
+  //onHandleClickSubmit
+  onHandleClickSubmit = (event) => {
+    event.preventDefault();
+    const length = this.state.data.length;
+    console.log(this.state.data[length - 1]);
+    const work = [];
+    const doing = [];
+    const done = [];
+    this.state.data[length - 1].forEach(async (e) => {
+      if (e.status === "doing") {
+        await work.push(e);
+      } else if (e.status === "work") {
+        await doing.push(e);
+      } else {
+        await done.push(e);
+      }
+    });
+    console.log(work);
+    console.log(doing);
+    console.log(done);
+    const data = [this.state.idList, work, doing, done];
+    sendData(this.state.accessToken, data)
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
     const tasks = {
       work: [],
       doing: [],
       done: [],
     };
+    console.log("state: ");
     console.log(this.state);
 
     this.props.data.lists.forEach((element) => {
@@ -342,6 +380,14 @@ class DnDTaskComponent extends Component {
             {inputDone}
           </div>
         </div>
+
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={this.onHandleClickSubmit}
+        >
+          Save
+        </button>
       </div>
     );
   }
