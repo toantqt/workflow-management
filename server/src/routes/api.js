@@ -58,11 +58,10 @@ let initAPIs = (app) => {
   router.post("/list-to-done", ListController.listToDone);
   router.post("/done-to-list", ListController.doneToList);
 
-  router.post("/update-list-task", ListController.updateListTask);
-
   router.get("/find-user-addroom", RoomController.findUserAddRoom);
   router.post("/add-user-room", RoomController.addUserRoom);
-
+  // save change list task
+  router.post("/update-list-task", ListController.updataListTask);
   return app.use("/", router);
 };
 

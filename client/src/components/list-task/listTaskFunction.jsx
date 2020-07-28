@@ -84,6 +84,7 @@ export const addDone = async (accessToken, data) => {
 
 export const sendData = async (accessToken, data) => {
   console.log(data);
+  // console.log(accessToken);
   return await axios
     .post(
       "http://localhost:5566/update-list-task",
@@ -95,7 +96,8 @@ export const sendData = async (accessToken, data) => {
       }
     )
     .then((res) => {
-      return res.data;
+      // return res.data;
+      console.log(res.data);
     })
     .catch((error) => {
       console.log(error);

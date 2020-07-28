@@ -1,6 +1,8 @@
 const jwtHelper = require("../helpers/jwt.helper");
 const userHelper = require("../helpers/user.helper");
 const cloudinary = require("cloudinary").v2;
+// const test = require("../../../tmp")
+// const fs = require("fs-extra");
 cloudinary.config({
   cloud_name: "phathuynh",
   api_key: "412296536584643",
@@ -250,6 +252,8 @@ let updateAvatar = async (req, res) => {
         };
         // console.log(newData);
         let updateData = await userHelper.updateData(req.body.id, newData);
+        // xoa duong dan tmp
+        // await fs.remove("../../../tmp/");
         if (updateData) {
           // goi phuong thuc delete image tren cloudinary
           cloudinary.api.delete_resources([req.body.oldAvatar], function (
