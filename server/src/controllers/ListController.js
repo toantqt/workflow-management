@@ -155,6 +155,7 @@ const doneToList = async (req, res) => {
     return res.status(500).json({ message: "update list failed " });
   }
 };
+
 //mang chung
 let respectiveArray = (ArrayNew, ArrayOld) => {
   let Array = [];
@@ -169,6 +170,7 @@ let respectiveArray = (ArrayNew, ArrayOld) => {
   });
   return Array;
 };
+
 // mang rieng New
 let differentArrayNew = (ArrayNew, ArrayOld) => {
   let Array = [];
@@ -190,6 +192,7 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
   }
   return Array;
 };
+
 let updataListTask = async (req, res) => {
   try {
     // console.log(req.body);
