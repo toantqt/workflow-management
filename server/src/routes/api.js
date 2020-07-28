@@ -60,7 +60,8 @@ let initAPIs = (app) => {
 
   router.get("/find-user-addroom", RoomController.findUserAddRoom);
   router.post("/add-user-room", RoomController.addUserRoom);
-
+  // save change list task
+  router.post("/update-list-task", ListController.updataListTask);
   return app.use("/", router);
 };
 

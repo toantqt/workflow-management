@@ -155,6 +155,16 @@ const doneToList = async (req, res) => {
     return res.status(500).json({ message: "update list failed " });
   }
 };
+
+let updataListTask = async (req, res) => {
+  try {
+    console.log(req.body.data);
+    let getDataListTask = await listModel.getWork(req.body.data.id);
+    return res.status(200).json({});
+  } catch (error) {
+    return res.status(500).json({ message: "update list failed " });
+  }
+};
 module.exports = {
   createWork: createWork,
   addWork: addWork,
@@ -166,4 +176,5 @@ module.exports = {
   doneToDoing: doneToDoing,
   listToDone: listToDone,
   doneToList: doneToList,
+  updataListTask: updataListTask,
 };

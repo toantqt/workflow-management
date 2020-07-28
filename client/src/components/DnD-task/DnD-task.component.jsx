@@ -56,7 +56,7 @@ class DnDTaskComponent extends Component {
       nameDoing: this.state.doing,
       nameDone: this.state.done,
     };
-    console.log(data);
+    //console.log(data);
     if (status === "work") {
       addWork(this.props.data.accessToken, data)
         .then((res) => {
@@ -93,7 +93,7 @@ class DnDTaskComponent extends Component {
     this.setState({
       [name]: event.target.value,
     });
-    console.log(this.state);
+    //console.log(this.state);
   };
   //onDragOver
   onDragOver = (event) => {
@@ -109,14 +109,12 @@ class DnDTaskComponent extends Component {
   //ondrop
   onDrop = (event, status) => {
     let id = event.dataTransfer.getData("id");
-    console.log("id: " + id);
-    console.log("status: " + status);
-    console.log("props: ", this.props.data);
+
     let tasks = this.props.data.lists.filter((task) => {
       if (task.name === id) {
         task.status = status;
       }
-      console.log(task);
+      //console.log(task);
       return task;
     });
     this.setState({ data: [...this.state.data, tasks] });
@@ -151,7 +149,12 @@ class DnDTaskComponent extends Component {
     //   this.setState({ done: [...this.state.done, tasks] });
     // }
   };
+  // handleSave = (e) => {
+  //   e.preventDefault();
+  //   const length = this.state.data.length;
+  //   console.log(this.state.data[length - 1]);
 
+  // };
   render() {
     const tasks = {
       work: [],
@@ -342,6 +345,13 @@ class DnDTaskComponent extends Component {
             {inputDone}
           </div>
         </div>
+        {/* <button
+          type="button"
+          className="btn btn-primary btn-list"
+          onClick={this.handleSave}
+        >
+          save
+        </button> */}
       </div>
     );
   }
