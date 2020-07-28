@@ -12,7 +12,7 @@ class DnDTaskComponent extends Component {
     super(props);
     this.state = {
       idList: this.props.data.idList,
-      accessToken: this.props.data.accessToken,
+
       data: [],
       inputWork: [],
       inputDoing: [],
@@ -191,7 +191,7 @@ class DnDTaskComponent extends Component {
       doing: doing,
       done: done,
     };
-    //console.log(this.props.data.accessToken);
+
     sendData(this.props.data.accessToken, data)
       .then((res) => {
         console.log("done");

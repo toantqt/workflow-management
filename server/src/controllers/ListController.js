@@ -1,5 +1,6 @@
 const listModel = require("../models/listTaskModel");
 const debug = console.log.bind(console);
+const lodash = require("lodash");
 const createWork = async (req, res) => {
   try {
     const data = { listId: req.body.listId };
@@ -154,6 +155,7 @@ const doneToList = async (req, res) => {
     return res.status(500).json({ message: "update list failed " });
   }
 };
+
 //mang chung
 let respectiveArray = (ArrayNew, ArrayOld) => {
   let Array = [];
@@ -168,6 +170,7 @@ let respectiveArray = (ArrayNew, ArrayOld) => {
   });
   return Array;
 };
+
 // mang rieng New
 let differentArrayNew = (ArrayNew, ArrayOld) => {
   let Array = [];
@@ -189,6 +192,8 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
   }
   return Array;
 };
+
+//mang rieng cu
 let differentArrayOld = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
@@ -209,6 +214,7 @@ let differentArrayOld = (ArrayNew, ArrayOld) => {
   }
   return Array;
 };
+
 let updataListTask = async (req, res) => {
   try {
     // console.log(req.body);
@@ -217,13 +223,87 @@ let updataListTask = async (req, res) => {
     let doneNew = req.body.data.done;
     //console.log(workNew);
     let getDataListTask = await listModel.getWork(req.body.data.idList);
+
     if (getDataListTask) {
       if (workNew.length === 0) {
-        console.log("pull");
+        const pullWork = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.lists
+        );
       } else {
         // let Array = respectiveArray(workNew, getDataListTask.lists);
         let differentArrayN = differentArrayNew(workNew, getDataListTask.lists);
         let differentArrayO = differentArrayOld(workNew, getDataListTask.lists);
+        //console.log(differentArrayO);
+        //console.log(differentArrayN);
+        if (differentArrayO.length !== 0) {
+          console.log("OOO");
+          let Array = differentArrayO.map((e) => {
+            return { id: e._id, status: e.status };
+          });
+
+          Array.forEach(async (e) => {
+            await listModel.updataOld(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
+        if (differentArrayN.length !== 0) {
+          console.log("NNN");
+          differentArrayN.forEach(async (e) => {
+            await listModel.updataNew(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
+      }
+
+      //doing
+      if (doingNew.length === 0) {
+        const pullDoing = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.doing
+        );
+      } else {
+        // let Array = respectiveArray(workNew, getDataListTask.lists);
+        let differentArrayN = differentArrayNew(
+          doingNew,
+          getDataListTask.lists
+        );
+        let differentArrayO = differentArrayOld(
+          doingNew,
+          getDataListTask.lists
+        );
+        //console.log(differentArrayO);
+        //console.log(differentArrayN);
+        if (differentArrayO.length !== 0) {
+          console.log("OOO");
+          let Array = differentArrayO.map((e) => {
+            return { id: e._id, status: e.status };
+          });
+
+          Array.forEach(async (e) => {
+            await listModel.updataOld(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
+        if (differentArrayN.length !== 0) {
+          console.log("NNN");
+          differentArrayN.forEach(async (e) => {
+            await listModel.updataNew(e, req.body.data.idList);
+            console.log("done");
+          });
+        }
+      }
+
+      //done
+      if (doneNew.length === 0) {
+        const pullDone = listModel.pullWork(
+          req.body.data.idList,
+          getDataListTask.done
+        );
+      } else {
+        // let Array = respectiveArray(workNew, getDataListTask.lists);
+        let differentArrayN = differentArrayNew(doneNew, getDataListTask.lists);
+        let differentArrayO = differentArrayOld(doneNew, getDataListTask.lists);
         //console.log(differentArrayO);
         //console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
@@ -262,5 +342,6 @@ module.exports = {
   doneToDoing: doneToDoing,
   listToDone: listToDone,
   doneToList: doneToList,
+
   updataListTask: updataListTask,
 };

@@ -231,6 +231,7 @@ listTaskSchema.statics = {
       { safe: true, upsert: true, new: true }
     ).exec();
   },
+
   updataOld(array, id) {
     if (array.status === "work") {
       return this.update(
@@ -297,6 +298,55 @@ listTaskSchema.statics = {
         }
       ).exec();
     }
+  },
+
+  //work.length === 0 => pull work
+  pullWork(listId, data) {
+    data.forEach(async (e) => {
+      if (e.status === "work") {
+        return await this.findOneAndUpdate(
+          { listId: listId },
+          {
+            $pull: {
+              lists: {
+                _id: e._id,
+                name: e.name,
+                note: e.note,
+              },
+            },
+          },
+          { safe: true, upsert: true, new: true }
+        ).exec();
+      } else if (e.status === "doing") {
+        return await this.findOneAndUpdate(
+          { listId: listId },
+          {
+            $pull: {
+              doing: {
+                _id: e._id,
+                name: e.name,
+                note: e.note,
+              },
+            },
+          },
+          { safe: true, upsert: true, new: true }
+        ).exec();
+      } else {
+        return await this.findOneAndUpdate(
+          { listId: listId },
+          {
+            $pull: {
+              done: {
+                _id: e._id,
+                name: e.name,
+                note: e.note,
+              },
+            },
+          },
+          { safe: true, upsert: true, new: true }
+        ).exec();
+      }
+    });
   },
 };
 
