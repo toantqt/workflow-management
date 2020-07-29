@@ -9,15 +9,35 @@ class BoardTaskComponent extends Component {
 
   render() {
     const board = this.props.data.lists.map((e, index) => {
-      return (
-        <div>
-          <Link style={{ textDecoration: "none" }} to={`/task/${e._id}`}>
-            <div className="board ml-3  mb-5">
-              <h6 style={{ fontSize: "20px" }}>{e.name}</h6>
-            </div>
-          </Link>
-        </div>
-      );
+      if (e.status === false) {
+        return (
+          <div>
+            <Link style={{ textDecoration: "none" }} to={`/task/${e._id}`}>
+              <div className="board ml-3  mb-5">
+                <i
+                  class="fas fa-exclamation  "
+                  style={{ color: "red", fontSize: "20px" }}
+                ></i>
+                <h6 style={{ fontSize: "20px" }}>{e.name}</h6>
+              </div>
+            </Link>
+          </div>
+        );
+      } else {
+        return (
+          <div>
+            <Link style={{ textDecoration: "none" }} to={`/task/${e._id}`}>
+              <div className="board ml-3  mb-5">
+                <i
+                  class="fas fa-check "
+                  style={{ color: "blue", fontSize: "20px" }}
+                ></i>
+                <h6 style={{ fontSize: "20px" }}>{e.name}</h6>
+              </div>
+            </Link>
+          </div>
+        );
+      }
     });
 
     //show create board lists

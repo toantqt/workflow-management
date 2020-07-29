@@ -105,7 +105,6 @@ class DnDTaskComponent extends Component {
   onDragOver = (event) => {
     event.preventDefault();
   };
-
   //onDragStart
   onDragStart = (event, id) => {
     console.log("dragStart: ", id);
@@ -128,42 +127,7 @@ class DnDTaskComponent extends Component {
       return task;
     });
     this.setState({ data: [...this.state.data, tasks] });
-
-    // if (status === "work") {
-    //   let tasks = this.props.data.doing.filter((task) => {
-    //     console.log(task);
-    //     if (task.name === id) {
-    //       task.status = status;
-    //     }
-    //     console.log(task);
-    //     return task;
-    //   });
-    //   this.setState({ work: [...this.state.work, tasks] });
-    // } else if (status === "doing") {
-    //   let tasks = this.props.data.doing.filter((task) => {
-    //     if (task.name === id) {
-    //       task.status = status;
-    //     }
-    //     console.log(task);
-    //     return task;
-    //   });
-    //   this.setState({ doing: [...this.state.doing, tasks] });
-    // } else {
-    //   let tasks = this.props.data.done.filter((task) => {
-    //     if (task.name === id) {
-    //       task.status = status;
-    //     }
-    //     console.log(task);
-    //     return task;
-    //   });
-    //   this.setState({ done: [...this.state.done, tasks] });
-    // }
   };
-  // handleSave = (e) => {
-  //   e.preventDefault();
-  //   const length = this.state.data.length;
-  //   console.log(this.state.data[length - 1]);
-  // };
 
   //onHandleClickSubmit
   onHandleClickSubmit = (event) => {
@@ -293,44 +257,7 @@ class DnDTaskComponent extends Component {
         </div>
       );
     });
-    // this.props.data.work.forEach((element) => {
-    //   tasks[element.status].push(
-    //     <div
-    //       key={element.name}
-    //       onDragStart={(e) => this.onDragStart(e, element.name)}
-    //       draggable
-    //       className="draggable panel-body"
-    //     >
-    //       {element.name}
-    //     </div>
-    //   );
-    // });
-    // this.props.data.doing.forEach((element) => {
-    //   console.log("aa" + element);
-    //   tasks[element.status].push(
-    //     <div
-    //       key={element.name}
-    //       onDragStart={(e) => this.onDragStart(e, element.name)}
-    //       draggable
-    //       className="draggable panel-body"
-    //     >
-    //       {element.name}
-    //     </div>
-    //   );
-    // });
-    // this.props.data.done.forEach((element) => {
-    //   console.log("aa" + element);
-    //   tasks[element.status].push(
-    //     <div
-    //       key={element.name}
-    //       onDragStart={(e) => this.onDragStart(e, element.name)}
-    //       draggable
-    //       className="draggable panel-body"
-    //     >
-    //       {element.name}
-    //     </div>
-    //   );
-    // });
+
     console.log(tasks);
     return (
       <div>
