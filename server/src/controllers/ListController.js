@@ -1,4 +1,5 @@
 const listModel = require("../models/listTaskModel");
+const taskModel = require("../models/taskModel");
 const debug = console.log.bind(console);
 const lodash = require("lodash");
 const createWork = async (req, res) => {
@@ -175,6 +176,11 @@ let respectiveArray = (ArrayNew, ArrayOld) => {
 let differentArrayNew = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
+  if (ArrayOld.length === 0) {
+    ArrayNew.forEach((e) => {
+      Array.push(e);
+    });
+  }
   for (let i = 0; i < ArrayNew.length; i++) {
     // console.log(ArrayNew[i]);
     for (let j = 0; j < ArrayOld.length; j++) {
@@ -197,6 +203,12 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
 let differentArrayOld = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
+  // khi New null thi push het mangr old vao array
+  if (ArrayNew.length === 0) {
+    ArrayOld.forEach((e) => {
+      Array.push(e);
+    });
+  }
   for (let i = 0; i < ArrayOld.length; i++) {
     // console.log(ArrayNew[i]);
     for (let j = 0; j < ArrayNew.length; j++) {
@@ -325,6 +337,14 @@ let updataListTask = async (req, res) => {
           });
         }
       }
+    }
+    if (doneNew.length !== 0 && workNew.length === 0 && doingNew.length === 0) {
+      console.log(req.body.data.idList);
+      await taskModel.updateStatusListTask(req.body.data.idList, true);
+
+      return res.status(200).json({ message: "donelist" });
+    } else {
+      await taskModel.updateStatusListTask(req.body.data.idList, false);
     }
     return res.status(200).json({ message: "dones" });
   } catch (error) {
