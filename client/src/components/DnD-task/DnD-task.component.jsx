@@ -132,11 +132,14 @@ class DnDTaskComponent extends Component {
   //onHandleClickSubmit
   onHandleClickSubmit = (event) => {
     event.preventDefault();
+    console.log(this.state);
     const length = this.state.data.length;
     console.log(this.state.data[length - 1]);
+    if (length === 0) return;
     const work = [];
     const doing = [];
     const done = [];
+
     this.state.data[length - 1].forEach(async (e) => {
       if (e.status === "doing") {
         await doing.push(e);
@@ -155,7 +158,6 @@ class DnDTaskComponent extends Component {
       doing: doing,
       done: done,
     };
-
     sendData(this.props.data.accessToken, data)
       .then((res) => {
         console.log("done");
@@ -173,6 +175,7 @@ class DnDTaskComponent extends Component {
     };
     console.log("state: ");
     console.log(this.state);
+    console.log(this.props.data);
 
     this.props.data.lists.forEach((element) => {
       tasks[element.status].push(

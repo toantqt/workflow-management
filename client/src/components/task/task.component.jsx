@@ -103,14 +103,14 @@ class TaskComponent extends Component {
       onClick: async (e, row, rowIndex) => {
         // console.log(e);
         // console.log(rowIndex);
-        console.log(row);
-        console.log(row.status.key); // cau hinh key trong status laf id task
+        //console.log(row);
+        // console.log(row.status.key); // cau hinh key trong status laf id task
         await this.setState({
           idTask: row.status.key,
           showComponent: true,
           lists: [],
         });
-
+        //console.log(this.state);
         getList(this.props.accessToken, this.state.idTask).then(async (res) => {
           const arrList = res.list;
           // await this.setState({

@@ -21,6 +21,7 @@ const addWork = async (req, res) => {
       note: req.body.note,
     };
     console.log(data);
+    await taskModel.updateStatusListTask(req.body.listId, false);
     const saveData = await listModel.addWork(data);
     console.log(saveData);
     return res.status(200).json(saveData);
@@ -37,6 +38,7 @@ const addDoing = async (req, res) => {
       note: req.body.note,
     };
     console.log(data);
+    await taskModel.updateStatusListTask(req.body.listId, false);
     const saveData = await listModel.addDoing(data);
     console.log(saveData);
     return res.status(200).json(saveData);
@@ -199,7 +201,7 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
   return Array;
 };
 
-//mang rieng cu
+//mang rieng Old
 let differentArrayOld = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
@@ -229,7 +231,7 @@ let differentArrayOld = (ArrayNew, ArrayOld) => {
 
 let updataListTask = async (req, res) => {
   try {
-    //console.log(req.body);
+    console.log(req.body);
     let workNew = req.body.data.work;
     let doingNew = req.body.data.doing;
     let doneNew = req.body.data.done;

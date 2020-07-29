@@ -69,8 +69,23 @@ const addListTask = async (req, res) => {
 const getListTask = async (req, res) => {
   try {
     const idTask = req.params.idTask;
-
+    let bl = false;
     let getDataList = await taskModel.getListTask(idTask);
+    // getDataList.forEach(async (e) => {
+    //   if (e.list.status) {
+    //     bl = true;
+    //   } else {
+    //     bl = false;
+    //   }
+    // });
+    // if (bl) {
+    //   // await taskModel.updateStatus(idTask, bl);
+    //   console.log("alo");
+    // } else {
+    //   console.log("ooo");
+    //   //  await taskModel.updateStatus(idTask, bl);
+    // }
+    console.log("alalsadsa");
     console.log(getDataList);
     return res.status(200).json(getDataList);
   } catch (error) {
