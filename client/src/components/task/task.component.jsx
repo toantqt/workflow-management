@@ -44,14 +44,17 @@ class TaskComponent extends Component {
   //on click show modal edit
   handleClickEdit = async (event, data) => {
     event.preventDefault();
-    console.log(data);
+    await this.setState({
+      title: "",
+    });
     if (this.state.idUser === data.idStaff) {
       await this.setState({
         showModal: true,
-        idModal: data.idStaff,
+        idModal: data._id,
         title: data.title,
         deadline: data.deadline,
       });
+      console.log(this.state.idModal + this.state.title);
     }
 
     console.log(this.state);
@@ -148,14 +151,33 @@ class TaskComponent extends Component {
     };
 
     // cau hinh ten  cot
-    let colums = [
-      { dataField: "stt", text: "STT" },
-      { dataField: "idStaff", text: "Author" },
+    let columns = [
+      {
+        dataField: "stt",
+        text: "STT",
+        headerStyle: { width: "60px" },
+      },
+
+      {
+        dataField: "idStaff",
+        text: "Author",
+        headerStyle: { width: "120px" },
+      },
       { dataField: "title", text: "Work Content" },
       { dataField: "createAt", text: "Date Post" },
       { dataField: "deadline", text: "Deadline" },
-      { dataField: "status", text: "Status" },
-      { dataField: "edit", text: "#" },
+      {
+        dataField: "status",
+        text: "Status",
+        headerStyle: { width: "60px" },
+        style: { textAlign: "center" },
+      },
+      {
+        dataField: "edit",
+        text: "#",
+        headerStyle: { width: "60px", textAlign: "center" },
+        style: { textAlign: "center" },
+      },
     ];
     //dua data vao table
     let player = [];
@@ -192,7 +214,7 @@ class TaskComponent extends Component {
           <i
             class="far fa-edit"
             data-toggle="modal"
-            data-target={"#" + element.e.idStaff}
+            data-target={"#" + element.e._id}
             onClick={(event) => this.handleClickEdit(event, element.e)}
           ></i>
         ),
@@ -267,7 +289,7 @@ class TaskComponent extends Component {
             <BootstrapTable
               keyField="stt"
               data={player}
-              columns={colums}
+              columns={columns}
               pagination={pagination}
               rowEvents={rowEvents} // goi event
             />
@@ -306,7 +328,7 @@ class TaskComponent extends Component {
                       <input
                         type="text"
                         class="form-control"
-                        defaultValue={this.state.title}
+                        value={this.state.title}
                         onChange={this.onHandleChange}
                         name="title"
                       />
@@ -345,7 +367,7 @@ class TaskComponent extends Component {
             <BootstrapTable
               keyField="stt"
               data={Finish}
-              columns={colums}
+              columns={columns}
               pagination={pagination}
               rowEvents={rowEvents}
             />
