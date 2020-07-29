@@ -24,3 +24,7 @@ form {
 .btn-list {
   padding: 2px 5px !important;
 }
+
+i {
+  cursor: pointer;
+}

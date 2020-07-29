@@ -98,7 +98,13 @@ class ListTaskComponent extends Component {
   }
   render() {
     return (
-      <div>
+      <div
+        style={{
+          backgroundImage:
+            "url('https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940')",
+          height: "661px",
+        }}
+      >
         <AppBarComponent username={this.state.username} />
         <div style={{ marginTop: "60px" }}>
           <DnDTaskComponent data={this.state} />

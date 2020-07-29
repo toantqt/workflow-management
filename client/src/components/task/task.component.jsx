@@ -4,8 +4,10 @@ import "./task.css";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import * as ReactBootStrap from "react-bootstrap";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
-import { getList } from "./taskFunction";
+import { getList, updateTask } from "./taskFunction";
 import BoardTaskComponent from "../board-task/board-task.component";
 
 import jwt_decode from "jwt-decode";
@@ -20,10 +22,12 @@ class TaskComponent extends Component {
     super(props);
     this.state = {
       showComponent: false,
+      showModal: false,
       idTask: "",
       idStaff: "",
       idUser: "",
       lists: [],
+      startDate: new Date(),
     };
   }
   componentDidMount() {
@@ -36,6 +40,62 @@ class TaskComponent extends Component {
       accessToken: accessToken,
     });
   }
+
+  //on click show modal edit
+  handleClickEdit = async (event, data) => {
+    event.preventDefault();
+    console.log(data);
+    if (this.state.idUser === data.idStaff) {
+      await this.setState({
+        showModal: true,
+        idModal: data.idStaff,
+        title: data.title,
+        deadline: data.deadline,
+      });
+    }
+
+    console.log(this.state);
+  };
+  //hande change input edit task
+  onHandleChange = (event) => {
+    let target = event.target;
+    let name = target.name;
+
+    if (name === "title") {
+      let value = target.value;
+      this.setState({
+        title: value,
+      });
+    }
+  };
+
+  //change deadline
+  handleChangeDate = (date) => {
+    this.setState({
+      startDate: date,
+    });
+  };
+
+  //handle submit edit
+  handleSubmitEdit = async (event) => {
+    let date = this.state.startDate;
+    let moonLanding = new Date(date);
+    let dates = moonLanding.getTime();
+    const data = {
+      idTask: this.state.idTask,
+      title: this.state.title,
+      deadline: dates,
+    };
+    await updateTask(this.state.accessToken, data)
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    console.log(data);
+  };
 
   render() {
     // bac event list task
@@ -95,6 +155,7 @@ class TaskComponent extends Component {
       { dataField: "createAt", text: "Date Post" },
       { dataField: "deadline", text: "Deadline" },
       { dataField: "status", text: "Status" },
+      { dataField: "edit", text: "#" },
     ];
     //dua data vao table
     let player = [];
@@ -125,6 +186,14 @@ class TaskComponent extends Component {
             style={{ color: "red" }}
             className="fas fa-exclamation"
             key={element.e._id}
+          ></i>
+        ),
+        edit: (
+          <i
+            class="far fa-edit"
+            data-toggle="modal"
+            data-target={"#" + element.e.idStaff}
+            onClick={(event) => this.handleClickEdit(event, element.e)}
           ></i>
         ),
       };
@@ -203,6 +272,75 @@ class TaskComponent extends Component {
               rowEvents={rowEvents} // goi event
             />
           </div>
+          {this.state.showModal ? (
+            <div
+              class="modal fade"
+              id={this.state.idModal}
+              tabindex="-1"
+              role="dialog"
+              aria-labelledby="exampleModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog" role="document">
+                <div
+                  class="modal-content"
+                  style={{ height: "300px !important" }}
+                >
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                      Edit Task
+                    </h5>
+
+                    <button
+                      type="button"
+                      class="close"
+                      data-dismiss="modal"
+                      aria-label="Close"
+                    >
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div class="form-group">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        defaultValue={this.state.title}
+                        onChange={this.onHandleChange}
+                        name="title"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label>Deadline</label>
+                      <br />
+                      <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChangeDate}
+                      />
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button
+                      type="button"
+                      class="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      onClick={this.handleSubmitEdit}
+                    >
+                      Save changes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : null}
+
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
               keyField="stt"

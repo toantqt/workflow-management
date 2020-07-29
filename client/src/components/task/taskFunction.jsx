@@ -49,3 +49,24 @@ export const getDataList = async (accessToken, idList) => {
       console.log(error);
     });
 };
+
+export const updateTask = async (accessToken, data) => {
+  return await axios
+    .post(
+      "http://localhost:5566/update-task",
+      {
+        idTask: data.idTask,
+        title: data.title,
+        deadline: data.deadline,
+      },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

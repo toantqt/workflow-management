@@ -28,6 +28,9 @@ let initAPIs = (app) => {
   //add task
   router.post("/add-task", TaskController.addTask);
 
+  //update task
+  router.post("/update-task", TaskController.updateTask);
+
   //add list task in tasks
   router.post("/add-list-task", TaskController.addListTask);
 

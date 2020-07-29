@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const listTaskSchema = new Schema(
   {
     listId: String,
+    image: { type: String, default: "" },
     lists: [
       {
         name: String,

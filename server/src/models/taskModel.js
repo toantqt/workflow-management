@@ -32,6 +32,14 @@ taskSchema.statics = {
     return this.create(item);
   },
 
+  //update task
+  updateTask(data) {
+    return this.findByIdAndUpdate(
+      { _id: data.idTask },
+      { title: data.title, deadline: data.deadline },
+      { safe: true, upsert: true, new: true }
+    ).exec();
+  },
   //show task in room
   getTaskRoom(id) {
     return this.find({ roomId: id }).exec();

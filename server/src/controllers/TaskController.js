@@ -25,6 +25,22 @@ const addTask = async (req, res) => {
   }
 };
 
+//update data task
+const updateTask = async (req, res) => {
+  try {
+    let data = {
+      idTask: req.body.idTask,
+      title: req.body.title,
+      deadline: req.body.deadline,
+    };
+    console.log(data);
+    await taskModel.updateTask(data);
+    return res.status(200).json({ message: "update task successfully" });
+  } catch (error) {
+    return res.status(500).json({ message: "update task failed" });
+  }
+};
+
 // add listtask in task
 const addListTask = async (req, res) => {
   try {
@@ -79,6 +95,7 @@ const getDataList = async (req, res) => {
 
 module.exports = {
   addTask: addTask,
+  updateTask: updateTask,
   addListTask: addListTask,
   getListTask: getListTask,
   getDataList: getDataList,
