@@ -175,6 +175,11 @@ let respectiveArray = (ArrayNew, ArrayOld) => {
 let differentArrayNew = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
+  if (ArrayOld.length === 0) {
+    ArrayNew.forEach((e) => {
+      Array.push(e);
+    });
+  }
   for (let i = 0; i < ArrayNew.length; i++) {
     // console.log(ArrayNew[i]);
     for (let j = 0; j < ArrayOld.length; j++) {
@@ -234,8 +239,8 @@ let updataListTask = async (req, res) => {
         // let Array = respectiveArray(workNew, getDataListTask.lists);
         let differentArrayN = differentArrayNew(workNew, getDataListTask.lists);
         let differentArrayO = differentArrayOld(workNew, getDataListTask.lists);
-        //console.log(differentArrayO);
-        //console.log(differentArrayN);
+        console.log(workNew);
+        console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
           console.log("OOO");
           let Array = differentArrayO.map((e) => {
@@ -272,7 +277,8 @@ let updataListTask = async (req, res) => {
           doingNew,
           getDataListTask.doing
         );
-        //console.log(differentArrayO);
+        debug("hihi");
+        console.log(differentArrayN);
         //console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
           console.log("OOO");
