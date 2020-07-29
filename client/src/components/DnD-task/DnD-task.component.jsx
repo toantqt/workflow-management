@@ -327,14 +327,15 @@ class DnDTaskComponent extends Component {
         >
           save
         </button> */}
-
-        <button
-          type="button"
-          className="btn btn-primary"
-          onClick={this.onHandleClickSubmit}
-        >
-          Save
-        </button>
+        <div style={{ float: "right", marginRight: "30px" }}>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={this.onHandleClickSubmit}
+          >
+            Save Work
+          </button>
+        </div>
       </div>
     );
   }

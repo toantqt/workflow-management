@@ -1,3 +1,15 @@
 #pageDropDown {
   display: none;
 }
+
+.react-bootstrap-table-pagination-list {
+  margin-bottom: -15px !important;
+}
+
+.tab-content {
+  background-color: white !important;
+}
+.tab-content th {
+  background-color: #343a40 !important;
+  color: white;
+}
