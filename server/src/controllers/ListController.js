@@ -1,4 +1,5 @@
 const listModel = require("../models/listTaskModel");
+const taskModel = require("../models/taskModel");
 const debug = console.log.bind(console);
 const lodash = require("lodash");
 const createWork = async (req, res) => {
@@ -202,6 +203,12 @@ let differentArrayNew = (ArrayNew, ArrayOld) => {
 let differentArrayOld = (ArrayNew, ArrayOld) => {
   let Array = [];
   let bl = false;
+  // khi New null thi push het mangr old vao array
+  if (ArrayNew.length === 0) {
+    ArrayOld.forEach((e) => {
+      Array.push(e);
+    });
+  }
   for (let i = 0; i < ArrayOld.length; i++) {
     // console.log(ArrayNew[i]);
     for (let j = 0; j < ArrayNew.length; j++) {
@@ -222,7 +229,7 @@ let differentArrayOld = (ArrayNew, ArrayOld) => {
 
 let updataListTask = async (req, res) => {
   try {
-    // console.log(req.body);
+    //console.log(req.body);
     let workNew = req.body.data.work;
     let doingNew = req.body.data.doing;
     let doneNew = req.body.data.done;
@@ -231,7 +238,7 @@ let updataListTask = async (req, res) => {
 
     if (getDataListTask) {
       if (workNew.length === 0) {
-        const pullWork = listModel.pullWork(
+        const pullWork = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.lists
         );
@@ -239,8 +246,8 @@ let updataListTask = async (req, res) => {
         // let Array = respectiveArray(workNew, getDataListTask.lists);
         let differentArrayN = differentArrayNew(workNew, getDataListTask.lists);
         let differentArrayO = differentArrayOld(workNew, getDataListTask.lists);
-        console.log(workNew);
-        console.log(differentArrayN);
+        //console.log(differentArrayO);
+        //console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
           console.log("OOO");
           let Array = differentArrayO.map((e) => {
@@ -263,7 +270,7 @@ let updataListTask = async (req, res) => {
 
       //doing
       if (doingNew.length === 0) {
-        const pullDoing = listModel.pullWork(
+        const pullDoing = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.doing
         );
@@ -277,8 +284,7 @@ let updataListTask = async (req, res) => {
           doingNew,
           getDataListTask.doing
         );
-        debug("hihi");
-        console.log(differentArrayN);
+        //console.log(differentArrayO);
         //console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
           console.log("OOO");
@@ -302,7 +308,7 @@ let updataListTask = async (req, res) => {
 
       //done
       if (doneNew.length === 0) {
-        const pullDone = listModel.pullWork(
+        const pullDone = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.done
         );
@@ -331,6 +337,14 @@ let updataListTask = async (req, res) => {
           });
         }
       }
+    }
+    if (doneNew.length !== 0 && workNew.length === 0 && doingNew.length === 0) {
+      console.log(req.body.data.idList);
+      await taskModel.updateStatusListTask(req.body.data.idList, true);
+
+      return res.status(200).json({ message: "donelist" });
+    } else {
+      await taskModel.updateStatusListTask(req.body.data.idList, false);
     }
     return res.status(200).json({ message: "dones" });
   } catch (error) {

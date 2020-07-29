@@ -65,6 +65,12 @@ taskSchema.statics = {
       .select({ list: { $elemMatch: { _id: idList } } })
       .exec();
   },
+  updateStatusListTask(id, bl) {
+    return this.findOneAndUpdate(
+      { "list._id": id },
+      { $set: { "list.$.status": bl } }
+    ).exec();
+  },
 };
 
 module.exports = mongoose.model("Task", taskSchema);
