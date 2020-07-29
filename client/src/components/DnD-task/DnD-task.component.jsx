@@ -170,9 +170,11 @@ class DnDTaskComponent extends Component {
     event.preventDefault();
     const length = this.state.data.length;
     console.log(this.state.data[length - 1]);
+    if (length === 0) return;
     const work = [];
     const doing = [];
     const done = [];
+
     this.state.data[length - 1].forEach(async (e) => {
       if (e.status === "doing") {
         await doing.push(e);
@@ -191,7 +193,6 @@ class DnDTaskComponent extends Component {
       doing: doing,
       done: done,
     };
-
     sendData(this.props.data.accessToken, data)
       .then((res) => {
         console.log("done");
