@@ -217,7 +217,7 @@ let differentArrayOld = (ArrayNew, ArrayOld) => {
 
 let updataListTask = async (req, res) => {
   try {
-    // console.log(req.body);
+    console.log(req.body);
     let workNew = req.body.data.work;
     let doingNew = req.body.data.doing;
     let doneNew = req.body.data.done;
@@ -226,7 +226,7 @@ let updataListTask = async (req, res) => {
 
     if (getDataListTask) {
       if (workNew.length === 0) {
-        const pullWork = listModel.pullWork(
+        const pullWork = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.lists
         );
@@ -258,7 +258,7 @@ let updataListTask = async (req, res) => {
 
       //doing
       if (doingNew.length === 0) {
-        const pullDoing = listModel.pullWork(
+        const pullDoing = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.doing
         );
@@ -266,11 +266,11 @@ let updataListTask = async (req, res) => {
         // let Array = respectiveArray(workNew, getDataListTask.lists);
         let differentArrayN = differentArrayNew(
           doingNew,
-          getDataListTask.lists
+          getDataListTask.doing
         );
         let differentArrayO = differentArrayOld(
           doingNew,
-          getDataListTask.lists
+          getDataListTask.doing
         );
         //console.log(differentArrayO);
         //console.log(differentArrayN);
@@ -296,14 +296,14 @@ let updataListTask = async (req, res) => {
 
       //done
       if (doneNew.length === 0) {
-        const pullDone = listModel.pullWork(
+        const pullDone = await listModel.pullWork(
           req.body.data.idList,
           getDataListTask.done
         );
       } else {
         // let Array = respectiveArray(workNew, getDataListTask.lists);
-        let differentArrayN = differentArrayNew(doneNew, getDataListTask.lists);
-        let differentArrayO = differentArrayOld(doneNew, getDataListTask.lists);
+        let differentArrayN = differentArrayNew(doneNew, getDataListTask.done);
+        let differentArrayO = differentArrayOld(doneNew, getDataListTask.done);
         //console.log(differentArrayO);
         //console.log(differentArrayN);
         if (differentArrayO.length !== 0) {
