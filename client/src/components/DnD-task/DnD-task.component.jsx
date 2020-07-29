@@ -132,6 +132,7 @@ class DnDTaskComponent extends Component {
   //onHandleClickSubmit
   onHandleClickSubmit = (event) => {
     event.preventDefault();
+    console.log(this.state);
     const length = this.state.data.length;
     console.log(this.state.data[length - 1]);
     if (length === 0) return;
@@ -174,6 +175,7 @@ class DnDTaskComponent extends Component {
     };
     console.log("state: ");
     console.log(this.state);
+    console.log(this.props.data);
 
     this.props.data.lists.forEach((element) => {
       tasks[element.status].push(

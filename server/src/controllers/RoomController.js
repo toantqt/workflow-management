@@ -64,6 +64,24 @@ let findRoom = async (req, res) => {
     // console.log(inforMember);
 
     //get task in room
+
+    let checkTaskStatus = await taskModel.getTaskRoom(id);
+    checkTaskStatus.forEach(async (e) => {
+      if (e.list.length !== 0) {
+        let aw = e.list.filter((l) => {
+          return l.status === false;
+        });
+        //console.log(aw);
+        if (aw.length !== 0) {
+          console.log("false");
+          await taskModel.updateStatus(e._id, false);
+        } else {
+          console.log("true");
+          await taskModel.updateStatus(e._id, true);
+        }
+      }
+    });
+
     let getTaskRoom = await taskModel.getTaskRoom(id);
     //console.log("get task room : " + getTaskRoom);
 
@@ -78,9 +96,9 @@ let findRoom = async (req, res) => {
 
     let inforTask = await Promise.all(getAuthor);
     //console.log("aa " + inforTask);
-    inforTask.forEach((e) => {
-      console.log("infor author  " + e);
-    });
+    // inforTask.forEach((e) => {
+    //   console.log("infor author  " + e);
+    // });
 
     //
     return res.status(200).json({

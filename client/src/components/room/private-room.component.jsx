@@ -76,6 +76,7 @@ class PrivateRoomComponent extends Component {
             }
           });
         });
+        console.log(this.state.tasks);
       })
       .catch((error) => {
         console.log(error);
