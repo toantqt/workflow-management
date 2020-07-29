@@ -100,8 +100,9 @@ class ListTaskComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        hello {this.props.id}
-        <DnDTaskComponent data={this.state} />
+        <div style={{ marginTop: "60px" }}>
+          <DnDTaskComponent data={this.state} />
+        </div>
       </div>
     );
   }

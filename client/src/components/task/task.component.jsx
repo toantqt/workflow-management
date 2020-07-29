@@ -176,7 +176,7 @@ class TaskComponent extends Component {
       <div className="col-9 mt-4 ">
         <i className="fas fa-list-ol fa-2x"></i> &nbsp;
         <span style={{ fontSize: "30px" }}>Task Assignment</span>
-        <ul className="nav nav-tabs mt-3 mb-3" role="tablist">
+        <ul className="nav nav-tabs mt-3 " role="tablist">
           <li className="nav-item active">
             <a
               className="nav-link "
