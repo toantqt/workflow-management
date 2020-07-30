@@ -69,6 +69,44 @@ class BoardTaskComponent extends Component {
                   </div>
                 </div>
               </Link>
+              <div
+                class="modal fade"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="mySmallModalLabel"
+                aria-hidden="true"
+                id={this.state.listId}
+              >
+                <div class="modal-dialog ">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="myModalLabel">
+                        Are you sure to delete "{this.state.name}"
+                      </h4>
+                    </div>
+                    <div class="modal-footer">
+                      <button
+                        type="button"
+                        class="btn btn-default"
+                        id="modal-btn-si"
+                        onClick={(event) =>
+                          this.handleClickDeleteSuccess(event, e)
+                        }
+                      >
+                        Yes
+                      </button>
+                      <button
+                        type="button"
+                        class="btn btn-primary"
+                        id="modal-btn-no"
+                        data-dismiss="modal"
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           );
         } else {

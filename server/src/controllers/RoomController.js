@@ -45,6 +45,21 @@ let getRoom = async (req, res) => {
   }
 };
 
+let getRoomUser = async (req, res) => {
+  try {
+    const idUser = req.body.idUser;
+    const roomUser = await roomModel.getRoomUser(idUser);
+    const dataRoom = [];
+    roomUser.forEach(async (e) => {
+      return await dataRoom.push(e);
+    });
+    console.log(dataRoom);
+    return res.status(200).json({ data: dataRoom });
+  } catch (error) {
+    return res.status(500).json({ message: "get room user failed" });
+  }
+};
+
 let findRoom = async (req, res) => {
   try {
     const id = req.params.id;
@@ -165,6 +180,7 @@ let removeUserRoom = async (req, res) => {
 module.exports = {
   addRoom: addRoom,
   getRoom: getRoom,
+  getRoomUser: getRoomUser,
   findRoom: findRoom,
   findUserAddRoom: findUserAddRoom,
   addUserRoom: addUserRoom,

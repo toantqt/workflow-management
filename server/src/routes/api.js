@@ -23,6 +23,7 @@ let initAPIs = (app) => {
   //rooom
   router.post("/add-room", RoomController.addRoom);
   router.get("/getroom", RoomController.getRoom);
+  router.post("/get-room-user", RoomController.getRoomUser);
   router.get("/room/:id", RoomController.findRoom);
 
   //add task
@@ -70,6 +71,9 @@ let initAPIs = (app) => {
   router.post("/delete-list", ListController.deleteList);
 
   router.post("/remove-user-room", RoomController.removeUserRoom);
+
+  //get board user
+  router.post("/get-board-user", TaskController.getBoardUser);
 
   return app.use("/", router);
 };

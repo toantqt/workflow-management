@@ -21,7 +21,9 @@ roomSchema.statics = {
   getRoom() {
     return this.find({}).exec();
   },
-
+  getRoomUser(idUser) {
+    return this.find({ members: { $elemMatch: { userId: idUser } } }).exec();
+  },
   //find room and get data
   getDataRoom(id) {
     return this.findOne({ _id: id }).exec();

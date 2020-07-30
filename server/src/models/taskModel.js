@@ -80,9 +80,19 @@ taskSchema.statics = {
   },
 
   getDataList(idList) {
-    return this.find({ list: { $elemMatch: { _id: idList } } })
-    .exec();
+    return this.find({ list: { $elemMatch: { _id: idList } } }).exec();
   },
+
+  //get list of user in task
+  getBoardUser(data) {
+    return this.find({
+      $and: [
+        { roomId: data.roomId },
+        { list: { $elemMatch: { idStaff: data.idUser } } },
+      ],
+    }).exec();
+  },
+
   updateStatusListTask(id, bl) {
     return this.findOneAndUpdate(
       { "list._id": id },

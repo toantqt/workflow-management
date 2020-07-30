@@ -110,10 +110,25 @@ const getDataList = async (req, res) => {
   }
 };
 
+//get board of user show in home
+const getBoardUser = async (req, res) => {
+  try {
+    const data = {
+      idUser: req.body.idUser,
+      roomId: req.body.roomId,
+    };
+    const listBoard = await taskModel.getBoardUser(data);
+    return res.status(200).json(listBoard);
+  } catch (error) {
+    return res.status(500).json({ message: "get board user failed" });
+  }
+};
+
 module.exports = {
   addTask: addTask,
   updateTask: updateTask,
   addListTask: addListTask,
   getListTask: getListTask,
   getDataList: getDataList,
+  getBoardUser: getBoardUser,
 };
