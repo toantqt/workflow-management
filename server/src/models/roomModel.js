@@ -39,5 +39,16 @@ roomSchema.statics = {
       },
     }).exec();
   },
+  checkAdmin(isadmin, id) {
+    return this.findOne({ $and: [{ _id: id }, { ownerId: isadmin }] }).exec();
+  },
+  removeUser(id, idUserRm) {
+    return this.findByIdAndUpdate(
+      { _id: id },
+      {
+        $pull: { members: { userId: idUserRm } },
+      }
+    ).exec();
+  },
 };
 module.exports = mongoose.model("Room", roomSchema);
