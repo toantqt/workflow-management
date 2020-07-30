@@ -1,6 +1,52 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { rmeUserInRoom } from "./roomsidebarFunction";
+// import { Link } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 class RoomSidebarComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      accessToken: "",
+      idUserOnl: "",
+      idUserRm: "",
+    };
+  }
+  componentDidMount() {
+    const token = localStorage.userToken;
+    const tokenJSON = JSON.parse(localStorage.userToken);
+    const accessToken = tokenJSON.accessToken;
+    const decoded = jwt_decode(token);
+    this.setState({
+      idUserOnl: decoded.data._id,
+      accessToken: accessToken,
+    });
+  }
+  changeValueRemove = (e) => {
+    e.preventDefault();
+    //console.log(e.target);
+    this.setState({
+      idUserRm: e.target.id,
+    });
+  };
+  removeUserInRoom = (e) => {
+    e.preventDefault();
+    //console.log(this.state);
+    if (this.state.idUserOnl === this.props.data.ownerId) {
+      //console.log(e.target);
+      let inforRoom = {
+        idUserOnl: this.state.idUserOnl,
+        idRoom: this.props.data.roomId,
+        idUserRm: this.state.idUserRm,
+      };
+      // console.log(inforRoom);
+      rmeUserInRoom(this.state.accessToken, inforRoom).then((res) => {
+        console.log("done");
+      });
+    } else {
+      console.log("ban la nguoi dung bt thoi");
+    }
+  };
+
   render() {
     const listMember = this.props.data.members.map((member, index) => {
       if (member.e._id === this.props.data.ownerId) {
@@ -15,7 +61,14 @@ class RoomSidebarComponent extends Component {
       } else {
         return (
           <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-            <a className="nav-link">
+            <a
+              className="nav-link"
+              id={member.e._id}
+              // onClick={this.removeUserInRoom}
+              data-target="#removeuser"
+              data-toggle="modal"
+              onClick={this.changeValueRemove}
+            >
               <i className="fa fa-pencil" aria-hidden="true"></i>
               {member.e.username}
             </a>
@@ -23,8 +76,45 @@ class RoomSidebarComponent extends Component {
         );
       }
     });
+
     return (
       <div className="col-3">
+        <div
+          class="modal fade"
+          id="removeuser"
+          // tabindex="-1"
+          // role="dialog"
+          // aria-labelledby="mySmallModalLabel"
+          // aria-hidden="true"
+        >
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">Are you sure to delete "abc"</h4>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  // id={target.id}
+                  onClick={this.removeUserInRoom}
+                  data-dismiss="modal"
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="modal-btn-no"
+                  data-dismiss="modal"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div
           id="sidebar-main"
           className="sidebar sidebar-default sidebar-separate sidebar-fixed"

@@ -65,6 +65,7 @@ let initAPIs = (app) => {
   router.post("/add-user-room", RoomController.addUserRoom);
   // save change list task
   router.post("/update-list-task", ListController.updataListTask);
+  router.post("/remove-user-room", RoomController.removeUserRoom);
   return app.use("/", router);
 };
 

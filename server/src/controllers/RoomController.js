@@ -144,10 +144,29 @@ let addUserRoom = async (req, res) => {
   }
   return res.status(200).json({ message: "success" });
 };
+let removeUserRoom = async (req, res) => {
+  try {
+    console.log(req.body);
+    let checkAdminRoom = await roomModel.checkAdmin(
+      req.body.userOnl,
+      req.body._id
+    );
+    if (checkAdminRoom) {
+      await roomModel.removeUser(req.body._id, req.body.idUserRm);
+      return res.status(200).json({ message: "ok ban oi" });
+    }
+    // return res.status(200).json({ message: "ok ban oi" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi phan remove user room",
+    });
+  }
+};
 module.exports = {
   addRoom: addRoom,
   getRoom: getRoom,
   findRoom: findRoom,
   findUserAddRoom: findUserAddRoom,
   addUserRoom: addUserRoom,
+  removeUserRoom: removeUserRoom,
 };
