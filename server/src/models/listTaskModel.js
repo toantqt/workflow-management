@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 const listTaskSchema = new Schema(
   {
     listId: String,
+    idStaff: String,
     image: { type: String, default: "" },
     lists: [
       {
@@ -45,6 +46,10 @@ listTaskSchema.statics = {
   //get data
   getWork(id) {
     return this.findOne({ listId: id }).exec();
+  },
+
+  deleteList(listId) {
+    return this.findOneAndDelete({ listId: listId }).exec();
   },
 
   //add work to list []

@@ -97,10 +97,12 @@ const getListTask = async (req, res) => {
 const getDataList = async (req, res) => {
   try {
     const idList = req.params.idList;
+    console.log("idList " + idList);
     //console.log(idList)
     //get data in list (task model)
     //and get list work in (listTaskmodel)
     const data = await taskModel.getDataList(idList);
+    console.log(data);
     const listWork = await listModel.getWork(idList);
     return res.status(200).json({ data: data, listWork: listWork });
   } catch (error) {

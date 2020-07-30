@@ -40,6 +40,17 @@ taskSchema.statics = {
       { safe: true, upsert: true, new: true }
     ).exec();
   },
+  deleteList(idTask, listId) {
+    return this.findByIdAndUpdate(
+      { _id: idTask },
+      {
+        $pull: {
+          list: { _id: listId },
+        },
+      },
+      { safe: true, upsert: true, new: true }
+    ).exec();
+  },
   //show task in room
   getTaskRoom(id) {
     return this.find({ roomId: id }).exec();
@@ -69,9 +80,8 @@ taskSchema.statics = {
   },
 
   getDataList(idList) {
-    return this.findOne({})
-      .select({ list: { $elemMatch: { _id: idList } } })
-      .exec();
+    return this.find({ list: { $elemMatch: { _id: idList } } })
+    .exec();
   },
   updateStatusListTask(id, bl) {
     return this.findOneAndUpdate(

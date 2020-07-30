@@ -22,6 +22,7 @@ class ListTaskComponent extends Component {
     this.state = {
       username: "",
       idList: this.props.id,
+
       listWork: [],
       work: [],
       doing: [],
@@ -37,6 +38,7 @@ class ListTaskComponent extends Component {
     const decoded = jwt_decode(token);
     this.setState({
       username: decoded.data.username,
+      idUser: decoded.data._id,
       accessToken: accessToken,
       dataList: [],
       test: "test",
@@ -46,18 +48,31 @@ class ListTaskComponent extends Component {
     getDataList(accessToken, this.state.idList)
       .then(async (res) => {
         //if list work null then create work
+        console.log(res.data);
+        this.setState({ idStaff: res.data[0].idStaff });
+        // if liswork null
         if (res.listWork === null) {
-          await createWork(accessToken, this.state.idList).then((res) => {
+          // set data
+          const data = {
+            idList: this.state.idList,
+            idStaff: res.data[0].idStaff,
+          };
+          console.log(data);
+          await createWork(accessToken, data).then((res) => {
             console.log("res" + res);
             this.setState({ listWork: [...this.state.listWork, res] });
           });
           console.log(this.state.listWork);
-          const list = res.data.list;
+          const list = res.data;
           list.forEach((e) => {
-            this.setState({ dataList: [...this.state.dataList, e] });
+            this.setState({
+              dataList: [...this.state.dataList, e],
+            });
           });
         } else {
-          const list = res.data.list;
+          //set state idStaff
+          this.setState({ idStaff: res.data[0].idStaff });
+          const list = res.data;
           list.forEach(async (e) => {
             await this.setState({ dataList: [...this.state.dataList, e] });
           });

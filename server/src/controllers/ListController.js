@@ -4,7 +4,11 @@ const debug = console.log.bind(console);
 const lodash = require("lodash");
 const createWork = async (req, res) => {
   try {
-    const data = { listId: req.body.listId };
+    const data = {
+      listId: req.body.data.idList,
+      idStaff: req.body.data.idStaff,
+    };
+    console.log(data);
 
     let saveWork = await listModel.createWork(data);
     return res.status(200).json(saveWork);
@@ -353,6 +357,22 @@ let updataListTask = async (req, res) => {
     return res.status(500).json({ message: "update list failed " });
   }
 };
+
+const deleteList = async (req, res) => {
+  try {
+    const listId = req.body.id.listId;
+    const idTask = req.body.id.idTask;
+    console.log("listId " + listId);
+    console.log("idTask " + idTask);
+    debug("aaaa");
+    await listModel.deleteList(listId);
+
+    await taskModel.deleteList(idTask, listId);
+    return res.status(200).json(listModel);
+  } catch (error) {
+    return res.status(500).json({ message: "delete list failed " });
+  }
+};
 module.exports = {
   createWork: createWork,
   addWork: addWork,
@@ -366,4 +386,5 @@ module.exports = {
   doneToList: doneToList,
 
   updataListTask: updataListTask,
+  deleteList: deleteList,
 };

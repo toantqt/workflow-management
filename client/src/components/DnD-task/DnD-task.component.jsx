@@ -12,7 +12,6 @@ class DnDTaskComponent extends Component {
     super(props);
     this.state = {
       idList: this.props.data.idList,
-
       data: [],
       inputWork: [],
       inputDoing: [],
@@ -173,10 +172,9 @@ class DnDTaskComponent extends Component {
       doing: [],
       done: [],
     };
-    console.log("state: ");
-    console.log(this.state);
-    console.log(this.props.data);
 
+    console.log(this.props.data.idStaff);
+    console.log(this.props.data.idUser);
     this.props.data.lists.forEach((element) => {
       tasks[element.status].push(
         <div
@@ -262,85 +260,126 @@ class DnDTaskComponent extends Component {
     });
 
     console.log(tasks);
-    return (
-      <div>
-        <div className="row" style={{ margin: "0 auto " }}>
-          <div
-            className="panel panel-default col-3"
-            style={{ marginLeft: "160px" }}
-            onDragOver={(e) => this.onDragOver(e)}
-            onDrop={(e) => {
-              this.onDrop(e, "work");
-            }}
-          >
-            <div className="panel-heading">
-              <span>Work</span>
-              <i
-                class="fas fa-pen"
-                style={{ float: "right" }}
-                onClick={() => this.handleClick("work")}
-              ></i>
-            </div>
-            {tasks.work}
+    if (this.props.data.idStaff === this.props.data.idUser) {
+      return (
+        <div>
+          <div className="row" style={{ margin: "0 auto " }}>
+            <div
+              className="panel panel-default col-3"
+              style={{ marginLeft: "160px" }}
+              onDragOver={(e) => this.onDragOver(e)}
+              onDrop={(e) => {
+                this.onDrop(e, "work");
+              }}
+            >
+              <div className="panel-heading">
+                <span>Work</span>
+                <i
+                  class="fas fa-pen"
+                  style={{ float: "right" }}
+                  onClick={() => this.handleClick("work")}
+                ></i>
+              </div>
+              {tasks.work}
 
-            {inputWork}
-          </div>
-          <div
-            className="panel panel-default col-3 ml-5"
-            onDragOver={(e) => this.onDragOver(e)}
-            onDrop={(e) => {
-              this.onDrop(e, "doing");
-            }}
-          >
-            <div className="panel-heading">
-              <span>Doing</span>
-              <i
-                class="fas fa-pen"
-                style={{ float: "right" }}
-                onClick={() => this.handleClick("doing")}
-              ></i>
+              {inputWork}
             </div>
-            {tasks.doing}
-            {inputDoing}
-          </div>
-          <div
-            className="panel panel-default col-3 ml-5"
-            onDragOver={(e) => this.onDragOver(e)}
-            onDrop={(e) => {
-              this.onDrop(e, "done");
-            }}
-          >
-            <div className="panel-heading">
-              <span>Done</span>
-              <i
-                class="fas fa-pen"
-                style={{ float: "right" }}
-                onClick={() => this.handleClick("done")}
-              ></i>
+            <div
+              className="panel panel-default col-3 ml-5"
+              onDragOver={(e) => this.onDragOver(e)}
+              onDrop={(e) => {
+                this.onDrop(e, "doing");
+              }}
+            >
+              <div className="panel-heading">
+                <span>Doing</span>
+                <i
+                  class="fas fa-pen"
+                  style={{ float: "right" }}
+                  onClick={() => this.handleClick("doing")}
+                ></i>
+              </div>
+              {tasks.doing}
+              {inputDoing}
             </div>
-            {tasks.done}
-            {inputDone}
+            <div
+              className="panel panel-default col-3 ml-5"
+              onDragOver={(e) => this.onDragOver(e)}
+              onDrop={(e) => {
+                this.onDrop(e, "done");
+              }}
+            >
+              <div className="panel-heading">
+                <span>Done</span>
+                <i
+                  class="fas fa-pen"
+                  style={{ float: "right" }}
+                  onClick={() => this.handleClick("done")}
+                ></i>
+              </div>
+              {tasks.done}
+              {inputDone}
+            </div>
           </div>
-        </div>
 
-        {/* <button
+          {/* <button
           type="button"
           className="btn btn-primary btn-list"
           onClick={this.handleSave}
         >
           save
         </button> */}
-        <div style={{ float: "right", marginRight: "30px" }}>
-          <button
-            type="button"
-            className="btn btn-primary"
-            onClick={this.onHandleClickSubmit}
-          >
-            Save Work
-          </button>
+          <div style={{ float: "right", marginRight: "30px" }}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={this.onHandleClickSubmit}
+            >
+              Save Work
+            </button>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <div className="row" style={{ margin: "0 auto " }}>
+            <div
+              className="panel panel-default col-3"
+              style={{ marginLeft: "160px" }}
+            >
+              <div className="panel-heading">
+                <span>Work</span>
+                <i class="fas fa-pen" style={{ float: "right" }}></i>
+              </div>
+              {tasks.work}
+            </div>
+            <div className="panel panel-default col-3 ml-5">
+              <div className="panel-heading">
+                <span>Doing</span>
+                <i class="fas fa-pen" style={{ float: "right" }}></i>
+              </div>
+              {tasks.doing}
+            </div>
+            <div className="panel panel-default col-3 ml-5">
+              <div className="panel-heading">
+                <span>Done</span>
+                <i class="fas fa-pen" style={{ float: "right" }}></i>
+              </div>
+              {tasks.done}
+            </div>
+          </div>
+
+          {/* <button
+            type="button"
+            className="btn btn-primary btn-list"
+            onClick={this.handleSave}
+          >
+            save
+          </button> */}
+        </div>
+      );
+    }
   }
 }
 

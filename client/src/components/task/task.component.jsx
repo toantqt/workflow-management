@@ -116,6 +116,7 @@ class TaskComponent extends Component {
         //console.log(this.state);
         getList(this.props.accessToken, this.state.idTask).then(async (res) => {
           const arrList = res.list;
+          console.log(arrList);
           // await this.setState({
           //   idStaff: residStaff,
           // });
