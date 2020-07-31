@@ -209,7 +209,7 @@ class PrivateRoomComponent extends Component {
     // let listMember = this.state.members.map((element, index) => {
     //   return <li key={index}>{element.e.username}</li>;
     // });
-
+    console.log(this.state);
     let showuser = this.state.users.map((e, index) => {
       return this.state.showResults ? (
         <li key={index}>

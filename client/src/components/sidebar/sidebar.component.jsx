@@ -12,6 +12,18 @@ class SidebarComponent extends Component {
     return false;
   };
   render() {
+    //list room user
+    const listRoomUser = this.props.data.roomUser.map((room, index) => {
+      return (
+        <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+          <Link className="nav-link" to={`/room/${room.id}`}>
+            <i className="fa fa-pencil" aria-hidden="true"></i>
+            {room.name}
+          </Link>
+        </li>
+      );
+    });
+
     //list room
     const listRoom = this.props.data.room.map((room, index) => {
       return (
@@ -23,6 +35,7 @@ class SidebarComponent extends Component {
         </li>
       );
     });
+
     if (this.checkRole()) {
       return (
         <div className="col-3">
@@ -116,7 +129,7 @@ class SidebarComponent extends Component {
                         List Room
                       </a>
                       <ul id="other-fruits" className="flex-column collapse">
-                        {listRoom}
+                        {listRoomUser}
                       </ul>
                     </li>
                   </ul>
