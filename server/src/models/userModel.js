@@ -83,6 +83,9 @@ userSchema.statics = {
       ],
     });
   },
+  getAllUser() {
+    return this.find({}).exec();
+  },
 };
 
 //compare password

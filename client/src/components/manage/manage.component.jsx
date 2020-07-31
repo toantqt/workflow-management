@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import AppBarComponent from "../navbar/appBar.component";
 import jwt_decode from "jwt-decode";
+
+import SidebarManageComponent from "../sidebar-manager/sidebar-manage.component";
+
 class ManageComponent extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +18,7 @@ class ManageComponent extends Component {
     const decoded = jwt_decode(token);
     this.setState({
       username: decoded.data.username,
+      accessToken: accessToken,
     });
   }
 
@@ -22,7 +26,8 @@ class ManageComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-        <h1>hello</h1>
+
+        <SidebarManageComponent />
       </div>
     );
   }

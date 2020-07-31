@@ -14,6 +14,7 @@ let initAPIs = (app) => {
   router.use(AuthMiddleWare.isAuth);
   //list Protect APIs:
   router.get("/finduser/:find", UserController.findUser);
+  router.get("/get-all-user", UserController.getAllUser);
   router.get("/update-profile/:id", AuthController.getProfile);
   router.post("/update-profile", AuthController.updateProfile);
   router.post("/update-password", AuthController.updatePassword);
