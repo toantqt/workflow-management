@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { rmeUserInRoom } from "./roomsidebarFunction";
 // import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
+import { Image } from "cloudinary-react";
 class RoomSidebarComponent extends Component {
   constructor(props) {
     super(props);
@@ -9,6 +10,11 @@ class RoomSidebarComponent extends Component {
       accessToken: "",
       idUserOnl: "",
       idUserRm: "",
+      username: "",
+      fullname: "",
+      profile: "",
+      email: "",
+      role: "",
     };
     // console.log(this.props.data);
   }
@@ -52,7 +58,24 @@ class RoomSidebarComponent extends Component {
       console.log("ban la nguoi dung bt thoi");
     }
   };
-
+  showProfile = async (event) => {
+    event.preventDefault();
+    // console.log(this.props.data);
+    this.props.data.members.forEach(async (element) => {
+      if (event.target.id === element.e._id) {
+        console.log(element.e);
+        console.log(element.e.profile);
+        await this.setState({
+          username: element.e.username,
+          fullname: element.e.fullName,
+          profile: element.e.profile,
+          email: element.e.email,
+          role: element.e.role,
+        });
+      }
+    });
+    console.log(this.state);
+  };
   render() {
     //console.log("rneder " + this.props.data.ownerId);
     const adduser = [1].map((e) => {
@@ -74,26 +97,75 @@ class RoomSidebarComponent extends Component {
       if (member.e._id === this.props.data.ownerId) {
         return (
           <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-            <a className="nav-link">
-              <i className="fas fa-user-shield"></i>
-              {member.e.username}
-            </a>
+            <div class="dropright">
+              <a className="nav-link" data-toggle="dropdown">
+                <i
+                  className="fas fa-user-shield"
+                  style={{ paddingRight: "10px" }}
+                ></i>
+                {member.e.username}
+              </a>
+              <ul class="dropdown-menu" style={{ height: "30px" }}>
+                <li>
+                  <a
+                    href="#"
+                    className="nav-link"
+                    data-toggle="modal"
+                    // data-target={"#" + member.e._id}
+                    data-target="#showProfile"
+                    id={member.e._id}
+                    onClick={this.showProfile}
+                  >
+                    <i class="fa fa-info"></i>
+                    Xem Profile
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
         );
       } else {
         return (
           <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-            <a
-              className="nav-link"
-              id={member.e._id}
-              // onClick={this.removeUserInRoom}
-              data-target="#removeuser"
-              data-toggle="modal"
-              onClick={this.changeValueRemove}
-            >
-              <i className="fa fa-pencil" aria-hidden="true"></i>
-              {member.e.username}
-            </a>
+            <div className="dropright">
+              <a className="nav-link" data-toggle="dropdown">
+                <i
+                  className="fa fa-pencil"
+                  style={{ paddingRight: "10px" }}
+                ></i>
+                <span>&nbsp;</span>
+                {member.e.username}
+              </a>
+              <ul className="dropdown-menu" style={{ height: "60px" }}>
+                <li>
+                  <a
+                    href="#"
+                    className="nav-link"
+                    data-toggle="modal"
+                    // data-target={"#" + member.e._id}
+                    data-target="#showProfile"
+                    id={member.e._id}
+                    onClick={this.showProfile}
+                  >
+                    <i class="fa fa-info"></i>
+                    Xem Profile
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="#"
+                    className="nav-link"
+                    id={member.e._id}
+                    data-target="#removeuser"
+                    data-toggle="modal"
+                    onClick={this.changeValueRemove}
+                  >
+                    <i class="fa fa-minus"></i>
+                    Xoa
+                  </a>
+                </li>
+              </ul>
+            </div>
           </li>
         );
       }
@@ -163,7 +235,7 @@ class RoomSidebarComponent extends Component {
                       <i className="fas fa-layer-group" aria-hidden="true"></i>
                       List Member
                     </a>
-                    <ul id="other-fruits" className="flex-column collapse">
+                    <ul id="other-fruits" className="flex-column collapse ">
                       {listMember}
                     </ul>
                   </li>
@@ -203,6 +275,89 @@ class RoomSidebarComponent extends Component {
             </div>
           </div>
         </div>
+
+        {/* {this.state.showModal ? ( */}
+        <div
+          class="modal fade"
+          // id={this.state.idModal}
+          id="showProfile"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style={{ height: "400px" }}>
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Thông tin nhân viên
+                </h5>
+
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <div className="row">
+                  <div class="col-4">
+                    <Image
+                      id="avatar"
+                      cloudName="phathuynh"
+                      publicId={this.state.profile.avatar}
+                      height="150px"
+                      width="150px"
+                      borderRadius="100%"
+                    />
+                  </div>
+                  <div class="col-8">
+                    <h3>{this.state.role}</h3>
+                    <table class="table">
+                      <tr>
+                        <th>Ten</th>
+                        <td>{this.state.username}</td>
+                      </tr>
+                      <tr>
+                        <th>Ho ten day du</th>
+                        <td>{this.state.fullname}</td>
+                      </tr>
+                      <tr>
+                        <th>giới tính</th>
+                        <td>{this.state.profile.gender}</td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+
+                <h3>Thong tin lien lac</h3>
+                <table class="table">
+                  <tr>
+                    <th>Email</th>
+                    <td>{this.state.email}</td>
+                  </tr>
+                  <tr>
+                    <th>địa chỉ nhà</th>
+                    <td>{this.state.profile.address}</td>
+                  </tr>
+                </table>
+              </div>
+              {/* <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div> */}
+            </div>
+          </div>
+        </div>
+        {/* ) : null} */}
       </div>
     );
   }
