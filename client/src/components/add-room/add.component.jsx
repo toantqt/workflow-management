@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../sidebar/sidebar.component.css";
+import { Link } from "react-router-dom";
 class AddComponent extends Component {
   render() {
     return (
@@ -18,6 +19,49 @@ class AddComponent extends Component {
                 <i className="fas fa-plus" aria-hidden="true"></i>
                 Add Room
               </a>
+            </li>
+          </ul>
+        </div>
+        <div className="category-content">
+          <ul id="fruits-nav" className="nav flex-column">
+            <li className="nav-item">
+              <a
+                href="#manage"
+                className="nav-link"
+                data-toggle="collapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="manage"
+              >
+                <i class="fas fa-user-cog" aria-hidden="true"></i>
+                Manage
+              </a>
+              <ul id="manage" className="flex-column collapse">
+                <li className="nav-item" style={{ marginTop: "15px" }}>
+                  <Link className="nav-link" to={"/manage"}>
+                    <i class="far fa-address-card" aria-hidden="true"></i>
+                    Employee Profile
+                  </Link>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+        <div className="category-content">
+          <ul id="fruits-nav" className="nav flex-column">
+            <li className="nav-item">
+              <a
+                href="#timekeeping"
+                className="nav-link"
+                data-toggle="collapse"
+                role="button"
+                aria-expanded="false"
+                aria-controls="timekeeping"
+              >
+                <i class="far fa-calendar-check" aria-hidden="true"></i>
+                Timekeeping
+              </a>
+              <ul id="timekeeping" className="flex-column collapse"></ul>
             </li>
           </ul>
         </div>

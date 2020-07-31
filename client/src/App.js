@@ -9,6 +9,9 @@ import ButtonAppBar from "./components/navbar/appBar.component";
 import { isLoggedIn } from "./components/auth.jsx";
 import PrivateRoomComponent from "./components/room/private-room.component";
 import ListTaskComponent from "./components/list-task/list-task.component";
+import ManageComponent from "./components/manage/manage.component";
+import ProfileStaffComponent from "./components/profile-staff/profile-staff.component";
+
 //import { Redirect } from "react-router";
 
 function App() {
@@ -62,6 +65,20 @@ function App() {
             ) : (
               <Redirect to="/login" />
             )
+          }
+        ></Route>
+
+        <Route
+          path="/manage/"
+          render={() =>
+            isLoggedIn() ? <ManageComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+
+        <Route
+          path="/manage/profile"
+          render={() =>
+            isLoggedIn() ? <ProfileStaffComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>

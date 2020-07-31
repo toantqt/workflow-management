@@ -1,9 +1,13 @@
+// export const isLoggedIn = () => {
+//   const token = localStorage.getItem("userToken");
+//   if (token !== null) {
+//     return true;
+//   }
+//   return false;
+// };
 export const isLoggedIn = () => {
   const token = localStorage.getItem("userToken");
-  if (token !== null) {
-    return true;
-  }
-  return false;
+  return !!token;
 };
 // import React, { Component } from "react";
 
