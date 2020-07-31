@@ -101,19 +101,11 @@ class RoomSidebarComponent extends Component {
 
     return (
       <div className="col-3">
-        <div
-          class="modal fade"
-          id="removeuser"
-
-          // tabindex="-1"
-          // role="dialog"
-          // aria-labelledby="mySmallModalLabel"
-          // aria-hidden="true"
-        >
+        <div class="modal fade" id="removeuser">
           <div class="modal-dialog ">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">Are you sure to delete "abc"</h4>
+                <h4 class="modal-title">Are you sure to delete user</h4>
               </div>
               <div class="modal-footer">
                 <button
