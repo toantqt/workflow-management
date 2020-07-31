@@ -10,19 +10,24 @@ class RoomSidebarComponent extends Component {
       idUserOnl: "",
       idUserRm: "",
     };
+    // console.log(this.props.data);
   }
-  componentDidMount() {
+  componentDidMount = async () => {
     const token = localStorage.userToken;
     const tokenJSON = JSON.parse(localStorage.userToken);
     const accessToken = tokenJSON.accessToken;
     const decoded = jwt_decode(token);
-    this.setState({
+
+    await this.setState({
       idUserOnl: decoded.data._id,
       accessToken: accessToken,
     });
-  }
-  changeValueRemove = (e) => {
+    //console.log(this.state);
+  };
+
+  changeValueRemove = async (e) => {
     e.preventDefault();
+
     //console.log(e.target);
     this.setState({
       idUserRm: e.target.id,
@@ -30,7 +35,7 @@ class RoomSidebarComponent extends Component {
   };
   removeUserInRoom = (e) => {
     e.preventDefault();
-    //console.log(this.state);
+    //console.log(this.props.data);
     if (this.state.idUserOnl === this.props.data.ownerId) {
       //console.log(e.target);
       let inforRoom = {
@@ -43,11 +48,28 @@ class RoomSidebarComponent extends Component {
         console.log("done");
       });
     } else {
+      alert("ban khong phai addmin");
       console.log("ban la nguoi dung bt thoi");
     }
   };
 
   render() {
+    //console.log("rneder " + this.props.data.ownerId);
+    const adduser = [1].map((e) => {
+      return this.state.idUserOnl === this.props.data.ownerId ? (
+        <li
+          className="nav-item"
+          data-toggle="modal"
+          data-target="#addMemberModal"
+        >
+          <a href="#addroom" className="nav-link">
+            <i className="fas fa-plus" aria-hidden="true"></i>
+            Add User
+          </a>
+        </li>
+      ) : null;
+    });
+
     const listMember = this.props.data.members.map((member, index) => {
       if (member.e._id === this.props.data.ownerId) {
         return (
@@ -82,6 +104,7 @@ class RoomSidebarComponent extends Component {
         <div
           class="modal fade"
           id="removeuser"
+
           // tabindex="-1"
           // role="dialog"
           // aria-labelledby="mySmallModalLabel"
@@ -171,16 +194,18 @@ class RoomSidebarComponent extends Component {
                       Add Task
                     </a>
                   </li>
-                  <li
+                  {adduser}
+                  {/* <li
                     className="nav-item"
                     data-toggle="modal"
                     data-target="#addMemberModal"
+                    style={{ display: this.state.display }}
                   >
                     <a href="#addroom" className="nav-link">
                       <i className="fas fa-plus" aria-hidden="true"></i>
                       Add User
                     </a>
-                  </li>
+                  </li> */}
                 </ul>
               </div>
             </div>

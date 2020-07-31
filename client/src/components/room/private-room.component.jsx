@@ -244,7 +244,7 @@ class PrivateRoomComponent extends Component {
           </span>
         );
       });
-      console.log(this.state);
+      // console.log(this.state);
       return buffer;
     };
 
