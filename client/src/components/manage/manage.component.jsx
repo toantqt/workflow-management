@@ -26,8 +26,9 @@ class ManageComponent extends Component {
     return (
       <div>
         <AppBarComponent username={this.state.username} />
-
-        <SidebarManageComponent />
+        <div className="row" style={{ margin: "0 auto" }}>
+          <SidebarManageComponent />
+        </div>
       </div>
     );
   }

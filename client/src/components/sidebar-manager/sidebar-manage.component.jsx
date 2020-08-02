@@ -13,7 +13,21 @@ class SidebarManageComponent extends Component {
             <div className="sidebar-category sidebar-default">
               <div className="sidebar-user">
                 <div className="category-content">
-                  <h6 style={{ fontSize: "20px" }}>Employee Profile</h6>
+                  <Link
+                    to="/manage/overview"
+                    className="nav-link"
+                    style={{
+                      fontSize: "20px",
+                      marginTop: "10px",
+                      marginBottom: "10px",
+                      color: "inherit",
+                      fontFamily: "inherit",
+                      fontWeight: "500",
+                      lineHeight: "1.1",
+                    }}
+                  >
+                    Employee Profile
+                  </Link>
                 </div>
               </div>
             </div>
@@ -50,10 +64,10 @@ class SidebarManageComponent extends Component {
               <div className="category-content">
                 <ul id="sidebar-editable-nav" className="nav flex-column">
                   <li className="nav-item">
-                    <a href="/profile/room" className="nav-link">
+                    <Link to="/manage/room" className="nav-link">
                       <i class="fas fa-layer-group"></i>
                       Room
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </div>

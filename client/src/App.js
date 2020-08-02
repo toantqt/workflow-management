@@ -11,7 +11,8 @@ import PrivateRoomComponent from "./components/room/private-room.component";
 import ListTaskComponent from "./components/list-task/list-task.component";
 import ManageComponent from "./components/manage/manage.component";
 import ProfileStaffComponent from "./components/profile-staff/profile-staff.component";
-
+import ProfileRoomComponent from "./components/profile-room/profile-room.component";
+import OverviewComponent from "./components/overview/overview.component";
 //import { Redirect } from "react-router";
 
 function App() {
@@ -76,9 +77,22 @@ function App() {
         ></Route>
 
         <Route
+          path="/manage/overview"
+          render={() =>
+            isLoggedIn() ? <OverviewComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+
+        <Route
           path="/manage/profile"
           render={() =>
             isLoggedIn() ? <ProfileStaffComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+        <Route
+          path="/manage/room"
+          render={() =>
+            isLoggedIn() ? <ProfileRoomComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>

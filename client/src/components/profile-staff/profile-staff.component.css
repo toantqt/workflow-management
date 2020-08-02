@@ -1,0 +1,12 @@
+/* .table tr th {
+  background-color: #343a40 !important;
+  color: white;
+} */
+.table tbody tr td {
+  height: 60px !important;
+  padding: 20px !important;
+}
+/* .table {
+  border-collapse: collapse !important;
+  border: 1px solid black !important;
+} */
