@@ -168,30 +168,52 @@ class ProfileStaffComponent extends Component {
     let user = [];
 
     this.state.users.map(async (element, index) => {
+      let arr = {};
       index = index + 1;
-      let arr = {
-        stt: index,
-        username: element.username,
-        fullName: element.fullName,
-        gender: element.profile.gender,
-        address: element.profile.address,
-        view: (
-          <div>
-            <i
-              class="far fa-eye fa-2x"
-              data-toggle="modal"
-              data-target="#showProfile"
-              onClick={(event) => this.handleClickView(event, element)}
-            ></i>
-            <i
-              class="fas fa-user-lock fa-2x ml-4"
-              data-toggle="modal"
-              data-target="#lockUser"
-              onClick={(event) => this.handleClickLock(event, element)}
-            ></i>
-          </div>
-        ),
-      };
+      if (element.role === "admin") {
+        arr = {
+          stt: index,
+          username: element.username,
+          fullName: element.fullName,
+          gender: element.profile.gender,
+          address: element.profile.address,
+          view: (
+            <div style={{ fontSize: "20px", marginLeft: "-37px" }}>
+              <i
+                class="far fa-eye"
+                data-toggle="modal"
+                data-target="#showProfile"
+                onClick={(event) => this.handleClickView(event, element)}
+              ></i>
+            </div>
+          ),
+        };
+      } else {
+        arr = {
+          stt: index,
+          username: element.username,
+          fullName: element.fullName,
+          gender: element.profile.gender,
+          address: element.profile.address,
+          view: (
+            <div style={{ fontSize: "20px" }}>
+              <i
+                class="far fa-eye"
+                data-toggle="modal"
+                data-target="#showProfile"
+                onClick={(event) => this.handleClickView(event, element)}
+              ></i>
+              <i
+                class="fas fa-user-lock  ml-4"
+                data-toggle="modal"
+                data-target="#lockUser"
+                onClick={(event) => this.handleClickLock(event, element)}
+              ></i>
+            </div>
+          ),
+        };
+      }
+
       return user.push(arr);
     });
 
@@ -207,15 +229,15 @@ class ProfileStaffComponent extends Component {
           gender: element.profile.gender,
           address: element.profile.address,
           view: (
-            <div>
+            <div style={{ fontSize: "20px" }}>
               <i
-                class="far fa-eye fa-2x"
+                class="far fa-eye "
                 data-toggle="modal"
                 data-target="#showProfile"
                 onClick={(event) => this.handleClickView(event, element)}
               ></i>
               <i
-                class="fas fa-unlock-alt fa-2x ml-4"
+                class="fas fa-unlock-alt  ml-4"
                 data-toggle="modal"
                 data-target="#unLockUser"
                 onClick={(event) => this.handleClickLock(event, element)}
