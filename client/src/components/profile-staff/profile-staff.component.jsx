@@ -217,7 +217,7 @@ class ProfileStaffComponent extends Component {
       return user.push(arr);
     });
 
-    //array account lock
+    //array account loc
     let lock = [];
     this.state.users.map(async (element, index) => {
       index = index + 1;
