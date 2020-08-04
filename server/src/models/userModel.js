@@ -14,6 +14,7 @@ const userSchema = new Schema(
       address: { type: String, default: "" },
     },
     role: { type: String, default: "staff" },
+    deletedAt: { type: Boolean, default: "false" },
   },
   {
     timestamps: {
@@ -85,6 +86,17 @@ userSchema.statics = {
   },
   getAllUser() {
     return this.find({}).exec();
+  },
+  lockUser(idUser, status) {
+    if (status === "lock") {
+      return this.findOneAndUpdate({ _id: idUser }, { deletedAt: true }).exec();
+    }
+    if (status === "unlock") {
+      return this.findOneAndUpdate(
+        { _id: idUser },
+        { deletedAt: false }
+      ).exec();
+    }
   },
 };
 

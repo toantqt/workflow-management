@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getProfileUser } from "./profileStaffFunction";
+import { getProfileUser, lockUser } from "./profileStaffFunction";
 import jwt_decode from "jwt-decode";
 import "./profile-staff.component.css";
 import { Image } from "cloudinary-react";
@@ -39,6 +39,9 @@ class ProfileStaffComponent extends Component {
       .catch((error) => {
         console.log(error);
       });
+    this.setState({
+      accessToken: accessToken,
+    });
   }
 
   //handle click view
@@ -52,6 +55,44 @@ class ProfileStaffComponent extends Component {
     });
   };
 
+  //handle click lock user
+  handleClickLock = async (event, data) => {
+    console.log(data);
+    await this.setState({
+      idUser: data._id,
+      name: data.username,
+    });
+  };
+
+  lockUser = (event) => {
+    event.preventDefault();
+    const data = {
+      status: "lock",
+      idUser: this.state.idUser,
+    };
+    lockUser(this.state.accessToken, data)
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  unLockUser = (event) => {
+    event.preventDefault();
+    const data = {
+      status: "unlock",
+      idUser: this.state.idUser,
+    };
+    lockUser(this.state.accessToken, data)
+      .then((res) => {
+        window.location.reload();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   render() {
     let columns = [
       {
@@ -59,8 +100,8 @@ class ProfileStaffComponent extends Component {
         text: "STT",
         headerStyle: {
           width: "60px",
-          height: "60px",
-          padding: "15px",
+          height: "50px",
+          padding: "11px",
           backgroundColor: "#343a40",
           color: "white",
         },
@@ -71,8 +112,8 @@ class ProfileStaffComponent extends Component {
         text: "Username",
         headerStyle: {
           width: "220px",
-          height: "60px",
-          padding: "15px",
+          height: "50px",
+          padding: "11px",
           backgroundColor: "#343a40",
           color: "white",
         },
@@ -82,8 +123,8 @@ class ProfileStaffComponent extends Component {
         text: "Full Name",
         headerStyle: {
           width: "220px",
-          height: "60px",
-          padding: "15px",
+          height: "50px",
+          padding: "11px",
           backgroundColor: "#343a40",
           color: "white",
         },
@@ -93,8 +134,8 @@ class ProfileStaffComponent extends Component {
         text: "Gender",
         headerStyle: {
           width: "100px",
-          height: "60px",
-          padding: "15px",
+          height: "50px",
+          padding: "11px",
           backgroundColor: "#343a40",
           color: "white",
         },
@@ -103,18 +144,18 @@ class ProfileStaffComponent extends Component {
         dataField: "address",
         text: "Address",
         headerStyle: {
-          height: "60px",
-          padding: "15px",
+          height: "50px",
+          padding: "11px",
           backgroundColor: "#343a40",
           color: "white",
         },
       },
       {
-        dataField: "edit",
+        dataField: "view",
         text: "#",
         headerStyle: {
-          width: "60px",
-          height: "60px",
+          width: "140px",
+          height: "50px",
           textAlign: "center",
           backgroundColor: "#343a40",
           color: "white",
@@ -125,6 +166,7 @@ class ProfileStaffComponent extends Component {
 
     // array user
     let user = [];
+
     this.state.users.map(async (element, index) => {
       index = index + 1;
       let arr = {
@@ -133,27 +175,161 @@ class ProfileStaffComponent extends Component {
         fullName: element.fullName,
         gender: element.profile.gender,
         address: element.profile.address,
-        edit: (
-          <i
-            class="far fa-eye"
-            data-toggle="modal"
-            data-target="#showProfile"
-            onClick={(event) => this.handleClickView(event, element)}
-          ></i>
+        view: (
+          <div>
+            <i
+              class="far fa-eye fa-2x"
+              data-toggle="modal"
+              data-target="#showProfile"
+              onClick={(event) => this.handleClickView(event, element)}
+            ></i>
+            <i
+              class="fas fa-user-lock fa-2x ml-4"
+              data-toggle="modal"
+              data-target="#lockUser"
+              onClick={(event) => this.handleClickLock(event, element)}
+            ></i>
+          </div>
         ),
       };
       return user.push(arr);
     });
 
+    //array account lock
+    let lock = [];
+    this.state.users.map(async (element, index) => {
+      index = index + 1;
+      if (element.deletedAt) {
+        let arr = {
+          stt: index,
+          username: element.username,
+          fullName: element.fullName,
+          gender: element.profile.gender,
+          address: element.profile.address,
+          view: (
+            <div>
+              <i
+                class="far fa-eye fa-2x"
+                data-toggle="modal"
+                data-target="#showProfile"
+                onClick={(event) => this.handleClickView(event, element)}
+              ></i>
+              <i
+                class="fas fa-unlock-alt fa-2x ml-4"
+                data-toggle="modal"
+                data-target="#unLockUser"
+                onClick={(event) => this.handleClickLock(event, element)}
+              ></i>
+            </div>
+          ),
+        };
+        return lock.push(arr);
+      }
+    });
+
     return (
       <div className="col-9" style={{ float: "right", marginTop: "-238px" }}>
-        <BootstrapTable
-          keyField="stt"
-          data={user}
-          columns={columns}
-          pagination={pagination}
-          // goi event
-        />
+        <ul className="nav nav-tabs mt-3 " role="tablist">
+          <li className="nav-item active">
+            <a
+              className="nav-link "
+              data-toggle="tab"
+              href="#tabs-1"
+              role="tab"
+            >
+              Profile User
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" data-toggle="tab" href="#tabs-2" role="tab">
+              Account Lock
+            </a>
+          </li>
+        </ul>
+        <div className="tab-content">
+          <div className="tab-pane active" id="tabs-1" role="tabpanel">
+            <BootstrapTable
+              keyField="stt"
+              data={user}
+              columns={columns}
+              pagination={pagination}
+              // goi event
+            />
+          </div>
+          <div className="tab-pane" id="tabs-2" role="tabpanel">
+            <BootstrapTable
+              keyField="stt"
+              data={lock}
+              columns={columns}
+              pagination={pagination}
+              // goi event
+            />
+          </div>
+        </div>
+        {/* modal lock user */}
+        <div class="modal fade" id="lockUser">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">
+                  Are you sure to lock user " {this.state.name} "
+                </h4>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  // id={target.id}
+                  onClick={this.lockUser}
+                  data-dismiss="modal"
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="modal-btn-no"
+                  data-dismiss="modal"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* modal unlock user */}
+        <div class="modal fade" id="unLockUser">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">
+                  Are you sure to unlock user " {this.state.name} "
+                </h4>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-default"
+                  // id={target.id}
+                  onClick={this.unLockUser}
+                  data-dismiss="modal"
+                >
+                  Yes
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  id="modal-btn-no"
+                  data-dismiss="modal"
+                >
+                  No
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <div
           class="modal fade"
           // id={this.state.idModal}
