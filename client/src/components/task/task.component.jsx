@@ -44,6 +44,7 @@ class TaskComponent extends Component {
   //on click show modal edit
   handleClickEdit = async (event, data) => {
     event.preventDefault();
+    console.log(data);
     await this.setState({
       title: "",
     });
@@ -54,10 +55,10 @@ class TaskComponent extends Component {
         title: data.title,
         deadline: data.deadline,
       });
-      console.log(this.state.idModal + this.state.title);
+      //  console.log(this.state.idModal + this.state.title);
     }
 
-    console.log(this.state);
+    // console.log(this.state);
   };
   //hande change input edit task
   onHandleChange = (event) => {
@@ -99,57 +100,99 @@ class TaskComponent extends Component {
 
     console.log(data);
   };
+  showTask = async (event) => {
+    event.preventDefault();
+    console.log(event.target);
+    await this.setState({
+      idTask: event.target.id,
+      showComponent: true,
+      lists: [],
+    });
+    getList(this.props.accessToken, this.state.idTask).then(async (res) => {
+      const arrList = res.list;
+      console.log(arrList);
+      // await this.setState({
+      //   idStaff: residStaff,
+      // });
 
+      //if list in task === 0 then idStaff = res.idStaff
+      if (arrList.length === 0) {
+        this.setState({
+          idStaff: res.idStaff,
+        });
+      } else {
+        await arrList.forEach(async (e) => {
+          await this.setState({
+            lists: [
+              ...this.state.lists,
+              {
+                name: e.name,
+                idStaff: e.idStaff,
+                note: e.note,
+                status: e.status,
+                _id: e._id,
+              },
+            ],
+            idStaff: e.idStaff,
+          });
+        });
+      }
+      // await this.setState({
+      //   showComponent: true,
+      //   lists: [...this.state.lists, {}]
+      // });
+    });
+  };
   render() {
     // bac event list task
-    const rowEvents = {
-      onClick: async (e, row, rowIndex) => {
-        // console.log(e);
-        // console.log(rowIndex);
-        //console.log(row);
-        // console.log(row.status.key); // cau hinh key trong status laf id task
-        await this.setState({
-          idTask: row.status.key,
-          showComponent: true,
-          lists: [],
-        });
-        //console.log(this.state);
-        getList(this.props.accessToken, this.state.idTask).then(async (res) => {
-          const arrList = res.list;
-          console.log(arrList);
-          // await this.setState({
-          //   idStaff: residStaff,
-          // });
+    // const rowEvents = {
+    //   onClick: async (e, row, rowIndex) => {
+    //     console.log(e);
+    //     console.log(rowIndex);
+    //     console.log(row);
+    //     // console.log(row.status.key); // cau hinh key trong status laf id task
+    //     await this.setState({
+    //       idTask: row.status.key,
+    //       showComponent: true,
+    //       lists: [],
+    //     });
+    //     //console.log(this.state);
+    //     getList(this.props.accessToken, this.state.idTask).then(async (res) => {
+    //       const arrList = res.list;
+    //       console.log(arrList);
+    //       // await this.setState({
+    //       //   idStaff: residStaff,
+    //       // });
 
-          //if list in task === 0 then idStaff = res.idStaff
-          if (arrList.length === 0) {
-            this.setState({
-              idStaff: res.idStaff,
-            });
-          } else {
-            await arrList.forEach(async (e) => {
-              await this.setState({
-                lists: [
-                  ...this.state.lists,
-                  {
-                    name: e.name,
-                    idStaff: e.idStaff,
-                    note: e.note,
-                    status: e.status,
-                    _id: e._id,
-                  },
-                ],
-                idStaff: e.idStaff,
-              });
-            });
-          }
-          // await this.setState({
-          //   showComponent: true,
-          //   lists: [...this.state.lists, {}]
-          // });
-        });
-      },
-    };
+    //       //if list in task === 0 then idStaff = res.idStaff
+    //       if (arrList.length === 0) {
+    //         this.setState({
+    //           idStaff: res.idStaff,
+    //         });
+    //       } else {
+    //         await arrList.forEach(async (e) => {
+    //           await this.setState({
+    //             lists: [
+    //               ...this.state.lists,
+    //               {
+    //                 name: e.name,
+    //                 idStaff: e.idStaff,
+    //                 note: e.note,
+    //                 status: e.status,
+    //                 _id: e._id,
+    //               },
+    //             ],
+    //             idStaff: e.idStaff,
+    //           });
+    //         });
+    //       }
+    //       // await this.setState({
+    //       //   showComponent: true,
+    //       //   lists: [...this.state.lists, {}]
+    //       // });
+    //     });
+    //   },
+    // };
 
     // cau hinh ten  cot
     let columns = [
@@ -195,7 +238,11 @@ class TaskComponent extends Component {
       let abc = {
         stt: index,
         idStaff: element.inforAuthor.username,
-        title: element.e.title,
+        title: (
+          <span id={element.e._id} onClick={this.showTask}>
+            {element.e.title}
+          </span>
+        ),
         createAt: dates(element.e.start),
         deadline: dates(element.e.deadline),
         status: element.e.status ? (
@@ -215,7 +262,8 @@ class TaskComponent extends Component {
           <i
             class="far fa-edit"
             data-toggle="modal"
-            data-target={"#" + element.e._id}
+            //data-target={"#" + element.e._id}
+            data-target="#showEdit"
             onClick={(event) => this.handleClickEdit(event, element.e)}
           ></i>
         ),
@@ -234,7 +282,12 @@ class TaskComponent extends Component {
         abc = {
           stt: index,
           idStaff: element.inforAuthor.username,
-          title: element.e.title,
+          // title: element.e.title,
+          title: (
+            <span id={element.e._id} onClick={this.showTask}>
+              {element.e.title}
+            </span>
+          ),
           createAt: dates(element.e.start),
           deadline: dates(element.e.deadline),
           status: (
@@ -292,77 +345,75 @@ class TaskComponent extends Component {
               data={player}
               columns={columns}
               pagination={pagination}
-              rowEvents={rowEvents} // goi event
+              //  rowEvents={rowEvents} // goi event
             />
           </div>
-          {this.state.showModal ? (
-            <div
-              class="modal fade"
-              id={this.state.idModal}
-              tabindex="-1"
-              role="dialog"
-              aria-labelledby="exampleModalLabel"
-              aria-hidden="true"
-            >
-              <div class="modal-dialog" role="document">
-                <div
-                  class="modal-content"
-                  style={{ height: "300px !important" }}
-                >
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">
-                      Edit Task
-                    </h5>
+          {/* {this.state.showModal ? ( */}
+          <div
+            class="modal fade"
+            // id={this.state.idModal}
+            id="showEdit"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content" style={{ height: "300px !important" }}>
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    Edit Task
+                  </h5>
 
-                    <button
-                      type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="Close"
-                    >
-                      <span aria-hidden="true">&times;</span>
-                    </button>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <label>Title</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      value={this.state.title}
+                      onChange={this.onHandleChange}
+                      name="title"
+                    />
                   </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label>Title</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        value={this.state.title}
-                        onChange={this.onHandleChange}
-                        name="title"
-                      />
-                    </div>
-                    <div class="form-group">
-                      <label>Deadline</label>
-                      <br />
-                      <DatePicker
-                        selected={this.state.startDate}
-                        onChange={this.handleChangeDate}
-                      />
-                    </div>
+                  <div class="form-group">
+                    <label>Deadline</label>
+                    <br />
+                    <DatePicker
+                      selected={this.state.startDate}
+                      onChange={this.handleChangeDate}
+                    />
                   </div>
-                  <div class="modal-footer">
-                    <button
-                      type="button"
-                      class="btn btn-secondary"
-                      data-dismiss="modal"
-                    >
-                      Close
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-primary"
-                      onClick={this.handleSubmitEdit}
-                    >
-                      Save changes
-                    </button>
-                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    onClick={this.handleSubmitEdit}
+                  >
+                    Save changes
+                  </button>
                 </div>
               </div>
             </div>
-          ) : null}
+          </div>
+          {/* ) : null} */}
 
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
@@ -370,7 +421,7 @@ class TaskComponent extends Component {
               data={Finish}
               columns={columns}
               pagination={pagination}
-              rowEvents={rowEvents}
+              //  rowEvents={rowEvents}
             />
           </div>
         </div>
