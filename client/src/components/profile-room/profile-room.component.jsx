@@ -138,7 +138,13 @@ class ProfileRoomComponent extends Component {
     event.preventDefault();
     //const tokenJSON = JSON.parse(localStorage.userToken);
     console.log(this.state);
-    if (this.state.ownerId === "") return;
+    if (
+      this.state.ownerId === "" ||
+      this.state.nameManager === this.state.nameOwnerMoment
+    ) {
+      alert("thao tac khong phu hop");
+      return;
+    }
     //update-room
     updateOwner(
       this.state.accessToken,
@@ -151,21 +157,23 @@ class ProfileRoomComponent extends Component {
   };
   render() {
     let showuser = this.state.users.map((e, index) => {
-      return this.state.showResults ? (
-        <li key={index}>
-          {e.username}
-          <button
-            type="button"
-            className="btn btn-primary add-user"
-            name="ownerId"
-            id={e.id}
-            value={e.username}
-            onClick={this.onHandleChange}
-          >
-            +
-          </button>
-        </li>
-      ) : null;
+      if (e.username !== this.state.nameOwnerMoment) {
+        return this.state.showResults ? (
+          <li key={index}>
+            {e.username}
+            <button
+              type="button"
+              className="btn btn-primary add-user"
+              name="ownerId"
+              id={e.id}
+              value={e.username}
+              onClick={this.onHandleChange}
+            >
+              +
+            </button>
+          </li>
+        ) : null;
+      }
     });
 
     let showManager = (ownerId, nameManager) => {
