@@ -26,7 +26,7 @@ let initAPIs = (app) => {
   router.get("/getroom", RoomController.getRoom);
   router.post("/get-room-user", RoomController.getRoomUser);
   router.get("/room/:id", RoomController.findRoom);
-
+  router.get("/get-infor-user/:idroom", RoomController.getInforUserRoom);
   //add task
   router.post("/add-task", TaskController.addTask);
 
@@ -65,6 +65,9 @@ let initAPIs = (app) => {
 
   router.get("/find-user-addroom", RoomController.findUserAddRoom);
   router.post("/add-user-room", RoomController.addUserRoom);
+  router.get("/get-all-room", RoomController.getAllRoom);
+  router.post("/remove-room", RoomController.removeRoom);
+  router.post("/update-owner-room", RoomController.updataOwnerRoom);
   // save change list task
   router.post("/update-list-task", ListController.updataListTask);
 

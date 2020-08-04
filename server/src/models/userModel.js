@@ -37,7 +37,7 @@ userSchema.statics = {
   },
   //get profile
   getProfile(id) {
-    return this.findOne({ _id: id }).exec();
+    return this.findOne({ _id: id }, { password: 0 }).exec();
   },
   //find and update
   findAndUpdate(id, newData) {
@@ -85,6 +85,9 @@ userSchema.statics = {
   },
   getAllUser() {
     return this.find({}).exec();
+  },
+  getName(id) {
+    return this.findOne({ _id: id }, { username: 1 }).exec();
   },
 };
 
