@@ -177,6 +177,83 @@ let removeUserRoom = async (req, res) => {
     });
   }
 };
+let getAllRoom = async (req, res) => {
+  try {
+    let getAllRoom = await roomModel.getRoom();
+    // console.log(getAllRoom);
+    let convert = getAllRoom.map(async (e) => {
+      e = e.toObject();
+      let getNameOwner = await userModel.getName(e.ownerId);
+      console.log(getNameOwner.username);
+      //let converts = await Promise.all(getNameOwner);
+      e.nameOwner = getNameOwner.username;
+      //debug("alaalala");
+      return e;
+    });
+    let AllRoom = await Promise.all(convert);
+    //console.log(AllRoom);
+
+    return res.status(200).json({ AllRoom });
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi phan get room",
+    });
+  }
+};
+let getInforUserRoom = async (req, res) => {
+  try {
+    let roomid = req.params.idroom;
+    //console.log(id);
+    let member = await roomModel.getIdMember(roomid);
+    //console.log(member);
+    let infor = member.members.map(async (e) => {
+      let user = await userModel.getProfile(e.userId);
+      return user;
+    });
+    let inForUser = await Promise.all(infor);
+    //console.log(inForUser);
+    return res.status(200).json({ inForUser });
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi phan get user room",
+    });
+  }
+};
+let removeRoom = async (req, res) => {
+  try {
+    //console.log(req.body);
+    let checkadmin = await userModel.CheckAdmin(req.body.idUserOnl);
+    if (checkadmin) {
+      await roomModel.removeRoom(req.body.roomId);
+      return res.status(200).json({ message: "remove thanh cong" });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi phan get user room",
+    });
+  }
+};
+let updataOwnerRoom = async (req, res) => {
+  try {
+    //console.log(req.body);
+    let findidmember = await roomModel.findMember(
+      req.body.newOwner,
+      req.body.roomId
+    );
+    //console.log(findidmember);
+    if (!findidmember) {
+      //console.log("ko co");
+      await roomModel.addUserRoom(req.body.roomId, req.body.newOwner);
+    }
+    console.log(" co");
+    await roomModel.updateOwnerRoom(req.body.newOwner, req.body.roomId);
+    return res.status(200).json({ message: "remove thanh cong" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi phan get user room",
+    });
+  }
+};
 module.exports = {
   addRoom: addRoom,
   getRoom: getRoom,
@@ -185,4 +262,8 @@ module.exports = {
   findUserAddRoom: findUserAddRoom,
   addUserRoom: addUserRoom,
   removeUserRoom: removeUserRoom,
+  getAllRoom: getAllRoom,
+  getInforUserRoom: getInforUserRoom,
+  removeRoom: removeRoom,
+  updataOwnerRoom: updataOwnerRoom,
 };

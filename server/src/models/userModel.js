@@ -38,7 +38,7 @@ userSchema.statics = {
   },
   //get profile
   getProfile(id) {
-    return this.findOne({ _id: id }).exec();
+    return this.findOne({ _id: id }, { password: 0 }).exec();
   },
   //find and update
   findAndUpdate(id, newData) {
@@ -87,6 +87,7 @@ userSchema.statics = {
   getAllUser() {
     return this.find({}).exec();
   },
+
   lockUser(idUser, status) {
     if (status === "lock") {
       return this.findOneAndUpdate({ _id: idUser }, { deletedAt: true }).exec();
@@ -97,6 +98,10 @@ userSchema.statics = {
         { deletedAt: false }
       ).exec();
     }
+  },
+
+  getName(id) {
+    return this.findOne({ _id: id }, { username: 1 }).exec();
   },
 };
 

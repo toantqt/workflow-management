@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { boolean } = require("@hapi/joi");
 
 let Schema = mongoose.Schema;
 let roomSchema = new Schema(
@@ -6,6 +7,7 @@ let roomSchema = new Schema(
     nameRoom: { type: String },
     ownerId: { type: String },
     members: [{ userId: String, default: "" }],
+    deletedAt: { type: Boolean, default: false },
   },
   {
     timestamps: {
@@ -19,7 +21,7 @@ roomSchema.statics = {
     return this.create(item); //tao ban
   },
   getRoom() {
-    return this.find({}).exec();
+    return this.find({ deletedAt: false }).exec();
   },
   getRoomUser(idUser) {
     return this.find({ members: { $elemMatch: { userId: idUser } } }).exec();
@@ -49,6 +51,25 @@ roomSchema.statics = {
       { _id: id },
       {
         $pull: { members: { userId: idUserRm } },
+      }
+    ).exec();
+  },
+  getIdMember(roomId) {
+    return this.findOne({ _id: roomId }, { members: 1 }).exec();
+  },
+  removeRoom(roomid) {
+    return this.update({ _id: roomid }, { deletedAt: true }).exec();
+  },
+  findMember(idUser, roomid) {
+    return this.findOne({
+      $and: [{ _id: roomid }, { members: { $elemMatch: { userId: idUser } } }],
+    }).exec();
+  },
+  updateOwnerRoom(newOwner, roomid) {
+    return this.findByIdAndUpdate(
+      { _id: roomid },
+      {
+        ownerId: newOwner,
       }
     ).exec();
   },
