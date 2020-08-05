@@ -103,6 +103,12 @@ class RoomModal extends Component {
       nameManager: "",
     });
   };
+  handleBlur = (e) => {
+    // console.log(e.target);
+    this.setState({
+      display: "none",
+    });
+  };
   render() {
     let showuser = this.state.users.map((e, index) => {
       return this.state.showResults ? (
@@ -147,14 +153,7 @@ class RoomModal extends Component {
       );
     };
     return (
-      <div
-        className="modal fade"
-        id="exampleModal"
-        // tabindex="-1"
-        // role="dialog"
-        // aria-labelledby="exampleModalLabel"
-        // aria-hidden="true"
-      >
+      <div className="modal fade" id="exampleModal" onClick={this.handleBlur}>
         <div className="modal-dialog" role="document">
           <div className="modal-content">
             <div className="modal-header">

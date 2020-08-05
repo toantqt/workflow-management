@@ -155,6 +155,12 @@ class ProfileRoomComponent extends Component {
     });
     //console.log(add);
   };
+  handleBlur = (e) => {
+    // console.log(e.target);
+    this.setState({
+      display: "none",
+    });
+  };
   render() {
     let showuser = this.state.users.map((e, index) => {
       if (e.username !== this.state.nameOwnerMoment) {
@@ -385,6 +391,7 @@ class ProfileRoomComponent extends Component {
         </div>
 
         <div
+          onClick={this.handleBlur}
           class="modal fade"
           // id={this.state.idModal}
           id="editOwner"
