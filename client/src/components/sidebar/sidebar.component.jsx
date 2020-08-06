@@ -132,6 +132,20 @@ class SidebarComponent extends Component {
                         {listRoomUser}
                       </ul>
                     </li>
+                    <li className="nav-item">
+                      <a className="nav-link" role="button">
+                        <i className="fa fa-calendar"></i>
+
+                        <Link
+                          role="button"
+                          aria-expanded="false"
+                          className="nav-link"
+                          to="/timekeeping"
+                        >
+                          Timekeepping
+                        </Link>
+                      </a>
+                    </li>
                   </ul>
                 </div>
               </div>
