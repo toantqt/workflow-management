@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./sidebar.component.css";
 import AddComponent from "../add-room/add.component";
+import Timekeepping from "./timekeeping.component";
 import { Link } from "react-router-dom";
 
 class SidebarComponent extends Component {
@@ -131,6 +132,16 @@ class SidebarComponent extends Component {
                       <ul id="other-fruits" className="flex-column collapse">
                         {listRoomUser}
                       </ul>
+                    </li>
+
+                    <li className="nav-item">
+                      <a className="nav-link" role="button">
+                        <i className="fa fa-calendar"></i>
+
+                        <Link className="nav-link" to="/timekeepping">
+                          Timekeepping
+                        </Link>
+                      </a>
                     </li>
                   </ul>
                 </div>
