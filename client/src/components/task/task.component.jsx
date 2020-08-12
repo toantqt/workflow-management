@@ -144,56 +144,6 @@ class TaskComponent extends Component {
     });
   };
   render() {
-    // bac event list task
-    // const rowEvents = {
-    //   onClick: async (e, row, rowIndex) => {
-    //     console.log(e);
-    //     console.log(rowIndex);
-    //     console.log(row);
-    //     // console.log(row.status.key); // cau hinh key trong status laf id task
-    //     await this.setState({
-    //       idTask: row.status.key,
-    //       showComponent: true,
-    //       lists: [],
-    //     });
-    //     //console.log(this.state);
-    //     getList(this.props.accessToken, this.state.idTask).then(async (res) => {
-    //       const arrList = res.list;
-    //       console.log(arrList);
-    //       // await this.setState({
-    //       //   idStaff: residStaff,
-    //       // });
-
-    //       //if list in task === 0 then idStaff = res.idStaff
-    //       if (arrList.length === 0) {
-    //         this.setState({
-    //           idStaff: res.idStaff,
-    //         });
-    //       } else {
-    //         await arrList.forEach(async (e) => {
-    //           await this.setState({
-    //             lists: [
-    //               ...this.state.lists,
-    //               {
-    //                 name: e.name,
-    //                 idStaff: e.idStaff,
-    //                 note: e.note,
-    //                 status: e.status,
-    //                 _id: e._id,
-    //               },
-    //             ],
-    //             idStaff: e.idStaff,
-    //           });
-    //         });
-    //       }
-    //       // await this.setState({
-    //       //   showComponent: true,
-    //       //   lists: [...this.state.lists, {}]
-    //       // });
-    //     });
-    //   },
-    // };
-
     // cau hinh ten  cot
     let columns = [
       {

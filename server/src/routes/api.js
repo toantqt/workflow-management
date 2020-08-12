@@ -6,6 +6,7 @@ const RoomController = require("../controllers/RoomController");
 const UserController = require("../controllers/UserController");
 const TaskController = require("../controllers/TaskController");
 const ListController = require("../controllers/ListController");
+const TimekeepingController = require("../controllers/TimekeepingController");
 let initAPIs = (app) => {
   router.post("/login", AuthController.login);
   router.post("/refresh-token", AuthController.refreshToken);
@@ -79,7 +80,10 @@ let initAPIs = (app) => {
 
   //get board user
   router.post("/get-board-user", TaskController.getBoardUser);
-
+  // timekeeping
+  router.post("/create-time-keeping", TimekeepingController.CreateTimekeeping);
+  router.post("/time-keeping", TimekeepingController.CheckedTime);
+  router.post("/get-time-keeping", TimekeepingController.getTimeKeeping);
   return app.use("/", router);
 };
 

@@ -12,7 +12,11 @@ import ManageComponent from "./components/manage/manage.component";
 import ProfileStaffComponent from "./components/profile-staff/profile-staff.component";
 import ProfileRoomComponent from "./components/profile-room/profile-room.component";
 import OverviewComponent from "./components/overview/overview.component";
-import Timekeepping from "./components/sidebar/timekeeping.component";
+
+//import Timekeepping from "./components/sidebar/timekeeping.component";
+
+import TimekeepingComponent from "./components/timekeeping/timekeeping.component";
+
 //import { Redirect } from "react-router";
 
 function App() {
@@ -50,6 +54,7 @@ function App() {
             }
           }}
         ></Route>
+
         <Route
           path="/edit-profile/"
           render={() =>
@@ -107,9 +112,13 @@ function App() {
         ></Route>
 
         <Route
-          path="/timekeepping"
+          // path="/timekeepping"
+          // render={() =>
+          //   isLoggedIn() ? <Timekeepping /> : <Redirect to="/login" />
+
+          path="/timekeeping"
           render={() =>
-            isLoggedIn() ? <Timekeepping /> : <Redirect to="/login" />
+            isLoggedIn() ? <TimekeepingComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>

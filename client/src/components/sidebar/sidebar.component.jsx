@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./sidebar.component.css";
 import AddComponent from "../add-room/add.component";
-import Timekeepping from "./timekeeping.component";
+import Timekeepping from "../timekeeping/timekeeping.component";
 import { Link } from "react-router-dom";
 
 class SidebarComponent extends Component {
@@ -138,7 +138,14 @@ class SidebarComponent extends Component {
                       <a className="nav-link" role="button">
                         <i className="fa fa-calendar"></i>
 
-                        <Link className="nav-link" to="/timekeepping">
+                        {/* <Link className="nav-link" to="/timekeepping"> */}
+
+                        <Link
+                          role="button"
+                          aria-expanded="false"
+                          className="nav-link"
+                          to="/timekeeping"
+                        >
                           Timekeepping
                         </Link>
                       </a>
