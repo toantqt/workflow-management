@@ -25,6 +25,8 @@ class TimekeepingComponent extends Component {
       startDate: new Date(),
       getTimeChecked: [],
       dataTimeToDay: "",
+      countTimeTowork: 0,
+      displays: "none",
     };
   }
   // get week in month today
@@ -74,7 +76,7 @@ class TimekeepingComponent extends Component {
   CheckTime = (event) => {
     //event.preventDefault();
     console.log(this.state);
-    console.log(event.target);
+    //console.log(event.target);
     let data = {
       toDay: this.state.toDay,
       userId: this.state.userId,
@@ -124,17 +126,18 @@ class TimekeepingComponent extends Component {
         if (res.getTime.length === 0) {
           return alert("ko co thong tin can tim");
         }
-        // this.setState({
-        //   displays: "none",
-        // });
+        this.setState({
+          displays: "none",
+        });
         res.getTime.forEach(async (e) => {
           await this.setState({
             getTimeChecked: [...this.state.getTimeChecked, e.checkedOneWeek],
+            countTimeTowork: this.state.countTimeTowork + e.countTime,
           });
         });
-        // this.setState({
-        //   displays: "block",
-        // });
+        this.setState({
+          displays: "block",
+        });
       }
     );
   };
@@ -293,6 +296,9 @@ class TimekeepingComponent extends Component {
                 <button type="submit" onClick={this.clickSearchTimeCheck}>
                   search
                 </button>
+              </div>
+              <div className="col-12" style={{ display: this.state.displays }}>
+                <h3> so buoi lam viec la : {this.state.countTimeTowork} </h3>
               </div>
               <div className="col-12" style={{ textAlign: "center" }}>
                 {showTimeChecked}
