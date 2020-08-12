@@ -51,12 +51,18 @@ const CheckedTime = async (req, res) => {
     // console.log(checkCreateTimeInWeek._id);
     //console.log(typeof req.body.getToday);
     // console.log(req.body.checkSession);
-    await Timekeeping.updateCheckTime(
+    let abc = await Timekeeping.updateCheckTime(
       checkCreateTimeInWeek._id,
       req.body.getToday,
       req.body.checkSession
     );
     //console.log(abc);
+    if (abc.ok) {
+      await Timekeeping.updateCountTime(
+        checkCreateTimeInWeek._id,
+        checkCreateTimeInWeek.countTime + 1
+      );
+    }
     return res.status(200).json({ message: "update thanh cong" });
   } catch (error) {
     return res.status(500).json({

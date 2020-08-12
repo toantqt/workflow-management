@@ -7,6 +7,7 @@ const timeKeepingModel = new Schema(
     wageId: { type: String, default: "" },
     monthYear: { type: String, default: "" },
     weekInMonth: { type: String, default: "" },
+    countTime: { type: Number, default: 0 },
     checkedOneWeek: [
       {
         dayOfWeek: { type: Number },
@@ -62,6 +63,9 @@ timeKeepingModel.statics = {
         { $set: { "checkedOneWeek.$.afternoon": true } }
       ).exec();
     }
+  },
+  updateCountTime(id, count) {
+    return this.update({ _id: id }, { countTime: count }).exec();
   },
   getTimekeeping(id, Time) {
     return this.find({

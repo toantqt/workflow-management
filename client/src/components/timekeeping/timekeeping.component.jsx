@@ -228,7 +228,6 @@ class TimekeepingComponent extends Component {
     // console.log(showTimeChecked);
     let showTimeChecked = this.state.getTimeChecked.map((element) => {
       let abc = element.map((e, index) => {
-        console.log(e);
         let show = (type) => {
           return type ? (
             <i class="fa fa-check"></i>
