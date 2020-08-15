@@ -43,6 +43,12 @@ class AddComponent extends Component {
                     Employee Profile
                   </Link>
                 </li>
+                <li className="nav-item" style={{ marginTop: "15px" }}>
+                  <Link className="nav-link" to={"/tasks"}>
+                    <i class="fas fa-tasks" aria-hidden="true"></i>
+                    Task Statistics
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>

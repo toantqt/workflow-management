@@ -4,6 +4,7 @@ const roomModel = require("../models/roomModel");
 const userModel = require("../models/userModel");
 const taskModel = require("../models/taskModel");
 const listModel = require("../models/listTaskModel");
+const { copySync } = require("fs-extra");
 const debug = console.log.bind(console);
 
 const addTask = async (req, res) => {
@@ -124,6 +125,24 @@ const getBoardUser = async (req, res) => {
   }
 };
 
+const taskStatistic = async (req, res) => {
+  try {
+    const getDataRoom = await roomModel.getRoom();
+    const getDataTask = await taskModel.getAllTask();
+    const getDataUser = await userModel.getAllUser();
+
+    return res
+      .status(200)
+      .json({
+        dataRoom: getDataRoom,
+        dataTask: getDataTask,
+        dataUser: getDataUser,
+      });
+  } catch (error) {
+    return res.status(500).json({ message: "task statistic failed" });
+  }
+};
+
 module.exports = {
   addTask: addTask,
   updateTask: updateTask,
@@ -131,4 +150,5 @@ module.exports = {
   getListTask: getListTask,
   getDataList: getDataList,
   getBoardUser: getBoardUser,
+  taskStatistic: taskStatistic,
 };
