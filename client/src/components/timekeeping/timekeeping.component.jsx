@@ -326,23 +326,25 @@ class TimekeepingComponent extends Component {
                 <div className="col-sm-3">
                   tổng ngày làm chính :{" "}
                   {parseInt(
-                    (this.state.typeWage / 30) * this.state.countTimeTowork
+                    (this.state.typeWage / 30) *
+                      (this.state.countTimeTowork / 2)
                   ) + " VND"}
                 </div>
                 <div className="col-sm-6">
                   tổng lương ngày làm phụ:{" "}
                   {this.state.OT *
                     (this.state.typeWage / 30) *
-                    this.state.countTimeOT +
+                    (this.state.countTimeOT / 2) +
                     " VND"}
                 </div>
                 <div className="col-sm-3">
                   tổng cộng bạn được:{" "}
                   {parseInt(
-                    (this.state.typeWage / 30) * this.state.countTimeTowork +
+                    (this.state.typeWage / 30) *
+                      (this.state.countTimeTowork / 2) +
                       this.state.OT *
                         (this.state.typeWage / 30) *
-                        this.state.countTimeOT
+                        (this.state.countTimeOT / 2)
                   ) + " VND"}
                 </div>
                 <br></br>

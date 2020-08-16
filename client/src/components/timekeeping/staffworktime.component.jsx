@@ -264,26 +264,6 @@ class StaffworktimeComponent extends Component {
         >
           Submit
         </button>
-        {/* <div style={{ width: "800px" }}>
-          <div
-            className=" row col-12"
-            style={{ display: this.state.displays, textAlign: "center" }}
-          >
-            <h1>kết quả cần tìm </h1>
-            <div className="col-sm-3">
-              <h3>số buổi làm trong tháng này: {this.state.countTimeTowork}</h3>
-            </div>
-            <div className="col-sm-6">
-              <h3>
-                số buổi nghỉ trong tháng này: {this.state.countTimeNotwork}
-              </h3>
-            </div>
-            <div className="col-sm-3">
-              <h3> số buổi OT: {this.state.countTimeOT} </h3>
-            </div>
-          </div>
-          <div style={{ textAlign: "center" }}>{showTimeChecked}</div>
-        </div> */}
 
         <div style={{ width: "800px" }}>
           <div
@@ -309,23 +289,23 @@ class StaffworktimeComponent extends Component {
             <div className="col-sm-3">
               tổng ngày làm chính :{" "}
               {parseInt(
-                (this.state.typeWage / 30) * this.state.countTimeTowork
+                (this.state.typeWage / 30) * (this.state.countTimeTowork / 2)
               ) + " VND"}
             </div>
             <div className="col-sm-6">
               tổng lương ngày làm phụ:{" "}
               {this.state.OT *
                 (this.state.typeWage / 30) *
-                this.state.countTimeOT +
+                (this.state.countTimeOT / 2) +
                 " VND"}
             </div>
             <div className="col-sm-3">
               tổng cộng bạn được:{" "}
               {parseInt(
-                (this.state.typeWage / 30) * this.state.countTimeTowork +
+                (this.state.typeWage / 30) * (this.state.countTimeTowork / 2) +
                   this.state.OT *
                     (this.state.typeWage / 30) *
-                    this.state.countTimeOT
+                    (this.state.countTimeOT / 2)
               ) + " VND"}
             </div>
             <br></br>
