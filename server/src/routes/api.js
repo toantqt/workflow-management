@@ -84,6 +84,7 @@ let initAPIs = (app) => {
   router.post("/create-time-keeping", TimekeepingController.CreateTimekeeping);
   router.post("/time-keeping", TimekeepingController.CheckedTime);
   router.post("/get-time-keeping", TimekeepingController.getTimeKeeping);
+  router.post("/update-time-not-work", TimekeepingController.updateTimeNotWork);
   return app.use("/", router);
 };
 

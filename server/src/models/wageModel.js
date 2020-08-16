@@ -4,11 +4,11 @@ const Schema = mongoose.Schema;
 const wageSchema = new Schema(
   {
     rankWage: { type: String, default: "staff" },
-    workDay: { type: String },
-    offDay: { type: String, default: "" },
-    wageOt: { type: String },
-    typeWage: { type: String },
+    workDay: { type: Number, default: 30 },
+    wageOt: { type: Number },
+    typeWage: { type: Number },
     allowAnce: { type: String, default: "" },
+    userId: { type: String },
   },
   {
     timestamps: {
@@ -17,5 +17,12 @@ const wageSchema = new Schema(
     },
   }
 );
-
+wageSchema.statics = {
+  createNew(item) {
+    return this.create(item); //tao ban
+  },
+  getWates(userid) {
+    return this.findOne({ userId: userid }).exec();
+  },
+};
 module.exports = mongoose.model("wage", wageSchema);
