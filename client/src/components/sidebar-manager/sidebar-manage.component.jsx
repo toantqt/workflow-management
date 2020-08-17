@@ -69,6 +69,12 @@ class SidebarManageComponent extends Component {
                       Room
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link to="/manage/staffworktime" className="nav-link">
+                      <i class="fas fa-layer-group"></i>
+                      StaffWorkTime
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

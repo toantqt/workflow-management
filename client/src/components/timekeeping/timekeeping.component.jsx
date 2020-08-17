@@ -152,6 +152,11 @@ class TimekeepingComponent extends Component {
           displays: "none",
           OT: res.getWageUser.wageOt,
           typeWage: res.getWageUser.typeWage,
+          getTimeChecked: [],
+          getCreateDay: [],
+          countTimeTowork: 0,
+          countTimeNotwork: 0,
+          countTimeOT: 0,
         });
         res.getTime.forEach(async (e) => {
           await this.setState({
@@ -194,6 +199,7 @@ class TimekeepingComponent extends Component {
     let arrays = [];
 
     this.state.dataCheckTime.map(async (element, index) => {
+      if (index === 5) return;
       let mornings = (m, i, d) => {
         if (i === this.state.toDay) {
           if (m) {
@@ -226,6 +232,7 @@ class TimekeepingComponent extends Component {
       };
       return arrays.push(abc);
     });
+    // for search
     let showTimeChecked = this.state.getTimeChecked.map((element, i) => {
       let dates = (string) => {
         var options = { year: "numeric", month: "long", day: "numeric" };

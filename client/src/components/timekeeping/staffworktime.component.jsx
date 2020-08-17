@@ -3,7 +3,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { findAdminRoom } from "../add-room/roomFunction";
 import "./timekeeping.css";
-import { getTimeKeeping } from "./timekeepingFunction";
+import {
+  getTimeKeeping,
+  createTimeChecking,
+  updateTimeNotWork,
+  Timekeeping,
+} from "./timekeepingFunction";
+import BootstrapTable from "react-bootstrap-table-next";
 class StaffworktimeComponent extends Component {
   constructor(props) {
     super(props);
@@ -15,7 +21,7 @@ class StaffworktimeComponent extends Component {
       showResults: false, // show user
       display: "none", // trang thai dong mo manager
       nameManager: "", // ten admin
-      ownerId: "",
+      ownerId: "", // id nguoi can tim
       getTimeChecked: [],
       getCreateDay: [],
       displays: "none",
@@ -24,6 +30,11 @@ class StaffworktimeComponent extends Component {
       countTimeOT: 0,
       OT: 0,
       typeWage: 0,
+      weekOfMonth: "",
+      monthOfYear: "",
+      dataCheckTime: [],
+      toDay: "",
+      showCheckOT: "",
     };
   }
   //change deadline
@@ -77,6 +88,7 @@ class StaffworktimeComponent extends Component {
         showResults: !this.state.showResults,
         display: "none",
         nameManager: target.value,
+        showCheckOT: "#showCheckOT",
       });
     } else {
       this.setState({
@@ -94,6 +106,7 @@ class StaffworktimeComponent extends Component {
       showResults: false,
       display: "none",
       nameManager: "",
+      showCheckOT: "",
     });
   };
   HandleViewWorkTime = (event) => {
@@ -107,7 +120,7 @@ class StaffworktimeComponent extends Component {
 
     getTimeKeeping(this.state.accessToken, TimeDay, this.state.ownerId).then(
       (res) => {
-        console.log(res);
+        //console.log(res);
         if (res.getTime.length === 0) {
           return alert("ko co thong tin can tim");
         }
@@ -115,6 +128,11 @@ class StaffworktimeComponent extends Component {
           displays: "none",
           OT: res.getWageUser.wageOt,
           typeWage: res.getWageUser.typeWage,
+          getTimeChecked: [],
+          getCreateDay: [],
+          countTimeTowork: 0,
+          countTimeNotwork: 0,
+          countTimeOT: 0,
         });
         res.getTime.forEach(async (e) => {
           await this.setState({
@@ -130,6 +148,73 @@ class StaffworktimeComponent extends Component {
         });
       }
     );
+    //  console.log(this.state);
+  };
+  CheckOT = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+    if (!this.state.ownerId) {
+      return alert("chua chon nguoi can tim");
+    }
+    let TimeDay =
+      this.state.startDate.getMonth() +
+      1 +
+      "/" +
+      this.state.startDate.getFullYear();
+    createTimeChecking(
+      this.state.accessToken,
+      this.state.ownerId,
+      TimeDay
+    ).then((res) => {
+      //console.log(res);
+      console.log("done");
+      this.setState({
+        weekOfMonth: res.weekInMonth,
+        monthOfYear: res.monthYear,
+        toDay: new Date().getDay() + 1,
+        dataCheckTime: [],
+      });
+      res.checkedOneWeek.forEach(async (e) => {
+        await this.setState({
+          dataCheckTime: [...this.state.dataCheckTime, e],
+        });
+      });
+    });
+    if (this.state.today != 2) {
+      updateTimeNotWork(
+        this.state.accessToken,
+        this.state.ownerId,
+        this.state.monthOfYear,
+        // getweek,
+        this.state.toDay
+      ).then((res) => {
+        // console.log(res);
+        console.log("check ngay nghi");
+      });
+    }
+  };
+  // checkOTByadmin = (event) => {
+  //   event.preventDefault();
+  // };
+  CheckTime = (event) => {
+    //event.preventDefault();
+    console.log(this.state);
+    //console.log(event.target);
+    let data = {
+      toDay: this.state.toDay,
+      userId: this.state.ownerId,
+      checkSession: event.target.name,
+      timeChecked: Date.now(),
+      monthYear: this.state.monthOfYear,
+      weekInMonth: this.state.weekOfMonth,
+    };
+
+    Timekeeping(this.state.accessToken, data).then((res) => {
+      alert("diem danh thanh cong");
+
+      console.log("done");
+    });
+    // console.log(data);
   };
   render() {
     let showuser = this.state.users.map((e, index) => {
@@ -154,6 +239,7 @@ class StaffworktimeComponent extends Component {
       return ownerId ? (
         <div>
           <button
+            style={{ height: "25px", paddingTop: "1px", marginTop: "-1px" }}
             type="button"
             className="btn btn-primary "
             value={ownerId}
@@ -164,6 +250,7 @@ class StaffworktimeComponent extends Component {
         </div>
       ) : (
         <input
+          style={{ width: "200px", height: "25px", margin: "auto" }}
           type="text"
           className="form-control"
           // name="ownerId"
@@ -217,101 +304,206 @@ class StaffworktimeComponent extends Component {
         </table>
       );
     });
+    const columns = [
+      {
+        dataField: "Day",
+        text: "DayinWeek",
+        headerStyle: { textAlign: "center" },
+        style: { textAlign: "center" },
+      },
+      {
+        dataField: "morning",
+        text: "Morning",
+        headerStyle: { textAlign: "center" },
+        style: { textAlign: "center" },
+      },
+      {
+        dataField: "afternoon",
+        text: "Afternoon",
+        headerStyle: { textAlign: "center" },
+        style: { textAlign: "center" },
+      },
+    ];
+    let arrays = [];
+
+    this.state.dataCheckTime.map(async (element, index) => {
+      let mornings = (m, i, d) => {
+        if (i === this.state.toDay) {
+          if (m) {
+            return <i class="fa fa-check"></i>;
+          } else {
+            return (
+              <input
+                type="checkbox"
+                aria-label="Checkbox for following text input"
+                name={d}
+                //style={{ display: this.state.toDay === e ? "block" : "none" }}
+                id={i}
+                onClick={this.CheckTime}
+              />
+            );
+          }
+        } else {
+          if (m) {
+            return <i class="fa fa-check"></i>;
+          } else {
+            return <i class="fa fa-times"></i>;
+          }
+        }
+      };
+
+      let abc = {
+        Day: index + 2,
+        morning: mornings(element.morning, index + 2, "sang"),
+        afternoon: mornings(element.afternoon, index + 2, "chieu"),
+      };
+      return arrays.push(abc);
+    });
+
     return (
-      <div
-        className="col-9"
-        style={{ float: "right", marginTop: "-238px" }}
-        onClick={this.handleBlur}
-      >
-        <legend>
-          <h1>view work time</h1>
-        </legend>
-
-        <div class="form-group" style={{ width: "400px", padding: "10px" }}>
-          {/* <label>nhập tên cần tìm</label>
-            <input
-              type="text"
-              class="form-control"
-              id=""
-              placeholder="nhap ten"
-            /> */}
-          <label>nhập tên cần tìm</label>
-          {showManager(this.state.ownerId, this.state.nameManager)}
-          <span
-            className="search-user-list-results"
-            style={{ display: this.state.display }}
-          >
-            <h3>Manager :</h3>
-            <div className="search-user-list-content">
-              <ul>{showuser}</ul>
+      <div onClick={this.handleBlur}>
+        <div className="col-9" style={{ float: "right", marginTop: "-238px" }}>
+          <legend>
+            <h1>View work time</h1>
+          </legend>
+          <div>
+            <div
+              className="row col-12 form-group"
+              style={{
+                padding: "10px",
+                textAlign: "center",
+              }}
+            >
+              <div className="col-3">
+                <label>nhập tên cần tìm</label>
+                {showManager(this.state.ownerId, this.state.nameManager)}
+                <span
+                  className="search-user-list-results"
+                  style={{ display: this.state.display }}
+                >
+                  <h3>staff :</h3>
+                  <div className="search-user-list-content">
+                    <ul>{showuser}</ul>
+                  </div>
+                </span>
+              </div>
+              <div className="col-3">
+                <label>chọn tháng trong năm cần xem</label>
+                <DatePicker
+                  selected={this.state.startDate}
+                  onChange={this.handleChangeDate}
+                  dateFormat="MM/yyyy"
+                  showMonthYearPicker
+                />
+              </div>
+              <div className="col-1">
+                <label>check OT</label> <br></br>
+                <i
+                  class="fa fa-plus-circle"
+                  data-toggle="modal"
+                  data-target={this.state.showCheckOT}
+                  onClick={this.CheckOT}
+                ></i>
+              </div>
+              <div className="col-1">
+                <button
+                  style={{
+                    height: "25px",
+                    paddingTop: "1px",
+                    marginTop: "20px",
+                  }}
+                  type="submit"
+                  class="btn btn-primary"
+                  onClick={this.HandleViewWorkTime}
+                >
+                  Submit
+                </button>
+              </div>
+              <div className="col-4"></div>
             </div>
-          </span>
-          <br></br>
-          <label>chọn tháng trong năm cần xem</label>
-          &nbsp;
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleChangeDate}
-            dateFormat="MM/yyyy"
-            showMonthYearPicker
-          />
+          </div>
+          <hr />
+          <div style={{ width: "800px" }}>
+            <div
+              className=" row col-12"
+              style={{
+                display: this.state.displays,
+                textAlign: "center",
+              }}
+            >
+              <br></br>
+              <h1>Thông tin cần tìm</h1>
+              <br></br>
+              <div className="col-sm-3">
+                số buổi làm trong tháng này: {this.state.countTimeTowork}
+              </div>
+              <div className="col-sm-6">
+                số buổi nghỉ trong tháng này: {this.state.countTimeNotwork}
+              </div>
+              <div className="col-sm-3">
+                số buổi OT: {this.state.countTimeOT}
+              </div>
+            </div>
+            <div
+              className=" row col-12"
+              style={{ display: this.state.displays, textAlign: "center" }}
+            >
+              <div className="col-sm-3">
+                tổng ngày làm chính :{" "}
+                {parseInt(
+                  (this.state.typeWage / 30) * (this.state.countTimeTowork / 2)
+                ) + " VND"}
+              </div>
+              <div className="col-sm-6">
+                tổng lương ngày làm phụ:{" "}
+                {this.state.OT *
+                  (this.state.typeWage / 30) *
+                  (this.state.countTimeOT / 2) +
+                  " VND"}
+              </div>
+              <div className="col-sm-3">
+                tổng cộng bạn được:{" "}
+                {parseInt(
+                  (this.state.typeWage / 30) *
+                    (this.state.countTimeTowork / 2) +
+                    this.state.OT *
+                      (this.state.typeWage / 30) *
+                      (this.state.countTimeOT / 2)
+                ) + " VND"}
+              </div>
+              <br></br>
+            </div>
+            <div className="col-12" style={{ textAlign: "center" }}>
+              {showTimeChecked}
+            </div>
+          </div>
         </div>
-
-        <button
-          type="submit"
-          class="btn btn-primary"
-          onClick={this.HandleViewWorkTime}
-        >
-          Submit
-        </button>
-
-        <div style={{ width: "800px" }}>
-          <div
-            className=" row col-12"
-            style={{
-              display: this.state.displays,
-              textAlign: "center",
-            }}
-          >
-            <br></br>
-            <div className="col-sm-3">
-              số buổi làm trong tháng này: {this.state.countTimeTowork}
+        <div class="modal fade" id="showCheckOT">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content" style={{ height: "600px" }}>
+              <div class="modal-header">
+                <h5 class="modal-title"> CheckOT {this.state.monthOfYear}</h5>
+              </div>
+              <div class="modal-body">
+                <h3>tuần thứ : {this.state.weekOfMonth}</h3>
+                <BootstrapTable
+                  keyField="Day"
+                  data={arrays}
+                  columns={columns}
+                  // pagination={pagination}
+                  //  rowEvents={rowEvents} // goi event
+                />
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+              </div>
             </div>
-            <div className="col-sm-6">
-              số buổi nghỉ trong tháng này: {this.state.countTimeNotwork}
-            </div>
-            <div className="col-sm-3">số buổi OT: {this.state.countTimeOT}</div>
-          </div>
-          <div
-            className=" row col-12"
-            style={{ display: this.state.displays, textAlign: "center" }}
-          >
-            <div className="col-sm-3">
-              tổng ngày làm chính :{" "}
-              {parseInt(
-                (this.state.typeWage / 30) * (this.state.countTimeTowork / 2)
-              ) + " VND"}
-            </div>
-            <div className="col-sm-6">
-              tổng lương ngày làm phụ:{" "}
-              {this.state.OT *
-                (this.state.typeWage / 30) *
-                (this.state.countTimeOT / 2) +
-                " VND"}
-            </div>
-            <div className="col-sm-3">
-              tổng cộng bạn được:{" "}
-              {parseInt(
-                (this.state.typeWage / 30) * (this.state.countTimeTowork / 2) +
-                  this.state.OT *
-                    (this.state.typeWage / 30) *
-                    (this.state.countTimeOT / 2)
-              ) + " VND"}
-            </div>
-            <br></br>
-          </div>
-          <div className="col-12" style={{ textAlign: "center" }}>
-            {showTimeChecked}
           </div>
         </div>
       </div>
