@@ -131,13 +131,11 @@ const taskStatistic = async (req, res) => {
     const getDataTask = await taskModel.getAllTask();
     const getDataUser = await userModel.getAllUser();
 
-    return res
-      .status(200)
-      .json({
-        dataRoom: getDataRoom,
-        dataTask: getDataTask,
-        dataUser: getDataUser,
-      });
+    return res.status(200).json({
+      dataRoom: getDataRoom,
+      dataTask: getDataTask,
+      dataUser: getDataUser,
+    });
   } catch (error) {
     return res.status(500).json({ message: "task statistic failed" });
   }

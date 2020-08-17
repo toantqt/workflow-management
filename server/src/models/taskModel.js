@@ -96,6 +96,10 @@ taskSchema.statics = {
     }).exec();
   },
 
+  getTaskUser(data) {
+    return this.find({ list: { $elemMatch: { idStaff: data.idUser } } }).exec();
+  },
+
   updateStatusListTask(id, bl) {
     return this.findOneAndUpdate(
       { "list._id": id },

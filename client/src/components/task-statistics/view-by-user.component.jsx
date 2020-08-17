@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
-
+import BarChartComponent from "./chart/bar-chart.component";
 const pagination = paginationFactory({
   sizePerPage: 6,
 });
@@ -12,12 +12,12 @@ class ViewByUserComponent extends Component {
     super(props);
     this.state = {
       select: "",
+      dataTask: [],
     };
   }
   handleChangeUser = async (event) => {
     const value = event.target.value;
-
-    await this.setState({
+    await await this.setState({
       select: value,
     });
   };
@@ -25,12 +25,12 @@ class ViewByUserComponent extends Component {
     const user = this.props.data.dataUser.map((e, index) => {
       return <option value={e.id}>{e.username}</option>;
     });
-    const arrTaskUser = [];
+    const dataTask = [];
     this.props.data.dataUser.forEach((eUser) => {
       if (eUser.username === this.state.select) {
         this.props.data.dataTask.forEach((eTask) => {
           if (eTask.idStaff === eUser._id) {
-            return arrTaskUser.push(eTask);
+            return dataTask.push(eTask);
           }
         });
       }
@@ -63,7 +63,7 @@ class ViewByUserComponent extends Component {
       },
     ];
     let data = [];
-    arrTaskUser.map((eTask, index) => {
+    dataTask.map((eTask, index) => {
       index = index + 1;
       let dates = (string) => {
         var options = { year: "numeric", month: "long", day: "numeric" };
@@ -107,7 +107,7 @@ class ViewByUserComponent extends Component {
     });
 
     let Finish = [];
-    arrTaskUser.map((eTask, index) => {
+    dataTask.map((eTask, index) => {
       index = index + 1;
       let dates = (string) => {
         var options = { year: "numeric", month: "long", day: "numeric" };
@@ -149,7 +149,7 @@ class ViewByUserComponent extends Component {
     let late = [];
     const dateNow = new Date().getTime();
     //console.log(dateNow);
-    arrTaskUser.map((eTask, index) => {
+    dataTask.map((eTask, index) => {
       index = index + 1;
 
       let dates = (string) => {
@@ -175,7 +175,6 @@ class ViewByUserComponent extends Component {
       if (deadline < dateNow && eTask.status === false) {
         let oBj = {
           stt: index,
-
           idStaff: nameUser,
           room: nameRoom,
           title: eTask.title,
@@ -192,7 +191,24 @@ class ViewByUserComponent extends Component {
         late.push(oBj);
       }
     });
-
+    console.log(late);
+    if (this.state.select === "") {
+      return (
+        <div>
+          <div className="col-2 float-right">
+            <input
+              list="browsers"
+              name="browser"
+              id="browser"
+              style={{ height: "30px", marginTop: "1.5px" }}
+              onChange={this.handleChangeUser}
+              placeholder="Search or select user"
+            />
+            <datalist id="browsers">{user}</datalist>
+          </div>
+        </div>
+      );
+    }
     return (
       <div>
         <div className="col-2 float-right">
@@ -288,6 +304,7 @@ class ViewByUserComponent extends Component {
             </div>
           </div>
         </div>
+        <BarChartComponent data={{ dataTask: dataTask }} />
       </div>
     );
   }

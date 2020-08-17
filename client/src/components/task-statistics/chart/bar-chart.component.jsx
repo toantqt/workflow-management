@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Bar, Doughnut } from "react-chartjs-2";
 class BarChartComponent extends Component {
   render() {
+    console.log(this.props);
     const taskLength = this.props.data.dataTask.length;
 
     let doneLength = 0;
