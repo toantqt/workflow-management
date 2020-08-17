@@ -12,7 +12,10 @@ import ManageComponent from "./components/manage/manage.component";
 import ProfileStaffComponent from "./components/profile-staff/profile-staff.component";
 import ProfileRoomComponent from "./components/profile-room/profile-room.component";
 import OverviewComponent from "./components/overview/overview.component";
+
 import TaskStatisticsComponent from "./components/task-statistics/task-statistics.component";
+
+import StaffworktimeComponent from "./components/timekeeping/staffworktime.component";
 
 //import Timekeepping from "./components/sidebar/timekeeping.component";
 
@@ -131,6 +134,12 @@ function App() {
           path="/timekeeping"
           render={() =>
             isLoggedIn() ? <TimekeepingComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+        <Route
+          path="/manage/staffworktime"
+          render={() =>
+            isLoggedIn() ? <StaffworktimeComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>

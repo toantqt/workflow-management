@@ -3,8 +3,8 @@ import axios from "axios";
 export const createTimeChecking = async (
   accessToken,
   Id,
-  monthYear,
-  getWeek
+  monthYear
+  // getWeek
 ) => {
   return await axios
     .post(
@@ -12,7 +12,7 @@ export const createTimeChecking = async (
       {
         userId: Id,
         monthYears: monthYear,
-        weekInMonth: getWeek,
+        // weekInMonth: getWeek,
       },
       {
         headers: { Authorization: `${accessToken}` },
@@ -57,6 +57,33 @@ export const getTimeKeeping = async (accessToken, Time, id) => {
       {
         userId: id,
         monthYear: Time,
+      },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+export const updateTimeNotWork = async (
+  accessToken,
+  id,
+  time,
+  // getweek,
+  today
+) => {
+  return await axios
+    .post(
+      "http://localhost:5566/update-time-not-work",
+      {
+        userId: id,
+        monthYear: time,
+        // week: getweek,
+        todays: today,
       },
       {
         headers: { Authorization: `${accessToken}` },

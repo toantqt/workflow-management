@@ -8,6 +8,8 @@ const timeKeepingModel = new Schema(
     monthYear: { type: String, default: "" },
     weekInMonth: { type: String, default: "" },
     countTime: { type: Number, default: 0 },
+    countTimeOT: { type: Number, default: 0 }, // Ot
+    countTimeNotWork: { type: Number, default: 0 }, // time not work
     checkedOneWeek: [
       {
         dayOfWeek: { type: Number },
@@ -64,13 +66,33 @@ timeKeepingModel.statics = {
       ).exec();
     }
   },
-  updateCountTime(id, count) {
-    return this.update({ _id: id }, { countTime: count }).exec();
+  updateCountTime(id, count, text) {
+    if (text === "timecheck") {
+      return this.update({ _id: id }, { countTime: count }).exec();
+    }
+    if (text === "ot") {
+      return this.update({ _id: id }, { countTimeOT: count }).exec();
+    }
   },
   getTimekeeping(id, Time) {
     return this.find({
       $and: [{ userId: id }, { monthYear: { $regex: new RegExp(Time, "i") } }],
     }).exec();
+  },
+  checkSessionWorked(id, time, week) {
+    return this.findOne(
+      {
+        $and: [
+          { userId: id },
+          { monthYear: { $regex: new RegExp(time, "i") } }, // regex mongo tim key gan vs keyword nhat
+          { weekInMonth: { $regex: new RegExp(week, "i") } },
+        ],
+      },
+      { checkedOneWeek: 1 }
+    ).exec();
+  },
+  updateTimeNotWork(id, count) {
+    return this.update({ _id: id }, { countTimeNotWork: count }).exec();
   },
 };
 module.exports = mongoose.model("TimeKeeping", timeKeepingModel);

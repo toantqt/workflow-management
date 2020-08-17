@@ -3,6 +3,7 @@ import AppBarComponent from "../navbar/appBar.component";
 import jwt_decode from "jwt-decode";
 import {
   createTimeChecking,
+  updateTimeNotWork,
   Timekeeping,
   getTimeKeeping,
 } from "./timekeepingFunction";
@@ -24,17 +25,25 @@ class TimekeepingComponent extends Component {
       toDay: "",
       startDate: new Date(),
       getTimeChecked: [],
+      getCreateDay: [],
       dataTimeToDay: "",
       countTimeTowork: 0,
+      countTimeNotwork: 0,
+      countTimeOT: 0,
       displays: "none",
+      OT: 0,
+      typeWage: 0,
     };
   }
   // get week in month today
-  weekinMonth = () => {
-    let adjustedDate = new Date().getDate() + new Date().getDay();
-    let prefixes = ["0", "1", "2", "3", "4", "5"];
-    return parseInt(prefixes[0 | (adjustedDate / 7)]) + 1;
-  };
+  // weekinMonth = () => {
+  //   let adjustedDate = new Date().getDate() + new Date().getDay();
+  //   //console.log(new Date(2017, 10, 9).getDay());
+  //   //console.log(new Date(2017, 10, 9).getDate());
+  //   let prefixes = ["0", "1", "2", "3", "4", "5"];
+  //   // console.log(prefixes[0 | (13 / 7)]);
+  //   return parseInt(prefixes[0 | (adjustedDate / 7)] + 1);
+  // };
   componentDidMount = async () => {
     const token = localStorage.userToken;
     const tokenJSON = JSON.parse(localStorage.userToken);
@@ -51,15 +60,15 @@ class TimekeepingComponent extends Component {
     // console.log(new Date().getDate());
     // console.log(new Date().getDay());
 
-    let getweek = this.weekinMonth();
+    // let getweek = this.weekinMonth();
     let monthYear = new Date().getMonth() + 1 + "/" + new Date().getFullYear();
     // console.log(monthYear);
     // console.log(getweek);
     await createTimeChecking(
       accessToken,
       decoded.data._id,
-      monthYear,
-      getweek
+      monthYear
+      // getweek
     ).then(async (res) => {
       await this.setState({
         dataTimeToDay: res,
@@ -71,6 +80,18 @@ class TimekeepingComponent extends Component {
         });
       });
     });
+    if (this.state.today != 2) {
+      updateTimeNotWork(
+        accessToken,
+        decoded.data._id,
+        monthYear,
+        // getweek,
+        this.state.toDay
+      ).then((res) => {
+        // console.log(res);
+        console.log("check ngay nghi");
+      });
+    }
   };
 
   CheckTime = (event) => {
@@ -85,15 +106,15 @@ class TimekeepingComponent extends Component {
       monthYear: this.state.dataTimeToDay.monthYear,
       weekInMonth: this.state.dataTimeToDay.weekInMonth,
     };
-    // if (event.target.name === "sang" && new Date().getHours() > 12) {
-    //   alert("ban da diem danh muon");
-    // }
-    // if (event.target.name === "chieu" && new Date().getHours() < 14) {
-    //   alert(" chua toi h diem danh ca nay");
-    // }
-    // if (event.target.name === "chieu" && new Date().getHours() > 18) {
-    //   alert("ban da diem danh muon");
-    // }
+    if (event.target.name === "sang" && new Date().getHours() > 12) {
+      return alert("ban da diem danh muon");
+    }
+    if (event.target.name === "chieu" && new Date().getHours() < 14) {
+      return alert(" chua toi h diem danh ca nay");
+    }
+    if (event.target.name === "chieu" && new Date().getHours() > 18) {
+      return alert("ban da diem danh muon");
+    }
     Timekeeping(this.state.accessToken, data).then((res) => {
       alert("diem danh thanh cong");
 
@@ -109,6 +130,7 @@ class TimekeepingComponent extends Component {
   };
   clickSearchTimeCheck = (event) => {
     event.preventDefault();
+
     let TimeDay =
       this.state.startDate.getMonth() +
       1 +
@@ -128,11 +150,21 @@ class TimekeepingComponent extends Component {
         }
         this.setState({
           displays: "none",
+          OT: res.getWageUser.wageOt,
+          typeWage: res.getWageUser.typeWage,
+          getTimeChecked: [],
+          getCreateDay: [],
+          countTimeTowork: 0,
+          countTimeNotwork: 0,
+          countTimeOT: 0,
         });
         res.getTime.forEach(async (e) => {
           await this.setState({
             getTimeChecked: [...this.state.getTimeChecked, e.checkedOneWeek],
+            getCreateDay: [...this.state.getCreateDay, e.createAt],
             countTimeTowork: this.state.countTimeTowork + e.countTime,
+            countTimeNotwork: this.state.countTimeNotwork + e.countTimeNotWork,
+            countTimeOT: this.state.countTimeOT + e.countTimeOT,
           });
         });
         this.setState({
@@ -167,6 +199,7 @@ class TimekeepingComponent extends Component {
     let arrays = [];
 
     this.state.dataCheckTime.map(async (element, index) => {
+      if (index === 5) return;
       let mornings = (m, i, d) => {
         if (i === this.state.toDay) {
           if (m) {
@@ -199,37 +232,12 @@ class TimekeepingComponent extends Component {
       };
       return arrays.push(abc);
     });
-    // show Time keeping
-    //let showArray = [];
-    // let arrayss = [];
-    // this.state.getTimeChecked.map(async (e) => {
-    //   await e.map((ele, index) => {
-    //     let abc = {
-    //       Day: index + 2,
-    //       morning: ele.morning ? (
-    //         <i class="fa fa-check"></i>
-    //       ) : (
-    //         <i class="fa fa-times"></i>
-    //       ),
-    //       afternoon: ele.afternoon ? (
-    //         <i class="fa fa-check"></i>
-    //       ) : (
-    //         <i class="fa fa-times"></i>
-    //       ),
-    //     };
-    //     return arrayss.push(abc);
-    //   });
-
-    //   return await showArray.push(arrayss);
-    // });
-    // //console.log(arrayss);
-    // let showTimeChecked = showArray.map(async (element) => {
-    //   await (
-    //     <BootstrapTable keyField="Day" data={element} columns={columns} />
-    //   );
-    // });
-    // console.log(showTimeChecked);
-    let showTimeChecked = this.state.getTimeChecked.map((element) => {
+    // for search
+    let showTimeChecked = this.state.getTimeChecked.map((element, i) => {
+      let dates = (string) => {
+        var options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(string).toLocaleDateString([], options);
+      };
       let abc = element.map((e, index) => {
         let show = (type) => {
           return type ? (
@@ -249,6 +257,9 @@ class TimekeepingComponent extends Component {
       return (
         <table class="table">
           <thead>
+            <tr>
+              <th>Day Begin: {dates(this.state.getCreateDay[i])}</th>
+            </tr>
             <tr>
               <th scope="col" style={{ textAlign: "center" }}>
                 Day
@@ -297,8 +308,53 @@ class TimekeepingComponent extends Component {
                   search
                 </button>
               </div>
-              <div className="col-12" style={{ display: this.state.displays }}>
-                <h3> so buoi lam viec la : {this.state.countTimeTowork} </h3>
+              <div
+                className=" row col-12"
+                style={{
+                  display: this.state.displays,
+                  textAlign: "center",
+                }}
+              >
+                <br></br>
+                <div className="col-sm-3">
+                  số buổi làm trong tháng này: {this.state.countTimeTowork}
+                </div>
+                <div className="col-sm-6">
+                  số buổi nghỉ trong tháng này: {this.state.countTimeNotwork}
+                </div>
+                <div className="col-sm-3">
+                  số buổi OT: {this.state.countTimeOT}
+                </div>
+              </div>
+              <div
+                className=" row col-12"
+                style={{ display: this.state.displays, textAlign: "center" }}
+              >
+                <div className="col-sm-3">
+                  tổng ngày làm chính :{" "}
+                  {parseInt(
+                    (this.state.typeWage / 30) *
+                      (this.state.countTimeTowork / 2)
+                  ) + " VND"}
+                </div>
+                <div className="col-sm-6">
+                  tổng lương ngày làm phụ:{" "}
+                  {this.state.OT *
+                    (this.state.typeWage / 30) *
+                    (this.state.countTimeOT / 2) +
+                    " VND"}
+                </div>
+                <div className="col-sm-3">
+                  tổng cộng bạn được:{" "}
+                  {parseInt(
+                    (this.state.typeWage / 30) *
+                      (this.state.countTimeTowork / 2) +
+                      this.state.OT *
+                        (this.state.typeWage / 30) *
+                        (this.state.countTimeOT / 2)
+                  ) + " VND"}
+                </div>
+                <br></br>
               </div>
               <div className="col-12" style={{ textAlign: "center" }}>
                 {showTimeChecked}

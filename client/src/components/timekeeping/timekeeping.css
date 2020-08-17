@@ -1,0 +1,41 @@
+.search-user-list-results {
+  display: none;
+  width: 64%;
+  position: absolute;
+  margin-left: 30px;
+  margin-top: 10px;
+  border: solid 1px rgba(100, 100, 100, 0.2);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.search-user-list-results h3 {
+  display: block;
+  color: #333;
+  background: #fff;
+  font-weight: bold;
+  font-size: 13px;
+  padding: 8px;
+  margin: 0;
+  border-bottom: solid 1px rgba(100, 100, 100, 0.3);
+}
+.search-user-list-content {
+  height: 50%;
+  background-color: #fff;
+  overflow: auto;
+}
+.search-user-list-content ul li {
+  border-bottom: 1px solid #dfe6e9;
+  width: 90%;
+  height: auto;
+  padding: 7px 0px 12px 5px;
+  margin: 0 auto;
+  list-style-type: none;
+}
+
+.add-user {
+  float: right;
+  width: 25px;
+  height: 25px;
+  padding: 0px 0px 0px 0px;
+}

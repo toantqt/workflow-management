@@ -49,6 +49,13 @@ class AddComponent extends Component {
                     Task Statistics
                   </Link>
                 </li>
+
+                <li className="nav-item" style={{ marginTop: "15px" }}>
+                  <Link className="nav-link" to={"/manage/staffworktime"}>
+                    <i class="far fa-address-card" aria-hidden="true"></i>
+                    Infor Staff Work Time
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>
