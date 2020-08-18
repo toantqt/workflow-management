@@ -55,6 +55,9 @@ taskSchema.statics = {
   getTaskRoom(id) {
     return this.find({ roomId: id }).exec();
   },
+  getAllTask() {
+    return this.find().exec();
+  },
 
   //add list in task
   addListTask(idTask, data) {
@@ -91,6 +94,10 @@ taskSchema.statics = {
         { list: { $elemMatch: { idStaff: data.idUser } } },
       ],
     }).exec();
+  },
+
+  getTaskUser(data) {
+    return this.find({ list: { $elemMatch: { idStaff: data.idUser } } }).exec();
   },
 
   updateStatusListTask(id, bl) {
