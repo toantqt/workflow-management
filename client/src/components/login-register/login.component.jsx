@@ -34,8 +34,13 @@ class LoginComponent extends Component {
     console.log(User);
     login(User).then((res) => {
       const history = createHashHistory();
+      console.log(res);
       if (res) {
         history.push("/");
+      } else {
+        alert("thong tin dang nhap khong dung roi");
+        history.push("/login");
+        return window.location.reload();
       }
     });
     //console.log(this.state);

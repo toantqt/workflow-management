@@ -135,6 +135,7 @@ let postRegister = async (req, res) => {
       password: Joi.string().required(),
     });
     let result = userSchema.validate(req.body);
+    //console.log(result);
     //debug("aaaaa");
     if (result) {
       // return res.status(200).json(result.value);
@@ -145,6 +146,7 @@ let postRegister = async (req, res) => {
         req.body.password
       );
       debug("result success");
+
       return res.status(200).json({ createUser });
     } else {
       return res.status(500).json({

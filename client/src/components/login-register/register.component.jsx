@@ -27,6 +27,13 @@ class registerComponent extends Component {
   onHandleSubmit = (event) => {
     event.preventDefault();
     const history = createHashHistory();
+    if (
+      this.state.email === "" ||
+      this.state.username === "" ||
+      this.state.password === ""
+    ) {
+      return alert("ban chua nhap day du thong tin dang ky");
+    }
     const newUser = {
       email: this.state.email,
       username: this.state.username,
@@ -35,8 +42,14 @@ class registerComponent extends Component {
     register(newUser)
       .then((res) => {
         const history = createHashHistory();
-        if (res) {
-          history.push("/");
+        //console.log(res);
+        alert(res.createUser.message);
+        if (res.createUser.succeed) {
+          history.goBack();
+          // return history.push("/login");
+        } else {
+          // history.push("/register");
+          return window.location.reload();
         }
       })
       .catch((error) => {

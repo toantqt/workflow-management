@@ -5,7 +5,11 @@ let createUser = (email, username, password) => {
     //debug('create user');
     let userByEmail = await userModel.findOne({ email });
     if (userByEmail) {
-      return reject({ message: "email da ton tai" });
+      return resolve({ message: "email da ton tai", succeed: false });
+    }
+    let checkusername = await userModel.findusernameregister(username);
+    if (checkusername) {
+      return resolve({ message: "ten đăng nhập đã tồn tại", succeed: false });
     }
     let userItem = {
       username: username,
@@ -15,7 +19,10 @@ let createUser = (email, username, password) => {
 
     const newUser = await new userModel(userItem);
     await newUser.save();
-    return resolve({ message: " send thanh cong" });
+    return resolve({
+      message: " Tạo tài khoản thành công",
+      succeed: true,
+    });
   });
 };
 

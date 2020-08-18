@@ -26,6 +26,7 @@ function App() {
         {/* <Route path="/edit-profile" component={EditProfileComponent}></Route> */}
 
         <Route
+          // exact
           path="/login"
           render={() =>
             isLoggedIn() ? <Redirect to="/" /> : <LoginComponent />
@@ -47,7 +48,8 @@ function App() {
               } else {
                 alert("The account has been locked");
                 localStorage.clear();
-                return window.location.reload();
+                // return window.location.reload();
+                return <Redirect to="/login" />;
               }
             } else {
               return <Redirect to="/login" />;
