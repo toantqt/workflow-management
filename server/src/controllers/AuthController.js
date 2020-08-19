@@ -16,6 +16,7 @@ const { result } = require("lodash");
 // const { update } = require("../models/userModel");
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
+// const accessTokenLife = Math.floor(Date.now() / 1000) + (60 * 60)
 //ma secretKey
 const accessTokenSecret =
   process.env.ACCESS_TOKEN_SECRET || "access-token-secret-example-toantqt-@@";

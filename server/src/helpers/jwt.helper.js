@@ -19,7 +19,7 @@ let generateToken = (user, secretSignature, tokenLife) => {
       secretSignature,
       {
         algorithm: "HS256",
-        expiresIn: tokenLife,
+        expiresIn: "1h", // chu y phan nay
       },
       (error, token) => {
         if (error) {

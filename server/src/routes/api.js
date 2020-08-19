@@ -64,7 +64,7 @@ let initAPIs = (app) => {
 
   router.post("/list-to-done", ListController.listToDone);
   router.post("/done-to-list", ListController.doneToList);
-
+  /////////
   router.get("/find-user-addroom", RoomController.findUserAddRoom);
   router.post("/add-user-room", RoomController.addUserRoom);
   router.get("/get-all-room", RoomController.getAllRoom);

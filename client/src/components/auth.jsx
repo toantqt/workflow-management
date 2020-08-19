@@ -1,8 +1,31 @@
 import jwt_decode from "jwt-decode";
+import { date } from "@hapi/joi";
 export const isLoggedIn = () => {
   const token = localStorage.getItem("userToken");
-  //console.log(token);
-  return !!token;
+  //const token = localStorage.userToken;
+  console.log("test last time");
+  //console.log(token); // true !token
+  if (token != null) {
+    const tokenJSON = JSON.parse(localStorage.userToken);
+    //const refreshToken = tokenJSON.refreshToken;
+    const accessToken = tokenJSON.accessToken;
+    // const decoded = jwt_decode(refreshToken);
+    const decoded = jwt_decode(accessToken);
+    //console.log(new Date());
+    console.log(Date.now());
+    //console.log(decoded);
+    // console.log(new Date(decoded.iat));
+    // // console.log(decoded);
+
+    console.log(new Date(decoded.exp) * 1000);
+    // console.log(decoded.exp * 1000);
+    if (Date.now() > new Date(decoded.exp) * 1000) {
+      localStorage.clear();
+      return false;
+    }
+  }
+
+  return !!token; //false
 };
 export const checkLock = () => {
   const token = localStorage.userToken;
