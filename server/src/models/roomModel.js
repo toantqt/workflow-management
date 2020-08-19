@@ -58,7 +58,11 @@ roomSchema.statics = {
     return this.findOne({ _id: roomId }, { members: 1 }).exec();
   },
   removeRoom(roomid) {
-    return this.update({ _id: roomid }, { deletedAt: true }).exec();
+    return this.update(
+      { _id: roomid },
+      { deletedAt: true },
+      { safe: true, upsert: true, new: true }
+    ).exec();
   },
   findMember(idUser, roomid) {
     return this.findOne({

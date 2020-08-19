@@ -8,7 +8,11 @@ const listTaskSchema = new Schema(
     lists: [
       {
         name: String,
-        note: { type: String, default: "" },
+        note: [
+          {
+            name: String,
+          },
+        ],
         status: { type: String, default: "work" },
       },
     ],
@@ -16,7 +20,11 @@ const listTaskSchema = new Schema(
       {
         name: String,
         workId: String,
-        note: { type: String, default: "" },
+        note: [
+          {
+            name: String,
+          },
+        ],
         status: { type: String, default: "doing" },
       },
     ],
@@ -24,7 +32,11 @@ const listTaskSchema = new Schema(
       {
         name: String,
         workId: String,
-        note: { type: String, default: "" },
+        note: [
+          {
+            name: String,
+          },
+        ],
         status: { type: String, default: "done" },
       },
     ],
@@ -60,7 +72,6 @@ listTaskSchema.statics = {
         $push: {
           lists: {
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -68,6 +79,55 @@ listTaskSchema.statics = {
     ).exec();
   },
 
+  // add work to do
+  addWorkToDo(data, status) {
+    if (status === "work") {
+      return this.findAndUpdate(
+        { lists: { $elemMatch: { _id: data.id } } },
+
+        {
+          $push: {
+            note: {
+              name: data.name,
+            },
+          },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    } else if (status === "doing") {
+      return this.findOneAndUpdate(
+        {
+          "doing._id": data.id,
+        },
+        {
+          $push: {
+            doing: {
+              note: {
+                name: data.name,
+              },
+            },
+          },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    } else {
+      return this.findOneAndUpdate(
+        {
+          "done._id": data.id,
+        },
+        {
+          $push: {
+            done: {
+              note: {
+                name: data.name,
+              },
+            },
+          },
+        },
+        { safe: true, upsert: true, new: true }
+      ).exec();
+    }
+  },
   //add doing in list
   addDoing(data) {
     return this.findOneAndUpdate(
@@ -76,7 +136,6 @@ listTaskSchema.statics = {
         $push: {
           doing: {
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -91,7 +150,6 @@ listTaskSchema.statics = {
         $push: {
           done: {
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -107,14 +165,12 @@ listTaskSchema.statics = {
           doing: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           lists: {
             _id: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -131,14 +187,12 @@ listTaskSchema.statics = {
           lists: {
             _id: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           doing: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -154,14 +208,12 @@ listTaskSchema.statics = {
           done: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           doing: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -177,14 +229,12 @@ listTaskSchema.statics = {
           doing: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           done: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -200,14 +250,12 @@ listTaskSchema.statics = {
           done: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           lists: {
             _id: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },
@@ -223,14 +271,12 @@ listTaskSchema.statics = {
           lists: {
             _id: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
         $pull: {
           done: {
             workId: data.workId,
             name: data.name,
-            note: data.note,
           },
         },
       },

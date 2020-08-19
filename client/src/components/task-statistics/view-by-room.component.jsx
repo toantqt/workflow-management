@@ -270,7 +270,7 @@ class ViewByRoomComponent extends Component {
               />
             </div>
             <div
-              class="tab-pane  active"
+              class="tab-pane"
               id="tabs-2"
               role="tabpanel"
               aria-labelledby="home-tab"
@@ -284,7 +284,7 @@ class ViewByRoomComponent extends Component {
               />
             </div>
             <div
-              class="tab-pane  active"
+              class="tab-pane"
               id="tabs-3"
               role="tabpanel"
               aria-labelledby="home-tab"

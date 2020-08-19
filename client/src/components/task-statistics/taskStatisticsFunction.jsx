@@ -12,3 +12,20 @@ export const taskStatistic = async (accessToken) => {
       console.log(error);
     });
 };
+
+export const viewByMonth = async (accessToken, data) => {
+  return await axios
+    .post(
+      "http://localhost:5566/view-by-month",
+      { data: data },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

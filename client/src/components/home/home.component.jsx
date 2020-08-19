@@ -47,7 +47,7 @@ class HomeComponent extends Component {
                 await this.setState({
                   roomUser: [
                     ...this.state.roomUser,
-                    { id: e._id, name: e.nameRoom },
+                    { id: e._id, name: e.nameRoom, deletedAt: e.deletedAt },
                   ],
                 });
 
@@ -83,7 +83,11 @@ class HomeComponent extends Component {
             this.setState({
               room: [
                 ...this.state.room,
-                { id: element._id, name: element.nameRoom },
+                {
+                  id: element._id,
+                  name: element.nameRoom,
+                  deletedAt: element.deletedAt,
+                },
               ],
             });
           });

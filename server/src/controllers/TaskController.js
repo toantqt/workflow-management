@@ -141,6 +141,14 @@ const taskStatistic = async (req, res) => {
   }
 };
 
+const viewByMonth = async (req, res) => {
+  try {
+    console.log(req.body.data);
+  } catch (error) {
+    return res.status(500).json({ message: "view month failed" });
+  }
+};
+
 module.exports = {
   addTask: addTask,
   updateTask: updateTask,
@@ -149,4 +157,5 @@ module.exports = {
   getDataList: getDataList,
   getBoardUser: getBoardUser,
   taskStatistic: taskStatistic,
+  viewByMonth: viewByMonth,
 };

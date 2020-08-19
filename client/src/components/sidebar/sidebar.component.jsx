@@ -13,28 +13,33 @@ class SidebarComponent extends Component {
     return false;
   };
   render() {
+    console.log(this.props.data);
     //list room user
     const listRoomUser = this.props.data.roomUser.map((room, index) => {
-      return (
-        <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-          <Link className="nav-link" to={`/room/${room.id}`}>
-            <i className="fa fa-pencil" aria-hidden="true"></i>
-            {room.name}
-          </Link>
-        </li>
-      );
+      if (!room.deletedAt) {
+        return (
+          <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+            <Link className="nav-link" to={`/room/${room.id}`}>
+              <i className="fa fa-pencil" aria-hidden="true"></i>
+              {room.name}
+            </Link>
+          </li>
+        );
+      }
     });
 
     //list room
     const listRoom = this.props.data.room.map((room, index) => {
-      return (
-        <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-          <Link className="nav-link" to={`/room/${room.id}`}>
-            <i className="fa fa-pencil" aria-hidden="true"></i>
-            {room.name}
-          </Link>
-        </li>
-      );
+      if (!room.deletedAt) {
+        return (
+          <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+            <Link className="nav-link" to={`/room/${room.id}`}>
+              <i className="fa fa-pencil" aria-hidden="true"></i>
+              {room.name}
+            </Link>
+          </li>
+        );
+      }
     });
 
     if (this.checkRole()) {

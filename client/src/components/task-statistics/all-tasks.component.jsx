@@ -5,6 +5,7 @@ import BarChartComponent from "./chart/bar-chart.component";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import ViewByUserComponent from "./view-by-user.component";
+import "./statisctics.css";
 
 const pagination = paginationFactory({
   sizePerPage: 6,

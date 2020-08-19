@@ -53,6 +53,9 @@ let initAPIs = (app) => {
   router.post("/add-doing", ListController.addDoing);
   router.post("/add-done", ListController.addDone);
 
+  //add work to do
+  router.post("/add-work-to-do", ListController.addWorkToDo);
+
   //update doing work in list
   router.post("/doing-work", ListController.doingWork);
 
@@ -87,6 +90,7 @@ let initAPIs = (app) => {
 
   //task-statistic
   router.get("/task-statistic", TaskController.taskStatistic);
+  router.post("/view-by-month", TaskController.viewByMonth);
 
   router.post("/update-time-not-work", TimekeepingController.updateTimeNotWork);
 

@@ -124,3 +124,24 @@ export const deleteList = async (accessToken, id) => {
       console.log(error);
     });
 };
+
+export const addWorkToDo = async (accessToken, data) => {
+  // console.log(accessToken);
+  return await axios
+    .post(
+      "http://localhost:5566/add-work-to-do",
+      {
+        data: data,
+      },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      // return res.data;
+      return res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

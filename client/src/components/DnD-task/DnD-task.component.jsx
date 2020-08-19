@@ -6,6 +6,7 @@ import {
   addDoing,
   addDone,
   sendData,
+  addWorkToDo,
 } from "../list-task/listTaskFunction";
 class DnDTaskComponent extends Component {
   constructor(props) {
@@ -19,6 +20,10 @@ class DnDTaskComponent extends Component {
       work: "",
       doing: "",
       done: "",
+      name: "",
+      status: "",
+      nameWorkToDo: "",
+      id: "",
     };
   }
 
@@ -51,6 +56,40 @@ class DnDTaskComponent extends Component {
     if (status === "done") {
       this.setState({ inputDone: [] });
     }
+  };
+
+  //handle click edit note
+  handleClickEdit = (event, data) => {
+    event.preventDefault();
+    this.setState({
+      name: data.name,
+      status: data.status,
+      id: data._id,
+    });
+  };
+
+  //handle change edit
+  handleChangeEdit = (event) => {
+    event.preventDefault();
+    const value = event.target.value;
+    console.log(value);
+    this.setState({
+      nameWorkToDo: value,
+    });
+  };
+
+  //handle submit edit add work to do
+  handleSubmitAddToWork = (event) => {
+    event.preventDefault();
+    const data = {
+      nameWorkToDo: this.state.name,
+      status: this.state.status,
+      id: this.state.id,
+      idList: this.state.idList,
+    };
+    addWorkToDo(this.props.data.accessToken, data).then((res) => {
+      console.log(res);
+    });
   };
 
   //handle submit form
@@ -148,9 +187,7 @@ class DnDTaskComponent extends Component {
         await done.push(e);
       }
     });
-    console.log(work);
-    console.log(doing);
-    console.log(done);
+
     const data = {
       idList: this.state.idList,
       work: work,
@@ -173,8 +210,7 @@ class DnDTaskComponent extends Component {
       done: [],
     };
 
-    console.log(this.props.data.idStaff);
-    console.log(this.props.data.idUser);
+    console.log(this.props.data);
     this.props.data.lists.forEach((element) => {
       tasks[element.status].push(
         <div
@@ -182,6 +218,9 @@ class DnDTaskComponent extends Component {
           onDragStart={(e) => this.onDragStart(e, element.name)}
           draggable
           className="draggable panel-body"
+          onClick={(event) => this.handleClickEdit(event, element)}
+          data-toggle="modal"
+          data-target="#exampleModal"
         >
           {element.name}
         </div>
@@ -245,7 +284,11 @@ class DnDTaskComponent extends Component {
               name="done"
               onChange={this.onHandleChange}
             />
-            <button type="submit" class="btn btn-primary btn-list">
+            <button
+              type="submit"
+              class="btn btn-primary btn-list"
+              onClick={this.handleSubmitEdit}
+            >
               Add
             </button>
             <button
@@ -337,6 +380,62 @@ class DnDTaskComponent extends Component {
             >
               Save Work
             </button>
+          </div>
+          <div
+            class="modal fade"
+            id="exampleModal"
+            tabindex="-1"
+            role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">
+                    {this.state.name}
+                  </h5>
+                  <button
+                    type="button"
+                    class="close"
+                    data-dismiss="modal"
+                    aria-label="Close"
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <i class="fas fa-list-ul " style={{ fontSize: "20px" }}></i>
+                  &nbsp;&nbsp;&nbsp;
+                  <label style={{ fontSize: "20px" }}>Work to do:</label>
+                  <form>
+                    <input
+                      type="text"
+                      class="form-control"
+                      style={{ width: "100%", height: "50px" }}
+                      onChange={this.handleChangeEdit}
+                    />
+
+                    <button
+                      type="submit"
+                      class="btn btn-primary float-right"
+                      onClick={this.handleSubmitAddToWork}
+                    >
+                      Add
+                    </button>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       );

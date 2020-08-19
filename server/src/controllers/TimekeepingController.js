@@ -3,16 +3,16 @@ let getWeekOfMonth = require("date-fns/getWeekOfMonth");
 let wageModel = require("../models/wageModel");
 const CreateTimekeeping = async (req, res) => {
   try {
-    //  console.log(req.body);
-    // let re = getWeekOfMonth(new Date(2020, 8, 1)); // example month 0-11
-    // console.log(re);
-    // console.log(new Date().getDay());
-    // let item = {
-    //   wageOt: 1.5,
-    //   typeWage: 7000000,
-    //   userId: req.body.userId,
-    // };
-    // await wageModel.createNew(item);
+    console.log(req.body);
+    let re = getWeekOfMonth(new Date(2020, 8, 1)); // example month 0-11
+    console.log(re);
+    console.log(new Date().getDay());
+    let item = {
+      wageOt: 1.5,
+      typeWage: 7000000,
+      userId: req.body.userId,
+    };
+    await wageModel.createNew(item);
     let date = new Date();
     if (new Date().getDay() === 0) {
       date = new Date(

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-
+import DatePicker from "react-datepicker";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import BarChartComponent from "./chart/bar-chart.component";
+import { viewByMonth } from "./taskStatisticsFunction";
 const pagination = paginationFactory({
   sizePerPage: 6,
 });
@@ -12,29 +13,63 @@ class ViewByUserComponent extends Component {
     super(props);
     this.state = {
       select: "",
+      time: "",
       dataTask: [],
+      idUser: "",
     };
   }
   handleChangeUser = async (event) => {
     const value = event.target.value;
-    await await this.setState({
+    await this.setState({
       select: value,
+    });
+    this.props.data.dataUser.forEach((e) => {
+      if (e.username === value) {
+        this.setState({
+          idUser: e._id,
+        });
+      }
+    });
+  };
+  handleChangeDate = async (time) => {
+    console.log(time);
+    const month = time.getMonth() + 1;
+    await this.setState({
+      month: month,
+      time: time,
     });
   };
   render() {
+    console.log(this.props.data);
     const user = this.props.data.dataUser.map((e, index) => {
       return <option value={e.id}>{e.username}</option>;
     });
     const dataTask = [];
-    this.props.data.dataUser.forEach((eUser) => {
-      if (eUser.username === this.state.select) {
-        this.props.data.dataTask.forEach((eTask) => {
-          if (eTask.idStaff === eUser._id) {
-            return dataTask.push(eTask);
-          }
-        });
-      }
-    });
+    if (this.state.time === "") {
+      this.props.data.dataUser.forEach((eUser) => {
+        if (eUser.username === this.state.select) {
+          this.props.data.dataTask.forEach((eTask) => {
+            if (eTask.idStaff === eUser._id) {
+              return dataTask.push(eTask);
+            }
+          });
+        }
+      });
+    } else {
+      this.props.data.dataUser.forEach((eUser) => {
+        if (eUser.username === this.state.select) {
+          this.props.data.dataTask.forEach((eTask) => {
+            let time = new Date(eTask.createAt);
+            let month = time.getMonth() + 1;
+            console.log(month);
+            if (eTask.idStaff === eUser._id && month === this.state.month) {
+              return dataTask.push(eTask);
+            }
+          });
+        }
+      });
+    }
+
     let columns = [
       {
         dataField: "stt",
@@ -211,16 +246,24 @@ class ViewByUserComponent extends Component {
     }
     return (
       <div>
-        <div className="col-2 float-right">
+        <div className="col-2 float-right" style={{ marginRight: "-20px" }}>
           <input
             list="browsers"
             name="browser"
             id="browser"
-            style={{ height: "30px", marginTop: "1.5px" }}
+            style={{ height: "30px", marginTop: "1px" }}
             onChange={this.handleChangeUser}
             placeholder="Search or select user"
           />
           <datalist id="browsers">{user}</datalist>
+        </div>
+        <div className="col-2 float-right">
+          <DatePicker
+            selected={this.state.time}
+            onChange={this.handleChangeDate}
+            dateFormat="MM/yyyy"
+            showMonthYearPicker
+          />
         </div>
         <div style={{ paddingTop: "50px" }}>
           <ul
@@ -275,7 +318,7 @@ class ViewByUserComponent extends Component {
               />
             </div>
             <div
-              class="tab-pane  active"
+              class="tab-pane"
               id="tabs-2"
               role="tabpanel"
               aria-labelledby="home-tab"
@@ -289,7 +332,7 @@ class ViewByUserComponent extends Component {
               />
             </div>
             <div
-              class="tab-pane  active"
+              class="tab-pane"
               id="tabs-3"
               role="tabpanel"
               aria-labelledby="home-tab"

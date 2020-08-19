@@ -17,12 +17,27 @@ const createWork = async (req, res) => {
   }
 };
 
+const addWorkToDo = async (req, res) => {
+  try {
+    const data = {
+      id: req.body.data.id,
+      idList: req.body.data.idList,
+      name: req.body.data.nameWorkToDo,
+      status: req.body.data.status,
+    };
+    console.log(data);
+    const pushWorkToDo = await listModel.addWorkToDo(data, data.status);
+    console.log(pushWorkToDo);
+  } catch (error) {
+    return res.status(500).json({ message: "add work to do failed" });
+  }
+};
+
 const addWork = async (req, res) => {
   try {
     const data = {
       listId: req.body.listId,
       name: req.body.name,
-      note: req.body.note,
     };
     console.log(data);
     await taskModel.updateStatusListTask(req.body.listId, false);
@@ -39,7 +54,6 @@ const addDoing = async (req, res) => {
     const data = {
       listId: req.body.listId,
       name: req.body.name,
-      note: req.body.note,
     };
     console.log(data);
     await taskModel.updateStatusListTask(req.body.listId, false);
@@ -56,7 +70,6 @@ const addDone = async (req, res) => {
     const data = {
       listId: req.body.listId,
       name: req.body.name,
-      note: req.body.note,
     };
     console.log(data);
     const saveData = await listModel.addDone(data);
@@ -73,7 +86,6 @@ const doingWork = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.doingWork(data);
     console.log(saveData);
@@ -89,7 +101,6 @@ const doingToList = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.doingToList(data);
     console.log(saveData);
@@ -105,7 +116,6 @@ const doingToDone = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.doingToDone(data);
     console.log(saveData);
@@ -121,7 +131,6 @@ const doneToDoing = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.doneToDoing(data);
     console.log(saveData);
@@ -137,7 +146,6 @@ const listToDone = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.listToDone(data);
     console.log(saveData);
@@ -153,7 +161,6 @@ const doneToList = async (req, res) => {
       _id: req.body._id,
       workId: req.body.workId,
       name: req.body.name,
-      note: req.body.note,
     };
     const saveData = await listModel.doneToList(data);
     console.log(saveData);
@@ -375,6 +382,7 @@ const deleteList = async (req, res) => {
 };
 module.exports = {
   createWork: createWork,
+  addWorkToDo: addWorkToDo,
   addWork: addWork,
   addDoing: addDoing,
   addDone: addDone,
