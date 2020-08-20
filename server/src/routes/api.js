@@ -91,6 +91,8 @@ let initAPIs = (app) => {
   //task-statistic
   router.get("/task-statistic", TaskController.taskStatistic);
   router.post("/view-by-month", TaskController.viewByMonth);
+  router.post("/add-work-to-do", ListController.addWorkToDo);
+  router.post("/work-to-do", ListController.workToDo);
 
   router.post("/update-time-not-work", TimekeepingController.updateTimeNotWork);
 

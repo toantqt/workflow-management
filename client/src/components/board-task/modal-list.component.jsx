@@ -38,14 +38,14 @@ class ModalListComponent extends Component {
         name: this.state.title,
         note: this.state.note,
       };
-      console.log(data);
+      //console.log(data);
 
       addListTask(data)
         .then((res) => {
-          console.log(res);
+          //console.log(res);
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };

@@ -16,6 +16,6 @@ export const rmeUserInRoom = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

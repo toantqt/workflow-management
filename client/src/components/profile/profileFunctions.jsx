@@ -9,7 +9,7 @@ export const showProfile = async (id, accessToken) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -34,7 +34,7 @@ export const updateProfile = async (data, accessToken) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -55,7 +55,7 @@ export const updatePassword = async (data, accessToken) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 export const updateAvatar = async (data, accessToken) => {
@@ -80,6 +80,6 @@ export const updateAvatar = async (data, accessToken) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

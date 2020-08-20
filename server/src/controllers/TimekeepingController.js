@@ -3,10 +3,10 @@ let getWeekOfMonth = require("date-fns/getWeekOfMonth");
 let wageModel = require("../models/wageModel");
 const CreateTimekeeping = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     let re = getWeekOfMonth(new Date(2020, 8, 1)); // example month 0-11
-    console.log(re);
-    console.log(new Date().getDay());
+    //console.log(re);
+    //console.log(new Date().getDay());
     let item = {
       wageOt: 1.5,
       typeWage: 7000000,
@@ -21,7 +21,7 @@ const CreateTimekeeping = async (req, res) => {
         new Date().getDate() - 1
       );
     }
-    //  console.log(new Date().getDate() - 1);
+    //  //console.log(new Date().getDate() - 1);
     let getWeekinMonth = getWeekOfMonth(date);
     //console.log(getWeekinMonth);
 
@@ -48,7 +48,7 @@ const CreateTimekeeping = async (req, res) => {
         ],
       };
       let createTime = await Timekeeping.createNew(item);
-      // console.log("diem danh dau tuan" + createTime);
+      //console.log("diem danh dau tuan" + createTime);
       return res.status(200).json(createTime);
     }
     //console.log("update check time" + checkCreateTimeInWeek);
@@ -61,21 +61,21 @@ const CreateTimekeeping = async (req, res) => {
 };
 const CheckedTime = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     let checkCreateTimeInWeek = await Timekeeping.CheckCreate(
       req.body.userId,
       req.body.monthYear,
       req.body.weekInMonth
     );
-    // console.log(typeof checkCreateTimeInWeek);
+    //console.log(typeof checkCreateTimeInWeek);
     // if (!checkCreateTimeInWeek) {
     //   return res.status(500).json({
     //     message: "checked undefinded ",
     //   });
     // }
-    // console.log(checkCreateTimeInWeek._id);
+    //console.log(checkCreateTimeInWeek._id);
     //console.log(typeof req.body.getToday);
-    // console.log(req.body.checkSession);
+    //console.log(req.body.checkSession);
     let abc = await Timekeeping.updateCheckTime(
       checkCreateTimeInWeek._id,
       req.body.getToday,
@@ -104,14 +104,14 @@ const CheckedTime = async (req, res) => {
 };
 const getTimeKeeping = async (req, res) => {
   try {
-    //  console.log(req.body);
+    //  //console.log(req.body);
     let getTime = await Timekeeping.getTimekeeping(
       req.body.userId,
       req.body.monthYear
     );
     let getWageUser = await wageModel.getWates(req.body.userId);
-    // console.log(getWageUser);
-    // console.log(getTime);
+    //console.log(getWageUser);
+    //console.log(getTime);
     return res.status(200).json({ getTime: getTime, getWageUser: getWageUser });
   } catch (error) {
     return res.status(500).json({
@@ -123,7 +123,7 @@ const updateTimeNotWork = async (req, res) => {
   try {
     //console.log(req.body);
     let getWeekinMonth = getWeekOfMonth(new Date());
-    // console.log(getWeekinMonth);
+    //console.log(getWeekinMonth);
     let checkTime = await Timekeeping.checkSessionWorked(
       req.body.userId,
       req.body.monthYear,

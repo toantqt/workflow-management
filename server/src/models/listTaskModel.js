@@ -82,12 +82,11 @@ listTaskSchema.statics = {
   // add work to do
   addWorkToDo(data, status) {
     if (status === "work") {
-      return this.findAndUpdate(
+      return this.findOneAndUpdate(
         { lists: { $elemMatch: { _id: data.id } } },
-
         {
           $push: {
-            note: {
+            "lists.$.note": {
               name: data.name,
             },
           },
@@ -96,15 +95,11 @@ listTaskSchema.statics = {
       ).exec();
     } else if (status === "doing") {
       return this.findOneAndUpdate(
-        {
-          "doing._id": data.id,
-        },
+        { doing: { $elemMatch: { _id: data.id } } },
         {
           $push: {
-            doing: {
-              note: {
-                name: data.name,
-              },
+            "doing.$.note": {
+              name: data.name,
             },
           },
         },
@@ -112,20 +107,33 @@ listTaskSchema.statics = {
       ).exec();
     } else {
       return this.findOneAndUpdate(
-        {
-          "done._id": data.id,
-        },
+        { done: { $elemMatch: { _id: data.id } } },
         {
           $push: {
-            done: {
-              note: {
-                name: data.name,
-              },
+            "done.$.note": {
+              name: data.name,
             },
           },
         },
         { safe: true, upsert: true, new: true }
       ).exec();
+    }
+  },
+
+  //get work to do
+  workToDo(data) {
+    if (data.status === "work") {
+      return this.findOne({
+        lists: { $elemMatch: { _id: data.id } },
+      }).exec();
+    } else if (data.status === "doing") {
+      return this.findOne({
+        doing: { $elemMatch: { _id: data.id } },
+      }).exec();
+    } else {
+      return this.findOne({
+        done: { $elemMatch: { _id: data.id } },
+      }).exec();
     }
   },
   //add doing in list

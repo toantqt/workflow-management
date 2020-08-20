@@ -6,11 +6,11 @@ export const getList = async (accessToken, idTask) => {
       headers: { Authorization: `${accessToken}` },
     })
     .then((res) => {
-      console.log(res.data);
+      //console.log(res.data);
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -32,7 +32,7 @@ export const addListTask = async (data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -42,11 +42,11 @@ export const getDataList = async (accessToken, idList) => {
       headers: { Authorization: `${accessToken}` },
     })
     .then((res) => {
-      console.log(res.data);
+      //console.log(res.data);
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -67,6 +67,6 @@ export const updateTask = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

@@ -13,7 +13,7 @@ class SidebarComponent extends Component {
     return false;
   };
   render() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
     //list room user
     const listRoomUser = this.props.data.roomUser.map((room, index) => {
       if (!room.deletedAt) {

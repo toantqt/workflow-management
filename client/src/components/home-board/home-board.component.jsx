@@ -50,7 +50,7 @@ class HomeBoardComponent extends Component {
       }
     });
 
-    console.log(list);
+    //console.log(list);
 
     return (
       <div style={{ marginTop: "40px" }}>

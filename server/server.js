@@ -18,7 +18,7 @@ mongoose.connect("mongodb://localhost:27017/work-management", {
   useNewUrlParser: true,
 });
 mongoose.connection.once("open", function () {
-  console.log("Database Connection Established Successfully.");
+  //console.log("Database Connection Established Successfully.");
 });
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*"); // update to match the domain you will make the request from
@@ -44,7 +44,7 @@ app.use(
 initRouter(app);
 
 app.listen(port, () => {
-  console.log("server on port: " + port);
+  //console.log("server on port: " + port);
 });
 
 // app.get("/", (req, res) => {

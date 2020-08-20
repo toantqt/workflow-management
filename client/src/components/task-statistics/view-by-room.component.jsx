@@ -28,7 +28,7 @@ class ViewByRoomComponent extends Component {
     });
     await getDataRoom(this.props.data.accessToken, this.state.select)
       .then((res) => {
-        console.log(res);
+        //console.log(res);
         res.inforTask.forEach((e) => {
           this.setState({
             dataTask: [...this.state.dataTask, e],
@@ -39,10 +39,10 @@ class ViewByRoomComponent extends Component {
             inforMember: [...this.state.inforMember, e],
           });
         });
-        console.log(this.state);
+        //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
   render() {

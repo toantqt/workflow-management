@@ -34,10 +34,10 @@ class ProfileStaffComponent extends Component {
             users: [...this.state.users, e],
           });
         });
-        console.log(this.state);
+        //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
     this.setState({
       accessToken: accessToken,
@@ -57,7 +57,7 @@ class ProfileStaffComponent extends Component {
 
   //handle click lock user
   handleClickLock = async (event, data) => {
-    console.log(data);
+    //console.log(data);
     await this.setState({
       idUser: data._id,
       name: data.username,
@@ -75,7 +75,7 @@ class ProfileStaffComponent extends Component {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -90,7 +90,7 @@ class ProfileStaffComponent extends Component {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
   render() {

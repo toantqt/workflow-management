@@ -44,7 +44,7 @@ class TaskComponent extends Component {
   //on click show modal edit
   handleClickEdit = async (event, data) => {
     event.preventDefault();
-    console.log(data);
+    //console.log(data);
     await this.setState({
       title: "",
     });
@@ -55,10 +55,10 @@ class TaskComponent extends Component {
         title: data.title,
         deadline: data.deadline,
       });
-      //  console.log(this.state.idModal + this.state.title);
+      //  //console.log(this.state.idModal + this.state.title);
     }
 
-    // console.log(this.state);
+    //console.log(this.state);
   };
   //hande change input edit task
   onHandleChange = (event) => {
@@ -95,14 +95,14 @@ class TaskComponent extends Component {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
-    console.log(data);
+    //console.log(data);
   };
   showTask = async (event) => {
     event.preventDefault();
-    console.log(event.target);
+    //console.log(event.target);
     await this.setState({
       idTask: event.target.id,
       showComponent: true,
@@ -110,7 +110,7 @@ class TaskComponent extends Component {
     });
     getList(this.props.accessToken, this.state.idTask).then(async (res) => {
       const arrList = res.list;
-      console.log(arrList);
+      //console.log(arrList);
       // await this.setState({
       //   idStaff: residStaff,
       // });

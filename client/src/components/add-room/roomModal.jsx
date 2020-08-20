@@ -18,12 +18,12 @@ class RoomModal extends Component {
   }
 
   onHandleChange = (event) => {
-    //  console.log(event.target.name);
+    //  //console.log(event.target.name);
     let target = event.target;
     let name = target.name;
 
     // let value = target.name === "ownerId" ? target.id : target.value;
-    // console.log(value);
+    //console.log(value);
     // this.setState({
     //   [name]: value,
     //   showResults: !this.state.showResults,
@@ -45,7 +45,7 @@ class RoomModal extends Component {
         display: "none",
       });
     }
-    // console.log(this.state);
+    //console.log(this.state);
   };
 
   onHandleChangeSubmit = (event) => {
@@ -62,7 +62,7 @@ class RoomModal extends Component {
     if (add.ownerId === "" || add.nameRoom === "") return;
     //add-room
     addRoom(accessToken, add).then((res) => {
-      console.log("add room thanh cong");
+      //console.log("add room thanh cong");
     });
     //console.log(add);
   };
@@ -84,7 +84,7 @@ class RoomModal extends Component {
         });
         const user = res.getUsers;
         user.forEach((e) => {
-          // console.log(e);
+          //console.log(e);
           this.setState({
             users: [...this.state.users, { id: e._id, username: e.username }],
           });
@@ -104,7 +104,7 @@ class RoomModal extends Component {
     });
   };
   handleBlur = (e) => {
-    // console.log(e.target);
+    //console.log(e.target);
     this.setState({
       display: "none",
     });
@@ -129,7 +129,7 @@ class RoomModal extends Component {
     });
 
     let showManager = (ownerId, nameManager) => {
-      //  console.log(ownerId);
+      //  //console.log(ownerId);
       return ownerId ? (
         <div>
           <button

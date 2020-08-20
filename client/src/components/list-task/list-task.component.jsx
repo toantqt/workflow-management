@@ -48,7 +48,7 @@ class ListTaskComponent extends Component {
     getDataList(accessToken, this.state.idList)
       .then(async (res) => {
         //if list work null then create work
-        console.log(res.data);
+        //console.log(res.data);
         this.setState({ idStaff: res.data[0].idStaff });
         // if liswork null
         if (res.listWork === null) {
@@ -57,12 +57,12 @@ class ListTaskComponent extends Component {
             idList: this.state.idList,
             idStaff: res.data[0].idStaff,
           };
-          console.log(data);
+          //console.log(data);
           await createWork(accessToken, data).then((res) => {
-            console.log("res" + res);
+            //console.log("res" + res);
             this.setState({ listWork: [...this.state.listWork, res] });
           });
-          console.log(this.state.listWork);
+          //console.log(this.state.listWork);
           const list = res.data;
           list.forEach((e) => {
             this.setState({
@@ -105,10 +105,10 @@ class ListTaskComponent extends Component {
           });
         }
 
-        console.log(this.state);
+        //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
   render() {

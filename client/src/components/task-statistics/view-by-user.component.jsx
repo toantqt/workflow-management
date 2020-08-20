@@ -32,7 +32,7 @@ class ViewByUserComponent extends Component {
     });
   };
   handleChangeDate = async (time) => {
-    console.log(time);
+    //console.log(time);
     const month = time.getMonth() + 1;
     await this.setState({
       month: month,
@@ -40,7 +40,7 @@ class ViewByUserComponent extends Component {
     });
   };
   render() {
-    console.log(this.props.data);
+    //console.log(this.props.data);
     const user = this.props.data.dataUser.map((e, index) => {
       return <option value={e.id}>{e.username}</option>;
     });
@@ -61,7 +61,7 @@ class ViewByUserComponent extends Component {
           this.props.data.dataTask.forEach((eTask) => {
             let time = new Date(eTask.createAt);
             let month = time.getMonth() + 1;
-            console.log(month);
+            //console.log(month);
             if (eTask.idStaff === eUser._id && month === this.state.month) {
               return dataTask.push(eTask);
             }
@@ -226,7 +226,7 @@ class ViewByUserComponent extends Component {
         late.push(oBj);
       }
     });
-    console.log(late);
+    //console.log(late);
     if (this.state.select === "") {
       return (
         <div>

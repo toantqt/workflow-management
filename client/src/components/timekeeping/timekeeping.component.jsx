@@ -41,7 +41,7 @@ class TimekeepingComponent extends Component {
   //   //console.log(new Date(2017, 10, 9).getDay());
   //   //console.log(new Date(2017, 10, 9).getDate());
   //   let prefixes = ["0", "1", "2", "3", "4", "5"];
-  //   // console.log(prefixes[0 | (13 / 7)]);
+  //   //console.log(prefixes[0 | (13 / 7)]);
   //   return parseInt(prefixes[0 | (adjustedDate / 7)] + 1);
   // };
   componentDidMount = async () => {
@@ -57,13 +57,13 @@ class TimekeepingComponent extends Component {
       toDay: new Date().getDay() + 1, // chu y con thai doi
     });
     //console.log(decoded.data);
-    // console.log(new Date().getDate());
-    // console.log(new Date().getDay());
+    //console.log(new Date().getDate());
+    //console.log(new Date().getDay());
 
     // let getweek = this.weekinMonth();
     let monthYear = new Date().getMonth() + 1 + "/" + new Date().getFullYear();
-    // console.log(monthYear);
-    // console.log(getweek);
+    //console.log(monthYear);
+    //console.log(getweek);
     await createTimeChecking(
       accessToken,
       decoded.data._id,
@@ -88,15 +88,15 @@ class TimekeepingComponent extends Component {
         // getweek,
         this.state.toDay
       ).then((res) => {
-        // console.log(res);
-        console.log("check ngay nghi");
+        //console.log(res);
+        //console.log("check ngay nghi");
       });
     }
   };
 
   CheckTime = (event) => {
     //event.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     //console.log(event.target);
     let data = {
       toDay: this.state.toDay,
@@ -118,9 +118,9 @@ class TimekeepingComponent extends Component {
     Timekeeping(this.state.accessToken, data).then((res) => {
       alert("diem danh thanh cong");
 
-      console.log("done");
+      //console.log("done");
     });
-    // console.log(data);
+    //console.log(data);
   };
   //change deadline
   handleChangeDate = (date) => {
@@ -136,7 +136,7 @@ class TimekeepingComponent extends Component {
       1 +
       "/" +
       this.state.startDate.getFullYear();
-    // console.log(
+    //console.log(
     //   this.state.startDate.getMonth() +
     //     1 +
     //     "/" +
@@ -144,7 +144,7 @@ class TimekeepingComponent extends Component {
     // );
     getTimeKeeping(this.state.accessToken, TimeDay, this.state.userId).then(
       (res) => {
-        console.log(res);
+        //console.log(res);
         if (res.getTime.length === 0) {
           return alert("ko co thong tin can tim");
         }

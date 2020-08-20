@@ -19,24 +19,24 @@ class BoardTaskComponent extends Component {
       listId: data._id,
       idTask: this.props.data.idTask,
     });
-    console.log(this.state);
+    //console.log(this.state);
   };
 
   handleClickDeleteSuccess = async (event, data) => {
     event.preventDefault();
-    console.log(data._id);
+    //console.log(data._id);
     const id = {
       listId: this.state.listId,
       idTask: this.state.idTask,
     };
 
-    console.log(id);
+    //console.log(id);
     await deleteList(this.props.data.accessToken, id)
       .then((res) => {
         window.location.reload();
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 

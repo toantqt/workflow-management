@@ -17,7 +17,7 @@ const addTask = async (req, res) => {
     };
     debug("den dc day");
     let saveTask = await Task.addTask(data);
-    console.log("saveTask: " + saveTask);
+    //console.log("saveTask: " + saveTask);
     return res.status(200).json(data);
   } catch (error) {
     return res.status(500).json({
@@ -34,7 +34,7 @@ const updateTask = async (req, res) => {
       title: req.body.title,
       deadline: req.body.deadline,
     };
-    console.log(data);
+    //console.log(data);
     await taskModel.updateTask(data);
     return res.status(200).json({ message: "update task successfully" });
   } catch (error) {
@@ -60,7 +60,7 @@ const addListTask = async (req, res) => {
     if (saveListTask) {
       return res.status(200).json(saveListTask);
     }
-    console.log("error");
+    //console.log("error");
   } catch (error) {
     res.status(500).json({ message: "add list failed" });
   }
@@ -81,13 +81,13 @@ const getListTask = async (req, res) => {
     // });
     // if (bl) {
     //   // await taskModel.updateStatus(idTask, bl);
-    //   console.log("alo");
+    //   //console.log("alo");
     // } else {
-    //   console.log("ooo");
+    //   //console.log("ooo");
     //   //  await taskModel.updateStatus(idTask, bl);
     // }
-    console.log("alalsadsa");
-    console.log(getDataList);
+    //console.log("alalsadsa");
+    //console.log(getDataList);
     return res.status(200).json(getDataList);
   } catch (error) {
     return res.status(500).json({ message: "get list failed" });
@@ -98,12 +98,12 @@ const getListTask = async (req, res) => {
 const getDataList = async (req, res) => {
   try {
     const idList = req.params.idList;
-    console.log("idList " + idList);
-    //console.log(idList)
+    //console.log("idList " + idList);
+    //console.log(idList);
     //get data in list (task model)
     //and get list work in (listTaskmodel)
     const data = await taskModel.getDataList(idList);
-    console.log(data);
+    //console.log(data);
     const listWork = await listModel.getWork(idList);
     return res.status(200).json({ data: data, listWork: listWork });
   } catch (error) {
@@ -143,7 +143,7 @@ const taskStatistic = async (req, res) => {
 
 const viewByMonth = async (req, res) => {
   try {
-    console.log(req.body.data);
+    //console.log(req.body.data);
   } catch (error) {
     return res.status(500).json({ message: "view month failed" });
   }

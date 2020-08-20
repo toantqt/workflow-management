@@ -15,7 +15,7 @@ export const createWork = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -36,7 +36,7 @@ export const addWork = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -57,7 +57,7 @@ export const addDoing = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -78,13 +78,13 @@ export const addDone = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
 export const sendData = async (accessToken, data) => {
-  console.log(data);
-  // console.log(accessToken);
+  //console.log(data);
+  //console.log(accessToken);
   return await axios
     .post(
       "http://localhost:5566/update-list-task",
@@ -97,15 +97,15 @@ export const sendData = async (accessToken, data) => {
     )
     .then((res) => {
       // return res.data;
-      console.log(res.data);
+      //console.log(res.data);
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
 export const deleteList = async (accessToken, id) => {
-  // console.log(accessToken);
+  //console.log(accessToken);
   return await axios
     .post(
       "http://localhost:5566/delete-list",
@@ -121,15 +121,35 @@ export const deleteList = async (accessToken, id) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
 export const addWorkToDo = async (accessToken, data) => {
-  // console.log(accessToken);
+  //console.log(accessToken);
   return await axios
     .post(
       "http://localhost:5566/add-work-to-do",
+      {
+        data: data,
+      },
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res;
+    })
+    .catch((error) => {
+      //console.log(error);
+    });
+};
+
+export const workToDo = async (accessToken, data) => {
+  //console.log(accessToken);
+  return await axios
+    .post(
+      "http://localhost:5566/work-to-do",
       {
         data: data,
       },
@@ -142,6 +162,6 @@ export const addWorkToDo = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

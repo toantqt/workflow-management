@@ -14,7 +14,7 @@ class DragAndDropComponent extends Component {
 
   //on drag start
   onDragStart = (event, id) => {
-    console.log("dragstart: ", id);
+    //console.log("dragstart: ", id);
     event.dataTransfer.setData("id", id);
   };
   //on drag over

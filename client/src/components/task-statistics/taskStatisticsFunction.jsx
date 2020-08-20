@@ -9,7 +9,7 @@ export const taskStatistic = async (accessToken) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -26,6 +26,6 @@ export const viewByMonth = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

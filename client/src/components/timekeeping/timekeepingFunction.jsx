@@ -23,7 +23,7 @@ export const createTimeChecking = async (
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 
@@ -47,7 +47,7 @@ export const Timekeeping = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 export const getTimeKeeping = async (accessToken, Time, id) => {
@@ -66,7 +66,7 @@ export const getTimeKeeping = async (accessToken, Time, id) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };
 export const updateTimeNotWork = async (
@@ -93,6 +93,6 @@ export const updateTimeNotWork = async (
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

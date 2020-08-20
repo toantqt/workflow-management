@@ -66,18 +66,18 @@ class HomeComponent extends Component {
                         });
                       }
 
-                      console.log(this.state.boardUser);
+                      //console.log(this.state.boardUser);
                     })
                     .catch((error) => {
-                      console.log(error);
+                      //console.log(error);
                     });
                 });
               });
             })
             .catch((error) => {
-              console.log(error);
+              //console.log(error);
             });
-          console.log(this.state);
+          //console.log(this.state);
         } else {
           room.forEach((element) => {
             this.setState({
@@ -96,7 +96,7 @@ class HomeComponent extends Component {
         //get room id
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
 

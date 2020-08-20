@@ -25,16 +25,16 @@ class OverviewComponent extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     getListRoom(accessToken).then((res) => {
-      console.log(res);
+      //console.log(res);
       let count = res.data.getRoom.length;
       this.setState({
         countRoom: count,
       });
-      console.log(this.state);
+      //console.log(this.state);
     });
   }
 

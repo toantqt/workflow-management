@@ -1,4 +1,4 @@
-const userModel = require('../models/userModel');
+const userModel = require("../models/userModel");
 const debug = console.log.bind(console);
 //khi xác thực token hợp lệ thực hiện giả lập lấy danh sách bạn bè và trả về cho user
 //trong thực tế là query đến DB
@@ -16,9 +16,9 @@ const debug = console.log.bind(console);
 //   ];
 //   return res.status(200).json(friends);
 // };
-let friendLists = (req,res)=>{
-    return res.status(200).json({message: "dang nhap thanh cong"});
-}
+let friendLists = (req, res) => {
+  return res.status(200).json({ message: "dang nhap thanh cong" });
+};
 module.exports = {
   friendLists: friendLists,
 };

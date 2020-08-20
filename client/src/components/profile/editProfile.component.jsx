@@ -44,7 +44,7 @@ class EditProfileComponent extends Component {
       accessToken: accessToken,
       _id: decoded.data._id,
     });
-    console.log(decoded.data);
+    //console.log(decoded.data);
     showProfile(decoded.data._id, accessToken)
       .then((res) => {
         this.setState({
@@ -52,12 +52,12 @@ class EditProfileComponent extends Component {
           address: res.profile.address,
           gender: res.profile.gender,
         });
-        console.log(this.state);
+        //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
-    console.log(this.state);
+    //console.log(this.state);
   }
 
   //handle edit profile
@@ -73,7 +73,7 @@ class EditProfileComponent extends Component {
   //       });
   //     })
   //     .catch((error) => {
-  //       console.log(error);
+  //       //console.log(error);
   //     });
   // };
 
@@ -88,7 +88,7 @@ class EditProfileComponent extends Component {
         output.src = dataURL;
       };
       reader.readAsDataURL(event.target.files[0]);
-      // console.log(formData);
+      //console.log(formData);
       this.setState({
         oldAvatar: this.state.avatar,
         userAvatar: event.target.files[0],
@@ -107,14 +107,14 @@ class EditProfileComponent extends Component {
       this.setState({
         profile: true,
       });
-      console.log(this.state);
+      //console.log(this.state);
     }
   };
 
   //handle submit form
   onHandleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     const { password, newPassword, confirmNewPassword } = this.state;
     if (password !== "" && newPassword !== confirmNewPassword) {
       alert("password dont match");
@@ -172,7 +172,7 @@ class EditProfileComponent extends Component {
       });
     }
   };
-  // console.log(this.state);
+  //console.log(this.state);
 
   render() {
     return (

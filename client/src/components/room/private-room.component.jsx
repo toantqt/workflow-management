@@ -47,11 +47,11 @@ class PrivateRoomComponent extends Component {
     let id = this.props.id;
     getDataRoom(accessToken, id)
       .then(async (res) => {
-        // console.log(res.data._id);
+        //console.log(res.data._id);
         let arrMembers = res.inforMember;
         //console.log(arrMembers);
         await arrMembers.forEach(async (e) => {
-          // console.log(e);
+          //console.log(e);
           await this.setState({
             members: [...this.state.members, { e }],
             nameRoom: res.data.nameRoom,
@@ -63,23 +63,23 @@ class PrivateRoomComponent extends Component {
         // arr task, push task to taskarray in state
         let arrTasks = res.inforTask;
 
-        //  console.log(res);
-        // console.log(arrTasks);
+        //  //console.log(res);
+        //console.log(arrTasks);
         await arrTasks.forEach(async (e) => {
-          //  console.log("e: " + e);
+          //  //console.log("e: " + e);
           await arrMembers.forEach((member) => {
             if (e.idStaff === member._id) {
               this.setState({
                 tasks: [...this.state.tasks, { e: e, inforAuthor: member }],
               });
-              //   console.log(this.state.tasks);
+              //   //console.log(this.state.tasks);
             }
           });
         });
-        console.log(this.state.tasks);
+        //console.log(this.state.tasks);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
   // luu date vao state
@@ -105,8 +105,8 @@ class PrivateRoomComponent extends Component {
     if (e.key === "Enter") {
       e.preventDefault();
       let find = e.target.value;
-      console.log(find);
-      console.log(this.state.roomId);
+      //console.log(find);
+      //console.log(this.state.roomId);
       if (find === "") return;
       //const tokenJSON = JSON.parse(localStorage.userToken);
       const accessToken = this.state.accessToken;
@@ -119,19 +119,19 @@ class PrivateRoomComponent extends Component {
         roomId: this.state.roomId,
       };
       findUserAddRoom(accessToken, data).then((res) => {
-        //  console.log(res.finduser);
-        //  console.log("done");
+        //  //console.log(res.finduser);
+        //  //console.log("done");
         this.setState({
           users: [],
         });
         const user = res.finduser;
         user.forEach((e) => {
-          // console.log(e);
+          //console.log(e);
           this.setState({
             users: [...this.state.users, { id: e._id, username: e.username }],
           });
         });
-        console.log(this.state);
+        //console.log(this.state);
       });
     }
   };
@@ -148,10 +148,10 @@ class PrivateRoomComponent extends Component {
       idStaff: this.state.id,
       roomId: this.state.roomId,
     };
-    //  console.log(task);
-    // console.log(new Date(task.deadline));
+    //  //console.log(task);
+    //console.log(new Date(task.deadline));
     addTask(accessToken, task).then((res) => {
-      console.log("them nhiem vu thanh cong");
+      //console.log("them nhiem vu thanh cong");
     });
   };
 
@@ -161,7 +161,7 @@ class PrivateRoomComponent extends Component {
     let name = target.name;
     let check = false;
     //let value = target.name === "ownerId" ? target.id : target.value;
-    // console.log(target);
+    //console.log(target);
     this.setState({
       [name]: target.id,
       showResults: !this.state.showResults,
@@ -196,20 +196,20 @@ class PrivateRoomComponent extends Component {
   };
   onHandleChangeSubmitAddMember = (event) => {
     event.preventDefault();
-    //  console.log("alalalalala");
+    //  //console.log("alalalalala");
     let add = {
       _id: this.state.roomId,
       members: this.state.Array,
     };
     addUserRoom(this.state.accessToken, add).then((res) => {
-      console.log("done");
+      //console.log("done");
     });
   };
   render() {
     // let listMember = this.state.members.map((element, index) => {
     //   return <li key={index}>{element.e.username}</li>;
     // });
-    console.log(this.state);
+    //console.log(this.state);
     let showuser = this.state.users.map((e, index) => {
       return this.state.showResults ? (
         <li key={index}>
@@ -244,7 +244,7 @@ class PrivateRoomComponent extends Component {
           </span>
         );
       });
-      // console.log(this.state);
+      //console.log(this.state);
       return buffer;
     };
 

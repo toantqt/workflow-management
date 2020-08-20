@@ -36,7 +36,7 @@ let addRoom = async (req, res) => {
 let getRoom = async (req, res) => {
   try {
     let getRoom = await roomModel.getRoom();
-    // console.log(getRoom);
+    //console.log(getRoom);
     return res.status(200).json({ getRoom });
   } catch (error) {
     return res.status(500).json({
@@ -53,7 +53,7 @@ let getRoomUser = async (req, res) => {
     roomUser.forEach(async (e) => {
       return await dataRoom.push(e);
     });
-    console.log(dataRoom);
+    //console.log(dataRoom);
     return res.status(200).json({ data: dataRoom });
   } catch (error) {
     return res.status(500).json({ message: "get room user failed" });
@@ -76,7 +76,7 @@ let findRoom = async (req, res) => {
     //promise
     let inforMember = await Promise.all(dataMember);
 
-    // console.log(inforMember);
+    //console.log(inforMember);
 
     //get task in room
 
@@ -88,10 +88,10 @@ let findRoom = async (req, res) => {
         });
         //console.log(aw);
         if (aw.length !== 0) {
-          console.log("false");
+          //console.log("false");
           await taskModel.updateStatus(e._id, false);
         } else {
-          console.log("true");
+          //console.log("true");
           await taskModel.updateStatus(e._id, true);
         }
       }
@@ -105,14 +105,14 @@ let findRoom = async (req, res) => {
       let getInforAuthor = await userModel.findUserById(e.idStaff);
       //console.log(getInforAuthor);
       e.inforAuthor = getInforAuthor;
-      // console.log("e: " + e.i);
+      //console.log("e: " + e.i);
       return e;
     });
 
     let inforTask = await Promise.all(getAuthor);
     //console.log("aa " + inforTask);
     // inforTask.forEach((e) => {
-    //   console.log("infor author  " + e);
+    //   //console.log("infor author  " + e);
     // });
 
     //
@@ -126,9 +126,9 @@ let findRoom = async (req, res) => {
   }
 };
 let findUserAddRoom = async (req, res) => {
-  console.log("tai room controller");
-  // console.log(req.query.findname);
-  // console.log(req.query.roomid);
+  //console.log("tai room controller");
+  //console.log(req.query.findname);
+  //console.log(req.query.roomid);
   let checkRoom = await roomModel.checkRoom(req.query.roomid);
   if (checkRoom) {
     //console.log("co phong nha" + checkRoom);
@@ -144,14 +144,14 @@ let findUserAddRoom = async (req, res) => {
     //console.log(finduser);
     return res.status(200).json({ finduser });
   } else {
-    console.log("ko co phong nha");
+    //console.log("ko co phong nha");
   }
 };
 
 let addUserRoom = async (req, res) => {
   let checkRoom = await roomModel.checkRoom(req.body._id);
   if (checkRoom) {
-    console.log(req.body);
+    //console.log(req.body);
     req.body.members.forEach(async (e) => {
       await roomModel.addUserRoom(req.body._id, e);
     });
@@ -161,7 +161,7 @@ let addUserRoom = async (req, res) => {
 };
 let removeUserRoom = async (req, res) => {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     let checkAdminRoom = await roomModel.checkAdmin(
       req.body.userOnl,
       req.body._id
@@ -180,11 +180,11 @@ let removeUserRoom = async (req, res) => {
 let getAllRoom = async (req, res) => {
   try {
     let getAllRoom = await roomModel.getRoom();
-    // console.log(getAllRoom);
+    //console.log(getAllRoom);
     let convert = getAllRoom.map(async (e) => {
       e = e.toObject();
       let getNameOwner = await userModel.getName(e.ownerId);
-      console.log(getNameOwner.username);
+      //console.log(getNameOwner.username);
       //let converts = await Promise.all(getNameOwner);
       e.nameOwner = getNameOwner.username;
       //debug("alaalala");
@@ -245,7 +245,7 @@ let updataOwnerRoom = async (req, res) => {
       //console.log("ko co");
       await roomModel.addUserRoom(req.body.roomId, req.body.newOwner);
     }
-    console.log(" co");
+    //console.log(" co");
     await roomModel.updateOwnerRoom(req.body.newOwner, req.body.roomId);
     return res.status(200).json({ message: "remove thanh cong" });
   } catch (error) {

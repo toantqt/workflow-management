@@ -40,7 +40,7 @@ class registerComponent extends Component {
         }
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
 
     // axios
@@ -50,11 +50,11 @@ class registerComponent extends Component {
     //     password: this.state.password,
     //   })
     //   .then((res) => {
-    //     console.log(res);
-    //     console.log(res.data);
+    //     //console.log(res);
+    //     //console.log(res.data);
     //   })
     //   .catch((error) => {
-    //     console.log(error);
+    //     //console.log(error);
     //   });
   };
 

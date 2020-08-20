@@ -39,23 +39,23 @@ class ProfileRoomComponent extends Component {
     const tokenJSON = JSON.parse(localStorage.userToken);
     const accessToken = tokenJSON.accessToken;
     const decoded = jwt_decode(token);
-    console.log(decoded);
+    //console.log(decoded);
     this.setState({
       userOnl: decoded.data._id,
     });
     getProfileRoom(accessToken)
       .then((res) => {
-        console.log(res.AllRoom);
+        //console.log(res.AllRoom);
         res.AllRoom.forEach((e) => {
-          //  console.log(e);
+          //  //console.log(e);
           this.setState({
             roomProfile: [...this.state.roomProfile, e],
           });
         });
-        //  console.log(this.state);
+        //  //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
   showMember = (event) => {
@@ -65,9 +65,9 @@ class ProfileRoomComponent extends Component {
       inforUser: [],
     });
     getInforMember(this.state.accessToken, event.target.id).then((res) => {
-      console.log(res.inForUser);
+      //console.log(res.inForUser);
       res.inForUser.forEach((e) => {
-        //  console.log(e);
+        //  //console.log(e);
         this.setState({
           inforUser: [...this.state.inforUser, e],
         });
@@ -81,7 +81,7 @@ class ProfileRoomComponent extends Component {
       this.state.userOnl,
       event.target.id
     ).then((res) => {
-      console.log("done");
+      //console.log("done");
     });
   };
   editOwner = (e) => {
@@ -106,7 +106,7 @@ class ProfileRoomComponent extends Component {
         });
         const user = res.getUsers;
         user.forEach((e) => {
-          // console.log(e);
+          //console.log(e);
           this.setState({
             users: [...this.state.users, { id: e._id, username: e.username }],
           });
@@ -137,7 +137,7 @@ class ProfileRoomComponent extends Component {
   onHandleChangeSubmit = (event) => {
     event.preventDefault();
     //const tokenJSON = JSON.parse(localStorage.userToken);
-    console.log(this.state);
+    //console.log(this.state);
     if (
       this.state.ownerId === "" ||
       this.state.nameManager === this.state.nameOwnerMoment
@@ -151,12 +151,12 @@ class ProfileRoomComponent extends Component {
       this.state.ownerId,
       this.state.idRoomEdit
     ).then((res) => {
-      console.log("update room thanh cong");
+      //console.log("update room thanh cong");
     });
     //console.log(add);
   };
   handleBlur = (e) => {
-    // console.log(e.target);
+    //console.log(e.target);
     this.setState({
       display: "none",
     });
@@ -183,7 +183,7 @@ class ProfileRoomComponent extends Component {
     });
 
     let showManager = (ownerId, nameManager) => {
-      //  console.log(ownerId);
+      //  //console.log(ownerId);
       return ownerId ? (
         <div>
           <button

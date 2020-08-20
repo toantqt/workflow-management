@@ -16,7 +16,7 @@ let isAuth = async (req, res, next) => {
   // Lấy token được gửi lên từ phía client, thông thường tốt nhất là các bạn nên truyền token vào header
   const tokenFromClient =
     req.body.token || req.query.token || req.header("authorization");
-  console.log(tokenFromClient);
+
   if (tokenFromClient) {
     //neu ton tai
     try {

@@ -21,7 +21,7 @@ export const addRoom = (accessToken, add) => {
 
 //find admin room
 export const findAdminRoom = async (accessToken, find) => {
-  //   console.log("token" + accessToken);
+  //   //console.log("token" + accessToken);
   return await axios
     .get(
       `http://localhost:5566/finduser/${find}`,

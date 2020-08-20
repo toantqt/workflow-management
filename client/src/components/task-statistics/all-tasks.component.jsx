@@ -28,10 +28,10 @@ class AllTasksComponent extends Component {
     this.setState({
       accessToken: accessToken,
     });
-    console.log(accessToken);
+    //console.log(accessToken);
     taskStatistic(accessToken)
       .then((res) => {
-        // console.log(res);
+        //console.log(res);
         res.dataRoom.forEach(async (e) => {
           await this.setState({
             dataRoom: [...this.state.dataRoom, e],
@@ -62,10 +62,10 @@ class AllTasksComponent extends Component {
             }
           });
         });
-        console.log(this.state);
+        //console.log(this.state);
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
   handleChange = async (event) => {

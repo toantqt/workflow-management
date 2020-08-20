@@ -12,7 +12,7 @@ export const getProfileUser = (accessToken) => {
 };
 
 export const lockUser = async (accessToken, data) => {
-  console.log(accessToken);
+  //console.log(accessToken);
   return await axios
     .post(
       "http://localhost:5566/lock-user",
@@ -28,6 +28,6 @@ export const lockUser = async (accessToken, data) => {
       return res.data;
     })
     .catch((error) => {
-      console.log(error);
+      //console.log(error);
     });
 };

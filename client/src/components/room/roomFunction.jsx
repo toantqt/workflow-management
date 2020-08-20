@@ -35,7 +35,7 @@ export const addTask = (accessToken, task) => {
 };
 
 export const findUserAddRoom = async (accessToken, data) => {
-  console.log(data);
+  //console.log(data);
   return await axios
     .get(
       `http://localhost:5566/find-user-addroom?findname=${data.find}&roomid=${data.roomId}`,

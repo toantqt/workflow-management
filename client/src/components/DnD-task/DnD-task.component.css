@@ -28,3 +28,17 @@ form {
 i {
   cursor: pointer;
 }
+ul {
+  list-style: none;
+  list-style-image: none;
+}
+
+.feature:before {
+  font-family: "Font Awesome 5 Free";
+  content: "\f14a";
+  color: #0056b3;
+  padding-right: 12px;
+}
+.btn-addWorkToDo {
+  margin-top: -40px !important;
+}

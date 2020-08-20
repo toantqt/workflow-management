@@ -31,7 +31,7 @@ class LoginComponent extends Component {
       email: this.state.email,
       password: this.state.password,
     };
-    console.log(User);
+    //console.log(User);
     login(User).then((res) => {
       const history = createHashHistory();
       if (res) {
@@ -48,11 +48,11 @@ class LoginComponent extends Component {
     //     if (res.data.accessToken) {
     //       localStorage.setItem("user", JSON.stringify(res.data));
     //     }
-    //     console.log("no access token");
-    //     // console.log(res.data);
+    //     //console.log("no access token");
+    //     //console.log(res.data);
     //   })
     //   .catch((error) => {
-    //     console.log(error);
+    //     //console.log(error);
     //   });
   };
 

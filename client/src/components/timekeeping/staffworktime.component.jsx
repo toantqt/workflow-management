@@ -60,7 +60,7 @@ class StaffworktimeComponent extends Component {
         });
         const user = res.getUsers;
         user.forEach((e) => {
-          // console.log(e);
+          //console.log(e);
           this.setState({
             users: [...this.state.users, { id: e._id, username: e.username }],
           });
@@ -71,13 +71,13 @@ class StaffworktimeComponent extends Component {
     }
   };
   handleBlur = (e) => {
-    // console.log(e.target);
+    //console.log(e.target);
     this.setState({
       display: "none",
     });
   };
   onHandleChange = (event) => {
-    //  console.log(event.target.name);
+    //  //console.log(event.target.name);
     let target = event.target;
     let name = target.name;
     let value = target.value;
@@ -97,7 +97,7 @@ class StaffworktimeComponent extends Component {
         display: "none",
       });
     }
-    // console.log(this.state);
+    //console.log(this.state);
   };
   //xoa admin nhom khi chon nham'
   removeManager = () => {
@@ -148,11 +148,11 @@ class StaffworktimeComponent extends Component {
         });
       }
     );
-    //  console.log(this.state);
+    //  //console.log(this.state);
   };
   CheckOT = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     if (!this.state.ownerId) {
       return alert("chua chon nguoi can tim");
     }
@@ -167,7 +167,7 @@ class StaffworktimeComponent extends Component {
       TimeDay
     ).then((res) => {
       //console.log(res);
-      console.log("done");
+      //console.log("done");
       this.setState({
         weekOfMonth: res.weekInMonth,
         monthOfYear: res.monthYear,
@@ -188,8 +188,8 @@ class StaffworktimeComponent extends Component {
         // getweek,
         this.state.toDay
       ).then((res) => {
-        // console.log(res);
-        console.log("check ngay nghi");
+        //console.log(res);
+        //console.log("check ngay nghi");
       });
     }
   };
@@ -198,7 +198,7 @@ class StaffworktimeComponent extends Component {
   // };
   CheckTime = (event) => {
     //event.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     //console.log(event.target);
     let data = {
       toDay: this.state.toDay,
@@ -212,9 +212,9 @@ class StaffworktimeComponent extends Component {
     Timekeeping(this.state.accessToken, data).then((res) => {
       alert("diem danh thanh cong");
 
-      console.log("done");
+      //console.log("done");
     });
-    // console.log(data);
+    //console.log(data);
   };
   render() {
     let showuser = this.state.users.map((e, index) => {
@@ -235,7 +235,7 @@ class StaffworktimeComponent extends Component {
       ) : null;
     });
     let showManager = (ownerId, nameManager) => {
-      //  console.log(ownerId);
+      //  //console.log(ownerId);
       return ownerId ? (
         <div>
           <button

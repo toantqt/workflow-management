@@ -7,6 +7,7 @@ import {
   addDone,
   sendData,
   addWorkToDo,
+  workToDo,
 } from "../list-task/listTaskFunction";
 class DnDTaskComponent extends Component {
   constructor(props) {
@@ -24,14 +25,9 @@ class DnDTaskComponent extends Component {
       status: "",
       nameWorkToDo: "",
       id: "",
+      lists: [],
     };
   }
-
-  // componentWillMount() {
-  //   this.props.data.lists.forEach((e) => {
-  //     this.setState({ data: [...this.state.data, e] });
-  //   });
-  // }
 
   handleClick = (status) => {
     if (status === "work") {
@@ -59,20 +55,39 @@ class DnDTaskComponent extends Component {
   };
 
   //handle click edit note
-  handleClickEdit = (event, data) => {
+  handleClickEdit = async (event, data) => {
     event.preventDefault();
-    this.setState({
+    await this.setState({
       name: data.name,
       status: data.status,
       id: data._id,
+      lists: [],
     });
+
+    let dataWork = {
+      id: this.state.id,
+      status: this.state.status,
+    };
+
+    await workToDo(this.props.data.accessToken, dataWork)
+      .then((res) => {
+        //console.log(res);
+        res.data.forEach((e) => {
+          this.setState({
+            lists: [...this.state.lists, e],
+          });
+        });
+        //console.log(this.state);
+      })
+      .catch((error) => {
+        //console.log(error);
+      });
   };
 
   //handle change edit
   handleChangeEdit = (event) => {
     event.preventDefault();
     const value = event.target.value;
-    console.log(value);
     this.setState({
       nameWorkToDo: value,
     });
@@ -82,13 +97,18 @@ class DnDTaskComponent extends Component {
   handleSubmitAddToWork = (event) => {
     event.preventDefault();
     const data = {
-      nameWorkToDo: this.state.name,
+      nameWorkToDo: this.state.nameWorkToDo,
       status: this.state.status,
       id: this.state.id,
       idList: this.state.idList,
     };
-    addWorkToDo(this.props.data.accessToken, data).then((res) => {
-      console.log(res);
+    addWorkToDo(this.props.data.accessToken, data).then(async (res) => {
+      if (res.status === 200) {
+        await this.setState({
+          lists: [...this.state.lists, { name: this.state.nameWorkToDo }],
+        });
+        //console.log(this.state.lists);
+      }
     });
   };
 
@@ -108,7 +128,7 @@ class DnDTaskComponent extends Component {
           return window.location.reload();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
     if (status === "doing") {
@@ -117,7 +137,7 @@ class DnDTaskComponent extends Component {
           return window.location.reload();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
     if (status === "done") {
@@ -126,7 +146,7 @@ class DnDTaskComponent extends Component {
           return window.location.reload();
         })
         .catch((error) => {
-          console.log(error);
+          //console.log(error);
         });
     }
   };
@@ -145,7 +165,7 @@ class DnDTaskComponent extends Component {
   };
   //onDragStart
   onDragStart = (event, id) => {
-    console.log("dragStart: ", id);
+    //console.log("dragStart: ", id);
     event.dataTransfer.setData("id", id);
   };
 
@@ -153,9 +173,9 @@ class DnDTaskComponent extends Component {
   onDrop = (event, status) => {
     let id = event.dataTransfer.getData("id");
 
-    // console.log("id: " + id);
-    // console.log("status: " + status);
-    // console.log("props: ", this.props.data);
+    //console.log("id: " + id);
+    //console.log("status: " + status);
+    //console.log("props: ", this.props.data);
 
     let tasks = this.props.data.lists.filter((task) => {
       if (task.name === id) {
@@ -170,9 +190,9 @@ class DnDTaskComponent extends Component {
   //onHandleClickSubmit
   onHandleClickSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state);
+    //console.log(this.state);
     const length = this.state.data.length;
-    console.log(this.state.data[length - 1]);
+    //console.log(this.state.data[length - 1]);
     if (length === 0) return;
     const work = [];
     const doing = [];
@@ -196,10 +216,10 @@ class DnDTaskComponent extends Component {
     };
     sendData(this.props.data.accessToken, data)
       .then((res) => {
-        console.log("done");
+        //console.log("done");
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   };
 
@@ -210,7 +230,14 @@ class DnDTaskComponent extends Component {
       done: [],
     };
 
-    console.log(this.props.data);
+    const lists = this.state.lists.map((e, index) => {
+      return (
+        <li key={index} className="feature">
+          {e.name}
+        </li>
+      );
+    });
+    //console.log(this.props.data);
     this.props.data.lists.forEach((element) => {
       tasks[element.status].push(
         <div
@@ -302,7 +329,7 @@ class DnDTaskComponent extends Component {
       );
     });
 
-    console.log(tasks);
+    //console.log(tasks);
     if (this.props.data.idStaff === this.props.data.idUser) {
       return (
         <div>
@@ -412,18 +439,22 @@ class DnDTaskComponent extends Component {
                     <input
                       type="text"
                       class="form-control"
-                      style={{ width: "100%", height: "50px" }}
+                      style={{ width: "86%", height: "50px" }}
                       onChange={this.handleChangeEdit}
                     />
 
                     <button
                       type="submit"
-                      class="btn btn-primary float-right"
+                      class="btn btn-primary float-right btn-addWorkToDo"
                       onClick={this.handleSubmitAddToWork}
                     >
                       Add
                     </button>
                   </form>
+                  <hr />
+                  <div className="mt-3">
+                    <ul style={{ fontSize: "20px" }}>{lists}</ul>
+                  </div>
                 </div>
                 <div class="modal-footer">
                   <button

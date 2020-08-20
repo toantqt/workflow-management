@@ -8,7 +8,7 @@ const findUser = async (req, res) => {
     //console.log("tai usercontroller " + keyword);
     return res.status(200).json({ getUsers });
   } catch (error) {
-    // console.log("co tai tim kiem");
+    //console.log("co tai tim kiem");
     return res.status(500).json({
       message: "loi phan show room",
     });
@@ -29,11 +29,11 @@ const getAllUser = async (req, res) => {
 
 const lockUser = async (req, res) => {
   try {
-    console.log(req.body.idUser);
+    //console.log(req.body.idUser);
     const idUser = req.body.idUser;
     const status = req.body.status;
     const lock = await userModel.lockUser(idUser, status);
-    console.log(lock);
+    //console.log(lock);
     return res.status(200).json(lock);
   } catch (error) {
     return res.status(500).json({

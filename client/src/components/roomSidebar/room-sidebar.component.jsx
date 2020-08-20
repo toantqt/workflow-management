@@ -16,7 +16,7 @@ class RoomSidebarComponent extends Component {
       email: "",
       role: "",
     };
-    // console.log(this.props.data);
+    //console.log(this.props.data);
   }
   componentDidMount = async () => {
     const token = localStorage.userToken;
@@ -49,22 +49,22 @@ class RoomSidebarComponent extends Component {
         idRoom: this.props.data.roomId,
         idUserRm: this.state.idUserRm,
       };
-      // console.log(inforRoom);
+      //console.log(inforRoom);
       rmeUserInRoom(this.state.accessToken, inforRoom).then((res) => {
-        console.log("done");
+        //console.log("done");
       });
     } else {
       alert("ban khong phai addmin");
-      console.log("ban la nguoi dung bt thoi");
+      //console.log("ban la nguoi dung bt thoi");
     }
   };
   showProfile = async (event) => {
     event.preventDefault();
-    // console.log(this.props.data);
+    //console.log(this.props.data);
     this.props.data.members.forEach(async (element) => {
       if (event.target.id === element.e._id) {
-        console.log(element.e);
-        console.log(element.e.profile);
+        //console.log(element.e);
+        //console.log(element.e.profile);
         await this.setState({
           username: element.e.username,
           fullname: element.e.fullName,
@@ -74,7 +74,7 @@ class RoomSidebarComponent extends Component {
         });
       }
     });
-    console.log(this.state);
+    //console.log(this.state);
   };
   render() {
     //console.log("rneder " + this.props.data.ownerId);
