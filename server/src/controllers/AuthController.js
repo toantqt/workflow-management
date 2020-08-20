@@ -16,6 +16,7 @@ const { result } = require("lodash");
 // const { update } = require("../models/userModel");
 
 const accessTokenLife = process.env.ACCESS_TOKEN_LIFE || "1h";
+// const accessTokenLife = Math.floor(Date.now() / 1000) + (60 * 60)
 //ma secretKey
 const accessTokenSecret =
   process.env.ACCESS_TOKEN_SECRET || "access-token-secret-example-toantqt-@@";
@@ -135,6 +136,7 @@ let postRegister = async (req, res) => {
       password: Joi.string().required(),
     });
     let result = userSchema.validate(req.body);
+    //console.log(result);
     //debug("aaaaa");
     if (result) {
       // return res.status(200).json(result.value);
@@ -145,6 +147,7 @@ let postRegister = async (req, res) => {
         req.body.password
       );
       debug("result success");
+
       return res.status(200).json({ createUser });
     } else {
       return res.status(500).json({

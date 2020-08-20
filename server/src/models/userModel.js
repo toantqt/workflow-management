@@ -29,7 +29,10 @@ userSchema.statics = {
   findByEmail(email) {
     return this.findOne({ email: email }).exec();
   },
-
+  //find username register
+  findusernameregister(username) {
+    return this.findOne({ username: username }).exec();
+  },
   //find by username
   findByUsername(id, username) {
     return this.find({

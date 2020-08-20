@@ -47,6 +47,9 @@ class TimekeepingComponent extends Component {
   componentDidMount = async () => {
     const token = localStorage.userToken;
     const tokenJSON = JSON.parse(localStorage.userToken);
+    // console.log("test last time");
+    // const refreshToken = tokenJSON.refreshToken;
+    // console.log(refreshToken);
     const accessToken = tokenJSON.accessToken;
     const decoded = jwt_decode(token);
 
@@ -255,25 +258,25 @@ class TimekeepingComponent extends Component {
         );
       });
       return (
-        <table class="table">
-          <thead>
-            <tr>
-              <th>Day Begin: {dates(this.state.getCreateDay[i])}</th>
-            </tr>
-            <tr>
-              <th scope="col" style={{ textAlign: "center" }}>
-                Day
-              </th>
-              <th scope="col" style={{ textAlign: "center" }}>
-                Morning
-              </th>
-              <th scope="col" style={{ textAlign: "center" }}>
-                Afternoon
-              </th>
-            </tr>
-          </thead>
-          <tbody>{abc}</tbody>
-        </table>
+        <div>
+          <h1>Day Begin: {dates(this.state.getCreateDay[i])}</h1>
+          <table class="table">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Day
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Morning
+                </th>
+                <th scope="col" style={{ textAlign: "center" }}>
+                  Afternoon
+                </th>
+              </tr>
+            </thead>
+            <tbody>{abc}</tbody>
+          </table>
+        </div>
       );
     });
     return (
@@ -316,46 +319,119 @@ class TimekeepingComponent extends Component {
                 }}
               >
                 <br></br>
-                <div className="col-sm-3">
-                  số buổi làm trong tháng này: {this.state.countTimeTowork}
+                <div className="col-sm-4">
+                  <div className="card" style={{ width: "20rem" }}>
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <div style={{ fontSize: "20px" }}>
+                      số buổi làm trong tháng này
+                    </div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {this.state.countTimeTowork}
+                    </div>
+                  </div>
                 </div>
-                <div className="col-sm-6">
-                  số buổi nghỉ trong tháng này: {this.state.countTimeNotwork}
+                <div className="col-sm-4">
+                  <div className="card" style={{ width: "20rem" }}>
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <div style={{ fontSize: "20px" }}>
+                      số buổi nghỉ trong tháng này
+                    </div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {this.state.countTimeNotwork}
+                    </div>
+                  </div>
                 </div>
-                <div className="col-sm-3">
-                  số buổi OT: {this.state.countTimeOT}
+                <div className="col-sm-4">
+                  <div
+                    className="card"
+                    style={{ width: "20rem", height: "18.3rem" }}
+                  >
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <br></br>
+                    <div style={{ fontSize: "20px" }}>số buổi OT</div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {this.state.countTimeOT}
+                    </div>
+                  </div>
                 </div>
               </div>
+
               <div
                 className=" row col-12"
                 style={{ display: this.state.displays, textAlign: "center" }}
               >
-                <div className="col-sm-3">
-                  tổng ngày làm chính :{" "}
-                  {parseInt(
-                    (this.state.typeWage / 30) *
-                      (this.state.countTimeTowork / 2)
-                  ) + " VND"}
-                </div>
-                <div className="col-sm-6">
-                  tổng lương ngày làm phụ:{" "}
-                  {this.state.OT *
-                    (this.state.typeWage / 30) *
-                    (this.state.countTimeOT / 2) +
-                    " VND"}
-                </div>
-                <div className="col-sm-3">
-                  tổng cộng bạn được:{" "}
-                  {parseInt(
-                    (this.state.typeWage / 30) *
-                      (this.state.countTimeTowork / 2) +
-                      this.state.OT *
+                <div className="col-sm-4">
+                  <div className="card" style={{ width: "20rem" }}>
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <div style={{ fontSize: "20px" }}>tổng ngày làm chính</div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {parseInt(
                         (this.state.typeWage / 30) *
-                        (this.state.countTimeOT / 2)
-                  ) + " VND"}
+                          (this.state.countTimeTowork / 2)
+                      ) + " VND"}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-4">
+                  <div className="card" style={{ width: "20rem" }}>
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <div style={{ fontSize: "20px" }}>tổng ngày làm phụ</div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {this.state.OT *
+                        (this.state.typeWage / 30) *
+                        (this.state.countTimeOT / 2) +
+                        " VND"}
+                    </div>
+                  </div>
+                </div>
+                <div className="col-sm-4">
+                  <div className="card" style={{ width: "20rem" }}>
+                    <img
+                      className="card-img-top "
+                      src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
+                      alt="Card image cap"
+                      style={{ height: "80px" }}
+                    />
+                    <div style={{ fontSize: "20px" }}> tổng cộng bạn được</div>
+                    <div className="card-body" style={{ textAlign: "center" }}>
+                      {parseInt(
+                        (this.state.typeWage / 30) *
+                          (this.state.countTimeTowork / 2) +
+                          this.state.OT *
+                            (this.state.typeWage / 30) *
+                            (this.state.countTimeOT / 2)
+                      ) + " VND"}
+                    </div>
+                  </div>
                 </div>
                 <br></br>
               </div>
+
               <div className="col-12" style={{ textAlign: "center" }}>
                 {showTimeChecked}
               </div>
