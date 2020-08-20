@@ -186,7 +186,7 @@ class ViewByRoomComponent extends Component {
     if (this.state.select === "") {
       return (
         <div>
-          <div className="col-3 float-right">
+          <div className="col-2 float-right">
             <select
               class="custom-select"
               id="gender2"
@@ -204,7 +204,7 @@ class ViewByRoomComponent extends Component {
     }
     return (
       <div>
-        <div className="col-3 float-right">
+        <div className="col-2 float-right">
           <select
             class="custom-select"
             id="gender2"
