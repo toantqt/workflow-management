@@ -12,12 +12,12 @@ export const isLoggedIn = () => {
     // const decoded = jwt_decode(refreshToken);
     const decoded = jwt_decode(accessToken);
     //console.log(new Date());
-    console.log(Date.now());
+    //console.log(Date.now());
     //console.log(decoded);
     // console.log(new Date(decoded.iat));
-    // // console.log(decoded);
+    console.log(decoded);
 
-    console.log(new Date(decoded.exp) * 1000);
+    //console.log(new Date(decoded.exp) * 1000);
     // console.log(decoded.exp * 1000);
     if (Date.now() > new Date(decoded.exp) * 1000) {
       localStorage.clear();

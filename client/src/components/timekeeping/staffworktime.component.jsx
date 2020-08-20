@@ -365,7 +365,7 @@ class StaffworktimeComponent extends Component {
 
     return (
       <div onClick={this.handleBlur}>
-        <div className="col-9" style={{ float: "right", marginTop: "-238px" }}>
+        <div className="col-9" style={{ float: "right", marginTop: "-338px" }}>
           <legend>
             <h1>View work time</h1>
           </legend>
