@@ -75,6 +75,12 @@ class SidebarManageComponent extends Component {
                       StaffWorkTime
                     </Link>
                   </li>
+                  <li className="nav-item">
+                    <Link to="/manage/editsalary" className="nav-link">
+                      <i class="fas fa-layer-group"></i>
+                      EditSalary
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </div>

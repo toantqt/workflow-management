@@ -84,7 +84,10 @@ let initAPIs = (app) => {
   router.post("/create-time-keeping", TimekeepingController.CreateTimekeeping);
   router.post("/time-keeping", TimekeepingController.CheckedTime);
   router.post("/get-time-keeping", TimekeepingController.getTimeKeeping);
-
+  //salary user
+  router.get("/get-infor-salary/:iduser", UserController.getInforSalary);
+  router.post("/create-salary", UserController.createSalary);
+  router.post("/update-salary", UserController.updateSalary);
   //task-statistic
   router.get("/task-statistic", TaskController.taskStatistic);
 

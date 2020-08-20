@@ -56,6 +56,12 @@ class AddComponent extends Component {
                     Infor Staff Work Time
                   </Link>
                 </li>
+                <li className="nav-item" style={{ marginTop: "15px" }}>
+                  <Link className="nav-link" to={"/manage/editsalary"}>
+                    <i class="far fa-address-card" aria-hidden="true"></i>
+                    Edit Salary
+                  </Link>
+                </li>
               </ul>
             </li>
           </ul>

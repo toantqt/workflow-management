@@ -24,5 +24,8 @@ wageSchema.statics = {
   getWates(userid) {
     return this.findOne({ userId: userid }).exec();
   },
+  upDateSalary(id, data) {
+    return this.findByIdAndUpdate(id, data).exec();
+  },
 };
 module.exports = mongoose.model("wage", wageSchema);

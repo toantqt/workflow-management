@@ -20,7 +20,7 @@ import StaffworktimeComponent from "./components/timekeeping/staffworktime.compo
 //import Timekeepping from "./components/sidebar/timekeeping.component";
 
 import TimekeepingComponent from "./components/timekeeping/timekeeping.component";
-
+import EditSalaryComponent from "./components/editsalary/editSalary.component";
 //import { Redirect } from "react-router";
 
 function App() {
@@ -142,6 +142,12 @@ function App() {
           path="/manage/staffworktime"
           render={() =>
             isLoggedIn() ? <StaffworktimeComponent /> : <Redirect to="/login" />
+          }
+        ></Route>
+        <Route
+          path="/manage/editsalary"
+          render={() =>
+            isLoggedIn() ? <EditSalaryComponent /> : <Redirect to="/login" />
           }
         ></Route>
       </div>
