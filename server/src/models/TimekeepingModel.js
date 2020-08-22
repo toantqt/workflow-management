@@ -16,6 +16,7 @@ const timeKeepingModel = new Schema(
         morning: { type: Boolean, default: false },
         afternoon: { type: Boolean, default: false },
         OT: { type: Boolean, default: false },
+        isDayInMonth: { type: Boolean, default: false },
         createdAt: { type: Number, default: Date.now },
       },
     ],

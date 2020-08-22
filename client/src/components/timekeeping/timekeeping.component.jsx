@@ -6,6 +6,7 @@ import {
   updateTimeNotWork,
   Timekeeping,
   getTimeKeeping,
+  ExportExcel,
 } from "./timekeepingFunction";
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
@@ -26,6 +27,7 @@ class TimekeepingComponent extends Component {
       startDate: new Date(),
       getTimeChecked: [],
       getCreateDay: [],
+      getWeekTime: [],
       dataTimeToDay: "",
       countTimeTowork: 0,
       countTimeNotwork: 0,
@@ -35,15 +37,6 @@ class TimekeepingComponent extends Component {
       typeWage: 0,
     };
   }
-  // get week in month today
-  // weekinMonth = () => {
-  //   let adjustedDate = new Date().getDate() + new Date().getDay();
-  //   //console.log(new Date(2017, 10, 9).getDay());
-  //   //console.log(new Date(2017, 10, 9).getDate());
-  //   let prefixes = ["0", "1", "2", "3", "4", "5"];
-  //   //console.log(prefixes[0 | (13 / 7)]);
-  //   return parseInt(prefixes[0 | (adjustedDate / 7)] + 1);
-  // };
   componentDidMount = async () => {
     const token = localStorage.userToken;
     const tokenJSON = JSON.parse(localStorage.userToken);
@@ -157,6 +150,7 @@ class TimekeepingComponent extends Component {
           typeWage: res.getWageUser.typeWage,
           getTimeChecked: [],
           getCreateDay: [],
+          getWeekTime: [],
           countTimeTowork: 0,
           countTimeNotwork: 0,
           countTimeOT: 0,
@@ -165,6 +159,7 @@ class TimekeepingComponent extends Component {
           await this.setState({
             getTimeChecked: [...this.state.getTimeChecked, e.checkedOneWeek],
             getCreateDay: [...this.state.getCreateDay, e.createAt],
+            getWeekTime: [...this.state.getWeekTime, e.weekInMonth],
             countTimeTowork: this.state.countTimeTowork + e.countTime,
             countTimeNotwork: this.state.countTimeNotwork + e.countTimeNotWork,
             countTimeOT: this.state.countTimeOT + e.countTimeOT,
@@ -173,6 +168,20 @@ class TimekeepingComponent extends Component {
         this.setState({
           displays: "block",
         });
+      }
+    );
+  };
+  ExportFileExcel = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+    let TimeDay =
+      this.state.startDate.getMonth() +
+      1 +
+      "/" +
+      this.state.startDate.getFullYear();
+    ExportExcel(this.state.accessToken, TimeDay, this.state.userId).then(
+      (res) => {
+        console.log("done");
       }
     );
   };
@@ -203,10 +212,11 @@ class TimekeepingComponent extends Component {
 
     this.state.dataCheckTime.map(async (element, index) => {
       if (index === 5) return;
-      let mornings = (m, i, d) => {
+      let mornings = (m, i, d, inMonth) => {
+        if (!inMonth) return <i></i>;
         if (i === this.state.toDay) {
           if (m) {
-            return <i class="fa fa-check"></i>;
+            return <i className="fa fa-check"></i>;
           } else {
             return (
               <input
@@ -230,8 +240,18 @@ class TimekeepingComponent extends Component {
 
       let abc = {
         Day: index + 2,
-        morning: mornings(element.morning, index + 2, "sang"),
-        afternoon: mornings(element.afternoon, index + 2, "chieu"),
+        morning: mornings(
+          element.morning,
+          index + 2,
+          "sang",
+          element.isDayInMonth
+        ),
+        afternoon: mornings(
+          element.afternoon,
+          index + 2,
+          "chieu",
+          element.isDayInMonth
+        ),
       };
       return arrays.push(abc);
     });
@@ -242,24 +262,31 @@ class TimekeepingComponent extends Component {
         return new Date(string).toLocaleDateString([], options);
       };
       let abc = element.map((e, index) => {
-        let show = (type) => {
-          return type ? (
-            <i class="fa fa-check"></i>
-          ) : (
-            <i class="fa fa-times"></i>
-          );
+        let show = (type, inmonth) => {
+          if (inmonth) {
+            return type ? (
+              <i class="fa fa-check"></i>
+            ) : (
+              <i class="fa fa-times"></i>
+            );
+          } else {
+            return <i></i>;
+          }
         };
         return (
           <tr>
             <td>{index + 2}</td>
-            <td>{show(e.morning)}</td>
-            <td>{show(e.afternoon)}</td>
+            <td>{show(e.morning, e.isDayInMonth)}</td>
+            <td>{show(e.afternoon, e.isDayInMonth)}</td>
           </tr>
         );
       });
       return (
         <div>
-          <h1>Day Begin: {dates(this.state.getCreateDay[i])}</h1>
+          <h1>
+            Week {this.state.getWeekTime[i]}, Day Create:{" "}
+            {dates(this.state.getCreateDay[i])}
+          </h1>
           <table class="table">
             <thead class="thead-dark">
               <tr>
@@ -309,6 +336,9 @@ class TimekeepingComponent extends Component {
                 &nbsp;
                 <button type="submit" onClick={this.clickSearchTimeCheck}>
                   search
+                </button>
+                <button type="submit" onClick={this.ExportFileExcel}>
+                  export file excel
                 </button>
               </div>
               <div

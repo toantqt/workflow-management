@@ -96,3 +96,16 @@ export const updateTimeNotWork = async (
       //console.log(error);
     });
 };
+export const ExportExcel = (accessToken, time, user) => {
+  return axios
+    .get(
+      `http://localhost:5566/export-excel-file?timeget=${time}&userId=${user}`,
+      {
+        headers: { Authorization: `${accessToken}` },
+      }
+    )
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => console.log(error));
+};

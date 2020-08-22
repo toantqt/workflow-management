@@ -87,6 +87,7 @@ let initAPIs = (app) => {
   router.post("/create-time-keeping", TimekeepingController.CreateTimekeeping);
   router.post("/time-keeping", TimekeepingController.CheckedTime);
   router.post("/get-time-keeping", TimekeepingController.getTimeKeeping);
+  router.get("/export-excel-file", TimekeepingController.exportExcelFile);
   //salary user
   router.get("/get-infor-salary/:iduser", UserController.getInforSalary);
   router.post("/create-salary", UserController.createSalary);

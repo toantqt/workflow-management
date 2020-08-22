@@ -24,6 +24,7 @@ class StaffworktimeComponent extends Component {
       ownerId: "", // id nguoi can tim
       getTimeChecked: [],
       getCreateDay: [],
+      getWeekTime: [],
       displays: "none",
       countTimeTowork: 0,
       countTimeNotwork: 0,
@@ -130,6 +131,7 @@ class StaffworktimeComponent extends Component {
           typeWage: res.getWageUser.typeWage,
           getTimeChecked: [],
           getCreateDay: [],
+          getWeekTime: [],
           countTimeTowork: 0,
           countTimeNotwork: 0,
           countTimeOT: 0,
@@ -138,6 +140,7 @@ class StaffworktimeComponent extends Component {
           await this.setState({
             getTimeChecked: [...this.state.getTimeChecked, e.checkedOneWeek],
             getCreateDay: [...this.state.getCreateDay, e.createAt],
+            getWeekTime: [...this.state.getWeekTime, e.weekInMonth],
             countTimeTowork: this.state.countTimeTowork + e.countTime,
             countTimeNotwork: this.state.countTimeNotwork + e.countTimeNotWork,
             countTimeOT: this.state.countTimeOT + e.countTimeOT,
@@ -267,24 +270,31 @@ class StaffworktimeComponent extends Component {
         return new Date(string).toLocaleDateString([], options);
       };
       let abc = element.map((e, index) => {
-        let show = (type) => {
-          return type ? (
-            <i class="fa fa-check"></i>
-          ) : (
-            <i class="fa fa-times"></i>
-          );
+        let show = (type, inmonth) => {
+          if (inmonth) {
+            return type ? (
+              <i class="fa fa-check"></i>
+            ) : (
+              <i class="fa fa-times"></i>
+            );
+          } else {
+            return <i></i>;
+          }
         };
         return (
           <tr>
             <td>{index + 2}</td>
-            <td>{show(e.morning)}</td>
-            <td>{show(e.afternoon)}</td>
+            <td>{show(e.morning, e.isDayInMonth)}</td>
+            <td>{show(e.afternoon, e.isDayInMonth)}</td>
           </tr>
         );
       });
       return (
         <div>
-          <h1>Day Begin: {dates(this.state.getCreateDay[i])}</h1>
+          <h1>
+            Week {this.state.getWeekTime[i]}, Day Create:{" "}
+            {dates(this.state.getCreateDay[i])}
+          </h1>
           <table class="table" style={{ width: "80%", margin: " auto" }}>
             <thead class="thead-dark">
               {/* <tr>
@@ -330,7 +340,8 @@ class StaffworktimeComponent extends Component {
     let arrays = [];
 
     this.state.dataCheckTime.map(async (element, index) => {
-      let mornings = (m, i, d) => {
+      let mornings = (m, i, d, inMonth) => {
+        if (!inMonth) return <i></i>;
         if (i === this.state.toDay) {
           if (m) {
             return <i class="fa fa-check"></i>;
@@ -357,8 +368,18 @@ class StaffworktimeComponent extends Component {
 
       let abc = {
         Day: index + 2,
-        morning: mornings(element.morning, index + 2, "sang"),
-        afternoon: mornings(element.afternoon, index + 2, "chieu"),
+        morning: mornings(
+          element.morning,
+          index + 2,
+          "sang",
+          element.isDayInMonth
+        ),
+        afternoon: mornings(
+          element.afternoon,
+          index + 2,
+          "chieu",
+          element.isDayInMonth
+        ),
       };
       return arrays.push(abc);
     });
@@ -413,7 +434,7 @@ class StaffworktimeComponent extends Component {
                   style={{
                     height: "25px",
                     paddingTop: "1px",
-                    marginTop: "20px",
+                    marginTop: "25px",
                   }}
                   type="submit"
                   class="btn btn-primary"
