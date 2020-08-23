@@ -189,7 +189,11 @@ class TaskComponent extends Component {
         stt: index,
         idStaff: element.inforAuthor.username,
         title: (
-          <span id={element.e._id} onClick={this.showTask}>
+          <span
+            className="task-title"
+            id={element.e._id}
+            onClick={this.showTask}
+          >
             {element.e.title}
           </span>
         ),

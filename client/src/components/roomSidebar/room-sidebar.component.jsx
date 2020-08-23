@@ -3,6 +3,7 @@ import { rmeUserInRoom } from "./roomsidebarFunction";
 // import { Link } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import { Image } from "cloudinary-react";
+import "./room-sidebar.component.css";
 class RoomSidebarComponent extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +16,7 @@ class RoomSidebarComponent extends Component {
       profile: "",
       email: "",
       role: "",
+      remove: false,
     };
     //console.log(this.props.data);
   }
@@ -28,7 +30,8 @@ class RoomSidebarComponent extends Component {
       idUserOnl: decoded.data._id,
       accessToken: accessToken,
     });
-    //console.log(this.state);
+
+    console.log(this.state);
   };
 
   changeValueRemove = async (e) => {
@@ -92,84 +95,150 @@ class RoomSidebarComponent extends Component {
         </li>
       ) : null;
     });
-
-    const listMember = this.props.data.members.map((member, index) => {
-      if (member.e._id === this.props.data.ownerId) {
-        return (
-          <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-            <div class="dropright">
-              <a className="nav-link" data-toggle="dropdown">
-                <i
-                  className="fas fa-user-shield"
-                  style={{ paddingRight: "10px" }}
-                ></i>
-                {member.e.username}
-              </a>
-              <ul class="dropdown-menu" style={{ height: "30px" }}>
-                <li>
-                  <a
-                    href="#"
-                    className="nav-link"
-                    data-toggle="modal"
-                    // data-target={"#" + member.e._id}
-                    data-target="#showProfile"
-                    id={member.e._id}
-                    onClick={this.showProfile}
-                  >
-                    <i class="fa fa-info"></i>
-                    Xem Profile
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        );
-      } else {
-        return (
-          <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
-            <div className="dropright">
-              <a className="nav-link" data-toggle="dropdown">
-                <i
-                  className="fa fa-pencil"
-                  style={{ paddingRight: "10px" }}
-                ></i>
-                <span>&nbsp;</span>
-                {member.e.username}
-              </a>
-              <ul className="dropdown-menu" style={{ height: "60px" }}>
-                <li>
-                  <a
-                    href="#"
-                    className="nav-link"
-                    data-toggle="modal"
-                    // data-target={"#" + member.e._id}
-                    data-target="#showProfile"
-                    id={member.e._id}
-                    onClick={this.showProfile}
-                  >
-                    <i class="fa fa-info"></i>
-                    Xem Profile
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="#"
-                    className="nav-link"
-                    id={member.e._id}
-                    data-target="#removeuser"
-                    data-toggle="modal"
-                    onClick={this.changeValueRemove}
-                  >
-                    <i class="fa fa-minus"></i>
-                    Xoa
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        );
-      }
-    });
+    let lisMembers;
+    if (this.state.idUserOnl === this.props.data.ownerId) {
+      lisMembers = this.props.data.members.map((member, index) => {
+        if (member.e._id === this.props.data.ownerId) {
+          return (
+            <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+              <div class="dropright">
+                <a className="nav-link" data-toggle="dropdown">
+                  <i
+                    className="fas fa-user-shield"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
+                  {member.e.username}
+                </a>
+                <ul class="dropdown-menu" style={{ height: "30px" }}>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link"
+                      data-toggle="modal"
+                      // data-target={"#" + member.e._id}
+                      data-target="#showProfile"
+                      id={member.e._id}
+                      onClick={this.showProfile}
+                    >
+                      <i class="fa fa-info"></i>
+                      Xem Profile
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          );
+        } else {
+          return (
+            <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+              <div className="dropright">
+                <a className="nav-link" data-toggle="dropdown">
+                  <i
+                    className="fa fa-pencil"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
+                  <span>&nbsp;</span>
+                  {member.e.username}
+                </a>
+                <ul className="dropdown-menu" style={{ height: "60px" }}>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link"
+                      data-toggle="modal"
+                      // data-target={"#" + member.e._id}
+                      data-target="#showProfile"
+                      id={member.e._id}
+                      onClick={this.showProfile}
+                    >
+                      <i class="fa fa-info"></i>
+                      Xem Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link"
+                      id={member.e._id}
+                      data-target="#removeuser"
+                      data-toggle="modal"
+                      onClick={this.changeValueRemove}
+                    >
+                      <i class="fa fa-minus"></i>
+                      Xoa
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          );
+        }
+      });
+    } else {
+      lisMembers = this.props.data.members.map((member, index) => {
+        if (member.e._id === this.props.data.ownerId) {
+          return (
+            <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+              <div class="dropright">
+                <a className="nav-link" data-toggle="dropdown">
+                  <i
+                    className="fas fa-user-shield"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
+                  {member.e.username}
+                </a>
+                <ul class="dropdown-menu" style={{ height: "30px" }}>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link"
+                      data-toggle="modal"
+                      // data-target={"#" + member.e._id}
+                      data-target="#showProfile"
+                      id={member.e._id}
+                      onClick={this.showProfile}
+                    >
+                      <i class="fa fa-info"></i>
+                      Xem Profile
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          );
+        } else {
+          return (
+            <li className="nav-item" key={index} style={{ marginTop: "15px" }}>
+              <div class="dropright">
+                <a className="nav-link" data-toggle="dropdown">
+                  <i
+                    className="fa fa-pencil"
+                    style={{ paddingRight: "10px" }}
+                  ></i>
+                  {member.e.username}
+                </a>
+                <ul class="dropdown-menu" style={{ height: "30px" }}>
+                  <li>
+                    <a
+                      href="#"
+                      className="nav-link"
+                      data-toggle="modal"
+                      // data-target={"#" + member.e._id}
+                      data-target="#showProfile"
+                      id={member.e._id}
+                      onClick={this.showProfile}
+                    >
+                      <i class="fa fa-info"></i>
+                      Xem Profile
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </li>
+          );
+        }
+      });
+    }
 
     return (
       <div className="col-3">
@@ -236,7 +305,7 @@ class RoomSidebarComponent extends Component {
                       List Member
                     </a>
                     <ul id="other-fruits" className="flex-column collapse ">
-                      {listMember}
+                      {lisMembers}
                     </ul>
                   </li>
                 </ul>

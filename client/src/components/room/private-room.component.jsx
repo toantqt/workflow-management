@@ -23,7 +23,7 @@ class PrivateRoomComponent extends Component {
       nameRoom: "",
       roomId: "",
       members: [],
-
+      assignId: "",
       startDate: new Date(), // goi date
       title: "",
       tasks: [],
@@ -98,6 +98,11 @@ class PrivateRoomComponent extends Component {
       this.setState({
         title: value,
       });
+    } else if (name === "assign") {
+      let value = target.value;
+      this.setState({
+        assignId: value,
+      });
     }
   };
 
@@ -148,11 +153,23 @@ class PrivateRoomComponent extends Component {
       idStaff: this.state.id,
       roomId: this.state.roomId,
     };
+    let taskAssign = {
+      title: this.state.title,
+      deadline: dates,
+      idStaff: this.state.assignId,
+      roomId: this.state.roomId,
+    };
     //  //console.log(task);
     //console.log(new Date(task.deadline));
-    addTask(accessToken, task).then((res) => {
-      //console.log("them nhiem vu thanh cong");
-    });
+    if (this.state.assignId === "") {
+      addTask(accessToken, task).then((res) => {
+        //console.log("them nhiem vu thanh cong");
+      });
+    } else {
+      addTask(accessToken, taskAssign).then((res) => {
+        //console.log("them nhiem vu thanh cong");
+      });
+    }
   };
 
   // them thanh vien
@@ -206,10 +223,7 @@ class PrivateRoomComponent extends Component {
     });
   };
   render() {
-    // let listMember = this.state.members.map((element, index) => {
-    //   return <li key={index}>{element.e.username}</li>;
-    // });
-    //console.log(this.state);
+    console.log(this.state);
     let showuser = this.state.users.map((e, index) => {
       return this.state.showResults ? (
         <li key={index}>
@@ -248,127 +262,65 @@ class PrivateRoomComponent extends Component {
       return buffer;
     };
 
-    return (
-      <div>
-        <div
-          className="modal fade"
-          id="exampleModal"
-          // tabIndex="-1"
-          //role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Them Viec
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
+    const members = this.state.members.map((e, index) => {
+      return (
+        <option value={e.e._id} key={index}>
+          {e.e.username}
+        </option>
+      );
+    });
+    console.log(this.state.members);
+    if (this.state.id === this.state.ownerId) {
+      return (
+        <div>
+          <div
+            className="modal fade"
+            id="exampleModal"
+            // tabIndex="-1"
+            //role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Add Task
+                  </h5>
+                </div>
 
-              <div className="modal-body">
-                <form>
-                  <div className="form-group">
-                    <label>tiêu đề</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      name="title"
-                      placeholder="ten nhiem vu"
-                      onChange={this.onHandleChange}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>ngày kêt thúc</label>
-                    <DatePicker
-                      selected={this.state.startDate}
-                      onChange={this.handleChange}
-                    />
-                  </div>
-                </form>
-              </div>
-
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={this.onHandleChangeSubmit}
-                  data-dismiss="modal"
-                >
-                  Save changes
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="modal fade"
-          id="addMemberModal"
-          //tabIndex="-1"
-          // role="dialog"
-          aria-labelledby="exampleModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">
-                  Them Thanh Vien
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <form
-              // onSubmit={(event) => this.onHandleChangeSubmitAddMember(event)}
-              >
                 <div className="modal-body">
-                  {/* <form> */}
-                  <div className="form-group">
-                    <label>Nhap ten</label>
-                    <input
-                      type="text"
-                      className="form-control"
-                      // name="title"
-                      placeholder="nhap ten can tim"
-                      // onChange={this.onHandleChangeAddMember}
-                      onKeyDown={this._handleKeyDownAddMember}
-                    />
-                    <span
-                      className="search-user-list-results"
-                      style={{ display: this.state.display }}
-                    >
-                      <h3>User :</h3>
-                      <div className="search-user-list-content">
-                        <ul>{showuser}</ul>
-                      </div>
-                    </span>
-                  </div>
-                  <div className="showUserAdd">{showManager()}</div>
-                  {/* </form> */}
+                  <form>
+                    <div className="form-group">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="title"
+                        placeholder="ten nhiem vu"
+                        onChange={this.onHandleChange}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label>Assigned person</label>
+                      <select
+                        class="form-control"
+                        id="exampleFormControlSelect1"
+                        name="assign"
+                        onChange={this.onHandleChange}
+                      >
+                        {members}
+                      </select>
+                    </div>
+
+                    <div className="form-group">
+                      <label>Deadline</label> <br />
+                      <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </form>
                 </div>
 
                 <div className="modal-footer">
@@ -383,27 +335,235 @@ class PrivateRoomComponent extends Component {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={this.onHandleChangeSubmitAddMember}
+                    onClick={this.onHandleChangeSubmit}
                     data-dismiss="modal"
                   >
                     Save changes
                   </button>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
-        </div>
 
-        <AppBarComponent username={this.state.username} />
-        <div className="row" style={{ margin: "0 auto " }}>
-          <RoomSidebarComponent data={this.state} />
-          <TaskComponent
-            data={this.state}
-            accessToken={this.state.accessToken}
-          />
+          <div
+            className="modal fade"
+            id="addMemberModal"
+            //tabIndex="-1"
+            // role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Them Thanh Vien
+                  </h5>
+                </div>
+                <form
+                // onSubmit={(event) => this.onHandleChangeSubmitAddMember(event)}
+                >
+                  <div className="modal-body">
+                    {/* <form> */}
+                    <div className="form-group">
+                      <label>Nhap ten</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        // name="title"
+                        placeholder="nhap ten can tim"
+                        // onChange={this.onHandleChangeAddMember}
+                        onKeyDown={this._handleKeyDownAddMember}
+                      />
+                      <span
+                        className="search-user-list-results"
+                        style={{ display: this.state.display }}
+                      >
+                        <h3>User :</h3>
+                        <div className="search-user-list-content">
+                          <ul>{showuser}</ul>
+                        </div>
+                      </span>
+                    </div>
+                    <div className="showUserAdd">{showManager()}</div>
+                    {/* </form> */}
+                  </div>
+
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={this.onHandleChangeSubmitAddMember}
+                      data-dismiss="modal"
+                    >
+                      Save changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <AppBarComponent username={this.state.username} />
+          <div className="row" style={{ margin: "0 auto " }}>
+            <RoomSidebarComponent data={this.state} />
+            <TaskComponent
+              data={this.state}
+              accessToken={this.state.accessToken}
+            />
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div>
+          <div
+            className="modal fade"
+            id="exampleModal"
+            // tabIndex="-1"
+            //role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Add Task
+                  </h5>
+                </div>
+
+                <div className="modal-body">
+                  <form>
+                    <div className="form-group">
+                      <label>Title</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        name="title"
+                        placeholder="ten nhiem vu"
+                        onChange={this.onHandleChange}
+                      />
+                    </div>
+
+                    <div className="form-group">
+                      <label>Deadline</label> <br />
+                      <DatePicker
+                        selected={this.state.startDate}
+                        onChange={this.handleChange}
+                      />
+                    </div>
+                  </form>
+                </div>
+
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    data-dismiss="modal"
+                  >
+                    Close
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.onHandleChangeSubmit}
+                    data-dismiss="modal"
+                  >
+                    Save changes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="modal fade"
+            id="addMemberModal"
+            //tabIndex="-1"
+            // role="dialog"
+            aria-labelledby="exampleModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalLabel">
+                    Add Member
+                  </h5>
+                </div>
+                <form
+                // onSubmit={(event) => this.onHandleChangeSubmitAddMember(event)}
+                >
+                  <div className="modal-body">
+                    {/* <form> */}
+                    <div className="form-group">
+                      <label>Nhap ten</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        // name="title"
+                        placeholder="nhap ten can tim"
+                        // onChange={this.onHandleChangeAddMember}
+                        onKeyDown={this._handleKeyDownAddMember}
+                      />
+                      <span
+                        className="search-user-list-results"
+                        style={{ display: this.state.display }}
+                      >
+                        <h3>User :</h3>
+                        <div className="search-user-list-content">
+                          <ul>{showuser}</ul>
+                        </div>
+                      </span>
+                    </div>
+                    <div className="showUserAdd">{showManager()}</div>
+                    {/* </form> */}
+                  </div>
+
+                  <div className="modal-footer">
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      data-dismiss="modal"
+                    >
+                      Close
+                    </button>
+
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={this.onHandleChangeSubmitAddMember}
+                      data-dismiss="modal"
+                    >
+                      Save changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          <AppBarComponent username={this.state.username} />
+          <div className="row" style={{ margin: "0 auto " }}>
+            <RoomSidebarComponent data={this.state} />
+            <TaskComponent
+              data={this.state}
+              accessToken={this.state.accessToken}
+            />
+          </div>
+        </div>
+      );
+    }
   }
 }
 
