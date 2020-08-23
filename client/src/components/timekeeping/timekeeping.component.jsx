@@ -182,6 +182,7 @@ class TimekeepingComponent extends Component {
     ExportExcel(this.state.accessToken, TimeDay, this.state.userId).then(
       (res) => {
         console.log("done");
+        return alert("export thanh cong");
       }
     );
   };
@@ -325,21 +326,40 @@ class TimekeepingComponent extends Component {
                   //  rowEvents={rowEvents} // goi event
                 />
               </div>
-              <div>
+              <div className="col-sm-12">
                 <h1>Tim thong tin Time Checked</h1>
-                <DatePicker
-                  selected={this.state.startDate}
-                  onChange={this.handleChangeDate}
-                  dateFormat="MM/yyyy"
-                  showMonthYearPicker
-                />
-                &nbsp;
-                <button type="submit" onClick={this.clickSearchTimeCheck}>
-                  search
-                </button>
-                <button type="submit" onClick={this.ExportFileExcel}>
-                  export file excel
-                </button>
+                <div>
+                  <div className="col-sm-3">
+                    {" "}
+                    <DatePicker
+                      selected={this.state.startDate}
+                      onChange={this.handleChangeDate}
+                      dateFormat="MM/yyyy"
+                      showMonthYearPicker
+                    />
+                  </div>
+                  <div className="col-sm-3">
+                    <button
+                      type="submit"
+                      onClick={this.clickSearchTimeCheck}
+                      style={{ height: " 32px", marginLeft: " -36px" }}
+                    >
+                      search
+                    </button>
+                  </div>
+                  <div
+                    className="col-sm-6"
+                    style={{ width: " 150px", marginLeft: "210px" }}
+                  >
+                    <button
+                      type="submit"
+                      onClick={this.ExportFileExcel}
+                      style={{ marginTop: " 5px" }}
+                    >
+                      export file excel
+                    </button>
+                  </div>
+                </div>
               </div>
               <div
                 className=" row col-12"

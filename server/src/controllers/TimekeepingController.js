@@ -11,12 +11,54 @@ let ws = wb.addWorksheet("Sheet 1");
 //let ws2 = wb.addWorksheet("Sheet 2");
 
 // Create a reusable style
+let styleTitle = wb.createStyle({
+  font: {
+    color: "#fafaf7",
+    size: 12,
+    vertAlign: "center",
+  },
+  fill: {
+    type: "pattern",
+    patternType: "solid",
+    bgColor: "#1f1f1d",
+    //fgColor: "#fafaf7",
+  },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+  },
+});
 let style = wb.createStyle({
   font: {
     color: "#FF0800",
     size: 12,
   },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+  },
   // numberFormat: "$#,##0.00; ($#,##0.00); -",
+});
+let styleWeek = wb.createStyle({
+  font: {
+    color: "#264ac9",
+    size: 12,
+  },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+  },
+});
+let style1 = wb.createStyle({
+  font: {
+    color: "#264ac9",
+    size: 12,
+  },
+  alignment: {
+    wrapText: true,
+    horizontal: "center",
+  },
+  numberFormat: "#,##0.00; (#,##0.00); -",
 });
 // create list check time
 const getlistDayWeekFirst = (firstDay) => {
@@ -280,29 +322,51 @@ const exportExcelFile = async (req, res) => {
     );
     let salaryfDay = getWageUser.typeWage / 30;
     let salaryHalfDay = salaryfDay / 2;
-    console.log(salaryHalfDay);
+    // console.log(salaryHalfDay);
     getTime = getTime.sort(getTime.weekInMonth);
-    console.log(getWageUser);
+    // console.log(getWageUser);
+    // set width title
+    ws.column(1).setWidth(15);
+    ws.column(2).setWidth(15);
+    ws.column(3).setWidth(15);
+    ws.column(4).setWidth(15);
+    ws.column(5).setWidth(15);
+    ws.column(6).setWidth(15);
+
     getTime.forEach((ele, i) => {
       let j = 4 * i + 1;
       ws.cell(j, 1)
         .string("Week " + ele.weekInMonth)
-        .style(style);
+        .style(styleWeek);
       if (i === 0) {
         j = 1;
       }
       ele.checkedOneWeek.forEach((e, index) => {
         ws.cell(1 + j, index + 1)
           .number(index + 2)
-          .style(style);
-        ws.cell(2 + j, index + 1)
-          .bool(e.morning)
-          .style(style)
-          .style({ font: { size: 14 } });
-        ws.cell(3 + j, index + 1)
-          .bool(e.afternoon)
-          .style(style)
-          .style({ font: { size: 14 } });
+          .style(styleTitle);
+        if (e.isDayInMonth) {
+          ws.cell(2 + j, index + 1)
+            .bool(e.morning)
+            .style(style)
+            .style({ font: { size: 14 } });
+        } else {
+          ws.cell(2 + j, index + 1)
+            .string("notInMonth")
+            .style(style)
+            .style({ font: { size: 14 } });
+        }
+        if (e.isDayInMonth) {
+          ws.cell(3 + j, index + 1)
+            .bool(e.afternoon)
+            .style(style)
+            .style({ font: { size: 14 } });
+        } else {
+          ws.cell(3 + j, index + 1)
+            .string("notInMonth")
+            .style(style)
+            .style({ font: { size: 14 } });
+        }
       });
 
       ws.cell(2 + j, 7)
@@ -321,34 +385,44 @@ const exportExcelFile = async (req, res) => {
         .style(style);
     });
     // title tong buoi lam viec chinh trong tuan
-    ws.cell(2, 8).string("Count Work").style(style);
+    ws.cell(2, 8).string("Count Work").style(styleTitle);
     // title tong buoi lam viec phu trong tuan
-    ws.cell(2, 9).string("Count OT").style(style);
-    ws.cell(2, 10).string("Work").style(style);
+    ws.cell(2, 9).string("Count OT").style(styleTitle);
+    ws.cell(2, 10).string("Work").style(styleTitle);
     // tong thang buoi lam viec chinh
     ws.cell(3, 10).formula(`SUM(H:H)`).style(style);
 
-    ws.cell(2, 11).string("OT").style(style);
+    ws.cell(2, 11).string("OT").style(styleTitle);
     // tong thang buoi lam viec Them
     ws.cell(3, 11).formula(`SUM(I:I)`).style(style);
 
     // tong luong lam viec chinh
-    ws.cell(2, 12).string("Tổng Chinh").style(style);
-    ws.cell(3, 12).formula(`J3*${salaryHalfDay}`).style(style);
+    // set width
+    ws.column(12).setWidth(15);
+    ws.column(13).setWidth(15);
+    ws.column(14).setWidth(15);
+    ws.cell(2, 12).string("Total salary").style(styleTitle);
+    ws.cell(3, 12).formula(`J3*${salaryHalfDay}`).style(style1);
 
     // tong luong lam viec Them
-    ws.cell(2, 13).string("Tổng Phụ").style(style);
+    ws.cell(2, 13).string("Total salary OT").style(styleTitle);
     ws.cell(3, 13)
       .formula(`(K3/2)*${getWageUser.wageOt}*${salaryfDay}`)
-      .style(style);
+      .style(style1);
     // Tong Cong
-    ws.cell(2, 14).string("Tổng").style(style);
-    ws.cell(3, 14).formula(`SUM(L3,M3)`).style(style);
+    ws.cell(2, 14).string("Total").style(styleTitle);
+    ws.cell(3, 14).formula(`SUM(L3,M3)`).style(style1);
 
-    let getToday = new Date().getMonth() + 1 + "/" + new Date().getFullYear();
+    let getToday =
+      new Date().getMonth() +
+      1 +
+      "-" +
+      new Date().getFullYear() +
+      "-" +
+      Date.now();
     let exportss = getToday + ".xlsx";
-    // console.log(exportss);
-    wb.write(`excel.xlsx`);
+
+    wb.write(exportss);
 
     return res.status(200).json({ message: "export thanh cong" });
   } catch (error) {

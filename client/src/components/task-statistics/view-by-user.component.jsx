@@ -238,6 +238,7 @@ class ViewByUserComponent extends Component {
               style={{ height: "30px", marginTop: "1.5px" }}
               onChange={this.handleChangeUser}
               placeholder="Search or select user"
+              className="form-control"
             />
             <datalist id="browsers">{user}</datalist>
           </div>
@@ -251,13 +252,14 @@ class ViewByUserComponent extends Component {
             list="browsers"
             name="browser"
             id="browser"
+            className="form-control"
             style={{ height: "30px", marginTop: "1px" }}
             onChange={this.handleChangeUser}
             placeholder="Search or select user"
           />
           <datalist id="browsers">{user}</datalist>
         </div>
-        <div className="col-2 float-right">
+        <div className="col-2 float-right" style={{ marginRight: "-20px" }}>
           <DatePicker
             selected={this.state.time}
             onChange={this.handleChangeDate}

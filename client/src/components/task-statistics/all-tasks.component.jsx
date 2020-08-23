@@ -233,7 +233,7 @@ class AllTasksComponent extends Component {
       });
       return (
         <div style={{ width: "90%", margin: "0 auto" }}>
-          <div id="search" className="col-3 float-right">
+          <div id="search" className="col-2 float-right">
             <select
               class="custom-select"
               id="gender2"
@@ -336,9 +336,9 @@ class AllTasksComponent extends Component {
     } else if (this.state.select === "room") {
       return (
         <div style={{ width: "90%", margin: "0 auto" }}>
-          <div id="search" className="col-3 float-right">
+          <div id="search" className="col-2 float-right ">
             <select
-              class="custom-select"
+              class="custom-select  "
               id="gender2"
               style={{ height: "32px", fontSize: "16px" }}
               onChange={this.handleChange}
@@ -358,7 +358,7 @@ class AllTasksComponent extends Component {
     } else {
       return (
         <div style={{ width: "90%", margin: "0 auto" }}>
-          <div id="search" className="col-3 float-right">
+          <div id="search" className="col-2 float-right">
             <select
               class="custom-select"
               id="gender2"
