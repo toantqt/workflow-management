@@ -140,20 +140,20 @@ class SidebarComponent extends Component {
                     </li>
 
                     <li className="nav-item">
-                      <a className="nav-link" role="button">
-                        <i className="fa fa-calendar"></i>
+                      {/* <Link className="nav-link" to="/timekeepping"> */}
 
-                        {/* <Link className="nav-link" to="/timekeepping"> */}
-
-                        <Link
-                          role="button"
-                          aria-expanded="false"
-                          className="nav-link"
-                          to="/timekeeping"
-                        >
-                          Timekeepping
-                        </Link>
-                      </a>
+                      <Link
+                        role="button"
+                        aria-expanded="false"
+                        className="nav-link"
+                        to="/timekeeping"
+                      >
+                        <i
+                          className="fa fa-calendar mr-4"
+                          aria-hidden="true"
+                        ></i>
+                        Timekeepping
+                      </Link>
                     </li>
                   </ul>
                 </div>

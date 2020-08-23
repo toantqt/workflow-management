@@ -52,35 +52,17 @@ class AddComponent extends Component {
 
                 <li className="nav-item" style={{ marginTop: "15px" }}>
                   <Link className="nav-link" to={"/manage/staffworktime"}>
-                    <i class="far fa-address-card" aria-hidden="true"></i>
+                    <i class="fas fa-business-time" aria-hidden="true"></i>
                     Infor Staff Work Time
                   </Link>
                 </li>
                 <li className="nav-item" style={{ marginTop: "15px" }}>
                   <Link className="nav-link" to={"/manage/editsalary"}>
-                    <i class="far fa-address-card" aria-hidden="true"></i>
+                    <i class="fas fa-money-check-alt" aria-hidden="true"></i>
                     Edit Salary
                   </Link>
                 </li>
               </ul>
-            </li>
-          </ul>
-        </div>
-        <div className="category-content">
-          <ul id="fruits-nav" className="nav flex-column">
-            <li className="nav-item">
-              <a
-                href="#timekeeping"
-                className="nav-link"
-                data-toggle="collapse"
-                role="button"
-                aria-expanded="false"
-                aria-controls="timekeeping"
-              >
-                <i class="far fa-calendar-check" aria-hidden="true"></i>
-                Timekeeping
-              </a>
-              <ul id="timekeeping" className="flex-column collapse"></ul>
             </li>
           </ul>
         </div>
