@@ -10,3 +10,10 @@
   border-collapse: collapse !important;
   border: 1px solid black !important;
 } */
+table table-bordered tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}

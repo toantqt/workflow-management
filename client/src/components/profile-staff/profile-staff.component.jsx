@@ -179,12 +179,14 @@ class ProfileStaffComponent extends Component {
           address: element.profile.address,
           view: (
             <div style={{ fontSize: "20px", marginLeft: "-37px" }}>
-              <i
-                class="far fa-eye"
-                data-toggle="modal"
-                data-target="#showProfile"
-                onClick={(event) => this.handleClickView(event, element)}
-              ></i>
+              <button type="button" class="btn btn-success">
+                <i
+                  class="far fa-eye"
+                  data-toggle="modal"
+                  data-target="#showProfile"
+                  onClick={(event) => this.handleClickView(event, element)}
+                ></i>
+              </button>
             </div>
           ),
         };
@@ -196,19 +198,25 @@ class ProfileStaffComponent extends Component {
           gender: element.profile.gender,
           address: element.profile.address,
           view: (
-            <div style={{ fontSize: "20px" }}>
-              <i
-                class="far fa-eye"
+            <div>
+              <button
+                type="button"
+                class="btn btn-success"
+                onClick={(event) => this.handleClickView(event, element)}
                 data-toggle="modal"
                 data-target="#showProfile"
-                onClick={(event) => this.handleClickView(event, element)}
-              ></i>
-              <i
-                class="fas fa-user-lock  ml-4"
+              >
+                <i class="far fa-eye"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-success ml-1"
+                onClick={(event) => this.handleClickLock(event, element)}
                 data-toggle="modal"
                 data-target="#lockUser"
-                onClick={(event) => this.handleClickLock(event, element)}
-              ></i>
+              >
+                <i class="fas fa-user-lock "></i>
+              </button>
             </div>
           ),
         };
@@ -250,7 +258,7 @@ class ProfileStaffComponent extends Component {
     });
 
     return (
-      <div className="col-9" style={{ float: "right", marginTop: "-238px" }}>
+      <div className="col-9" style={{ float: "right", marginTop: "-320px" }}>
         <ul className="nav nav-tabs mt-3 " role="tablist">
           <li className="nav-item active">
             <a

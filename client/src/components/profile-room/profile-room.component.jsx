@@ -343,7 +343,7 @@ class ProfileRoomComponent extends Component {
     });
     return (
       <div>
-        <div className="col-9" style={{ float: "right", marginTop: "-238px" }}>
+        <div className="col-9" style={{ float: "right", marginTop: "-320px" }}>
           <BootstrapTable
             keyField="stt"
             data={room}
