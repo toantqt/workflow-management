@@ -90,6 +90,9 @@ export const updateTimeNotWork = async (
       }
     )
     .then((res) => {
+      // if (res.status(500)) {
+      //   return true;
+      // }
       return res.data;
     })
     .catch((error) => {

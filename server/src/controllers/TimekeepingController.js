@@ -211,7 +211,7 @@ const CreateTimekeeping = async (req, res) => {
 };
 const CheckedTime = async (req, res) => {
   try {
-    //console.log(req.body);
+    console.log(req.body);
     let checkCreateTimeInWeek = await Timekeeping.CheckCreate(
       req.body.userId,
       req.body.monthYear,
@@ -226,24 +226,64 @@ const CheckedTime = async (req, res) => {
     //console.log(checkCreateTimeInWeek._id);
     //console.log(typeof req.body.getToday);
     //console.log(req.body.checkSession);
+    let defaultChecked = false;
+    checkCreateTimeInWeek.checkedOneWeek.forEach((e) => {
+      if (e.dayOfWeek === parseInt(req.body.getToday)) {
+        if (req.body.checkSession === "sang") {
+          console.log("sang " + e.morning);
+          defaultChecked = e.morning;
+        }
+        if (req.body.checkSession === "chieu") {
+          console.log("chieu" + e.afternoon);
+          defaultChecked = e.afternoon;
+        }
+      }
+    });
+    console.log(defaultChecked);
+
     let abc = await Timekeeping.updateCheckTime(
       checkCreateTimeInWeek._id,
       req.body.getToday,
-      req.body.checkSession
+      req.body.checkSession,
+      defaultChecked
     );
     //console.log(abc);
     if (abc.ok && req.body.getToday != 7) {
-      await Timekeeping.updateCountTime(
-        checkCreateTimeInWeek._id,
-        checkCreateTimeInWeek.countTime + 1,
-        "timecheck"
-      );
+      if (defaultChecked) {
+        await Timekeeping.updateCountTime(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTime - 1,
+          "timecheck"
+        );
+        await Timekeeping.updateTimeNotWork(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTimeNotWork + 1
+        );
+      } else {
+        await Timekeeping.updateCountTime(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTime + 1,
+          "timecheck"
+        );
+        await Timekeeping.updateTimeNotWork(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTimeNotWork - 1
+        );
+      }
     } else {
-      await Timekeeping.updateCountTime(
-        checkCreateTimeInWeek._id,
-        checkCreateTimeInWeek.countTimeOT + 1,
-        "ot"
-      );
+      if (defaultChecked) {
+        await Timekeeping.updateCountTime(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTimeOT - 1,
+          "ot"
+        );
+      } else {
+        await Timekeeping.updateCountTime(
+          checkCreateTimeInWeek._id,
+          checkCreateTimeInWeek.countTimeOT + 1,
+          "ot"
+        );
+      }
     }
     return res.status(200).json({ message: "update thanh cong" });
   } catch (error) {
@@ -310,6 +350,7 @@ const updateTimeNotWork = async (req, res) => {
     });
   }
 };
+
 const exportExcelFile = async (req, res) => {
   try {
     console.log("tai timekeepping");

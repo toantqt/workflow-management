@@ -43,7 +43,7 @@ timeKeepingModel.statics = {
       ],
     }).exec();
   },
-  updateCheckTime(id, toDay, Session) {
+  updateCheckTime(id, toDay, Session, defaultChecked) {
     if (Session === "sang") {
       return this.update(
         {
@@ -52,7 +52,7 @@ timeKeepingModel.statics = {
             { checkedOneWeek: { $elemMatch: { dayOfWeek: toDay } } },
           ],
         },
-        { $set: { "checkedOneWeek.$.morning": true } }
+        { $set: { "checkedOneWeek.$.morning": !defaultChecked } }
       ).exec();
     }
     if (Session === "chieu") {
@@ -63,7 +63,7 @@ timeKeepingModel.statics = {
             { checkedOneWeek: { $elemMatch: { dayOfWeek: toDay } } },
           ],
         },
-        { $set: { "checkedOneWeek.$.afternoon": true } }
+        { $set: { "checkedOneWeek.$.afternoon": !defaultChecked } }
       ).exec();
     }
   },

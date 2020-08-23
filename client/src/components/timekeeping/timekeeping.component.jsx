@@ -76,7 +76,7 @@ class TimekeepingComponent extends Component {
         });
       });
     });
-    if (this.state.today != 2) {
+    if (this.state.toDay > 2) {
       updateTimeNotWork(
         accessToken,
         decoded.data._id,
@@ -327,7 +327,7 @@ class TimekeepingComponent extends Component {
                 />
               </div>
               <div className="col-sm-12">
-                <h1>Tim thong tin Time Checked</h1>
+                <h1>See more</h1>
                 <div>
                   <div className="col-sm-3">
                     {" "}
@@ -378,7 +378,7 @@ class TimekeepingComponent extends Component {
                       style={{ height: "80px" }}
                     />
                     <div style={{ fontSize: "20px" }}>
-                      số buổi làm trong tháng này
+                      number of sessions this month
                     </div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {this.state.countTimeTowork}
@@ -394,7 +394,7 @@ class TimekeepingComponent extends Component {
                       style={{ height: "80px" }}
                     />
                     <div style={{ fontSize: "20px" }}>
-                      số buổi nghỉ trong tháng này
+                      number of vacations this month
                     </div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {this.state.countTimeNotwork}
@@ -413,7 +413,7 @@ class TimekeepingComponent extends Component {
                       style={{ height: "80px" }}
                     />
                     <br></br>
-                    <div style={{ fontSize: "20px" }}>số buổi OT</div>
+                    <div style={{ fontSize: "20px" }}>number of overtime</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {this.state.countTimeOT}
                     </div>
@@ -433,7 +433,7 @@ class TimekeepingComponent extends Component {
                       alt="Card image cap"
                       style={{ height: "80px" }}
                     />
-                    <div style={{ fontSize: "20px" }}>tổng ngày làm chính</div>
+                    <div style={{ fontSize: "20px" }}>total main days</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {parseInt(
                         (this.state.typeWage / 30) *
@@ -450,7 +450,7 @@ class TimekeepingComponent extends Component {
                       alt="Card image cap"
                       style={{ height: "80px" }}
                     />
-                    <div style={{ fontSize: "20px" }}>tổng ngày làm phụ</div>
+                    <div style={{ fontSize: "20px" }}>total extra days</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {this.state.OT *
                         (this.state.typeWage / 30) *
@@ -467,7 +467,7 @@ class TimekeepingComponent extends Component {
                       alt="Card image cap"
                       style={{ height: "80px" }}
                     />
-                    <div style={{ fontSize: "20px" }}> tổng cộng bạn được</div>
+                    <div style={{ fontSize: "20px" }}> the total you have</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {parseInt(
                         (this.state.typeWage / 30) *

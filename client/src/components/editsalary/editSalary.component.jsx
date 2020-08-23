@@ -228,14 +228,14 @@ class EditSalaryComponent extends Component {
           <h1>Salary View and Edit</h1>
           <br></br>
           <div className="row" style={{ marginLeft: "5px" }}>
-            <span>nhập tên cần tìm &nbsp;</span>
+            <span>enter the search name &nbsp;</span>
             {showManager(this.state.ownerId, this.state.nameManager)}
             <span
               className="search-user-list-results"
               style={{
                 display: this.state.display,
                 width: "200px",
-                margin: " 25px 0px 0px 112px",
+                margin: " 25px 0px 0px 145px",
               }}
             >
               <h3>staff :</h3>
@@ -285,7 +285,7 @@ class EditSalaryComponent extends Component {
               </div>
 
               <div className="col-sm-3">
-                <label> position:</label>
+                <label> Position:</label>
               </div>
               <div className="col-sm-9">
                 <input

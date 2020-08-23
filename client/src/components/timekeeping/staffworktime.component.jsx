@@ -36,6 +36,8 @@ class StaffworktimeComponent extends Component {
       dataCheckTime: [],
       toDay: "",
       showCheckOT: "",
+      SessionEdit: "",
+      DayEdit: "",
     };
   }
   //change deadline
@@ -112,7 +114,7 @@ class StaffworktimeComponent extends Component {
   };
   HandleViewWorkTime = (event) => {
     event.preventDefault();
-    //console.log(this.state);
+    console.log(this.state);
     let TimeDay =
       this.state.startDate.getMonth() +
       1 +
@@ -159,11 +161,7 @@ class StaffworktimeComponent extends Component {
     if (!this.state.ownerId) {
       return alert("chua chon nguoi can tim");
     }
-    let TimeDay =
-      this.state.startDate.getMonth() +
-      1 +
-      "/" +
-      this.state.startDate.getFullYear();
+    let TimeDay = new Date().getMonth() + 1 + "/" + new Date().getFullYear();
     createTimeChecking(
       this.state.accessToken,
       this.state.ownerId,
@@ -183,18 +181,18 @@ class StaffworktimeComponent extends Component {
         });
       });
     });
-    if (this.state.today != 2) {
-      updateTimeNotWork(
-        this.state.accessToken,
-        this.state.ownerId,
-        this.state.monthOfYear,
-        // getweek,
-        this.state.toDay
-      ).then((res) => {
-        //console.log(res);
-        //console.log("check ngay nghi");
-      });
-    }
+    // if (this.state.toDay > 2) {
+    //   updateTimeNotWork(
+    //     this.state.accessToken,
+    //     this.state.ownerId,
+    //     this.state.monthOfYear,
+    //     // getweek,
+    //     this.state.toDay
+    //   ).then((res) => {
+    //     //console.log(res);
+    //     //console.log("check ngay nghi");
+    //   });
+    // }
   };
   // checkOTByadmin = (event) => {
   //   event.preventDefault();
@@ -217,7 +215,63 @@ class StaffworktimeComponent extends Component {
 
       //console.log("done");
     });
+    if (this.state.toDay > 2) {
+      updateTimeNotWork(
+        this.state.accessToken,
+        this.state.ownerId,
+        this.state.monthOfYear,
+        // getweek,
+        this.state.toDay
+      ).then((res) => {
+        //console.log(res);
+        //console.log("check ngay nghi");
+      });
+    }
     //console.log(data);
+  };
+  // admin edit checked
+  HandleChangeEditChecked = (event) => {
+    // event.preventDefault();
+    // console.log(event.target);
+    // console.log(event.target.id);
+    let day = event.target.id.slice(0, 1);
+    let session = event.target.id.slice(1);
+    console.log(session);
+    this.setState({
+      DayEdit: day,
+      SessionEdit: session,
+    });
+  };
+
+  editChecked = (event) => {
+    event.preventDefault();
+    console.log(this.state);
+    let data = {
+      toDay: this.state.DayEdit,
+      userId: this.state.ownerId,
+      checkSession: this.state.SessionEdit,
+      timeChecked: Date.now(),
+      monthYear: this.state.monthOfYear,
+      weekInMonth: this.state.weekOfMonth,
+    };
+
+    Timekeeping(this.state.accessToken, data).then((res) => {
+      alert("thai doi thanh cong");
+
+      //console.log("done");
+    });
+    // if (this.state.toDay > 2) {
+    //   updateTimeNotWork(
+    //     this.state.accessToken,
+    //     this.state.ownerId,
+    //     this.state.monthOfYear,
+    //     // getweek,
+    //     this.state.toDay
+    //   ).then((res) => {
+    //     //console.log(res);
+    //     //console.log("check ngay nghi");
+    //   });
+    // }
   };
   render() {
     let showuser = this.state.users.map((e, index) => {
@@ -344,7 +398,16 @@ class StaffworktimeComponent extends Component {
         if (!inMonth) return <i></i>;
         if (i === this.state.toDay) {
           if (m) {
-            return <i class="fa fa-check"></i>;
+            return (
+              <i
+                class="fa fa-check"
+                data-toggle="modal"
+                data-target="#EditCheckedModal"
+                name={d}
+                id={i + d}
+                onClick={this.HandleChangeEditChecked}
+              ></i>
+            );
           } else {
             return (
               <input
@@ -359,9 +422,27 @@ class StaffworktimeComponent extends Component {
           }
         } else {
           if (m) {
-            return <i class="fa fa-check"></i>;
+            return (
+              <i
+                name={d}
+                id={i + d}
+                class="fa fa-check"
+                data-toggle="modal"
+                data-target="#EditCheckedModal"
+                onClick={this.HandleChangeEditChecked}
+              ></i>
+            );
           } else {
-            return <i class="fa fa-times"></i>;
+            return (
+              <i
+                name={d}
+                id={i + d}
+                class="fa fa-times"
+                data-toggle="modal"
+                data-target="#EditCheckedModal"
+                onClick={this.HandleChangeEditChecked}
+              ></i>
+            );
           }
         }
       };
@@ -399,7 +480,7 @@ class StaffworktimeComponent extends Component {
               }}
             >
               <div className="col-3">
-                <label>nhập tên cần tìm</label>
+                <label>enter the search name</label>
                 {showManager(this.state.ownerId, this.state.nameManager)}
                 <span
                   className="search-user-list-results"
@@ -412,7 +493,7 @@ class StaffworktimeComponent extends Component {
                 </span>
               </div>
               <div className="col-3">
-                <label>chọn tháng trong năm cần xem</label>
+                <label>choose the month of the year to see</label>
                 <DatePicker
                   selected={this.state.startDate}
                   onChange={this.handleChangeDate}
@@ -455,7 +536,7 @@ class StaffworktimeComponent extends Component {
                 textAlign: "center",
               }}
             >
-              <h1>Thông tin cần tìm </h1>
+              <h1>Information to find </h1>
               <br></br>
               <div className="col-sm-4">
                 <div className="card" style={{ width: "20rem" }}>
@@ -466,7 +547,7 @@ class StaffworktimeComponent extends Component {
                     style={{ height: "80px" }}
                   />
                   <div style={{ fontSize: "20px" }}>
-                    số buổi làm trong tháng này
+                    number of sessions this month
                   </div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {this.state.countTimeTowork}
@@ -482,7 +563,7 @@ class StaffworktimeComponent extends Component {
                     style={{ height: "80px" }}
                   />
                   <div style={{ fontSize: "20px" }}>
-                    số buổi nghỉ trong tháng này
+                    number of vacations this month
                   </div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {this.state.countTimeNotwork}
@@ -501,7 +582,7 @@ class StaffworktimeComponent extends Component {
                     style={{ height: "80px" }}
                   />
                   <br></br>
-                  <div style={{ fontSize: "20px" }}>số buổi OT</div>
+                  <div style={{ fontSize: "20px" }}>number of overtime</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {this.state.countTimeOT}
                   </div>
@@ -521,7 +602,7 @@ class StaffworktimeComponent extends Component {
                     alt="Card image cap"
                     style={{ height: "80px" }}
                   />
-                  <div style={{ fontSize: "20px" }}>tổng ngày làm chính</div>
+                  <div style={{ fontSize: "20px" }}>total main days</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {parseInt(
                       (this.state.typeWage / 30) *
@@ -538,7 +619,7 @@ class StaffworktimeComponent extends Component {
                     alt="Card image cap"
                     style={{ height: "80px" }}
                   />
-                  <div style={{ fontSize: "20px" }}>tổng ngày làm phụ</div>
+                  <div style={{ fontSize: "20px" }}>total extra days</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {this.state.OT *
                       (this.state.typeWage / 30) *
@@ -555,7 +636,7 @@ class StaffworktimeComponent extends Component {
                     alt="Card image cap"
                     style={{ height: "80px" }}
                   />
-                  <div style={{ fontSize: "20px" }}> tổng cộng bạn được</div>
+                  <div style={{ fontSize: "20px" }}> the total you have</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {parseInt(
                       (this.state.typeWage / 30) *
@@ -582,7 +663,7 @@ class StaffworktimeComponent extends Component {
                 <h5 class="modal-title"> CheckOT {this.state.monthOfYear}</h5>
               </div>
               <div class="modal-body">
-                <h3>tuần thứ : {this.state.weekOfMonth}</h3>
+                <h3>week: {this.state.weekOfMonth}</h3>
                 <BootstrapTable
                   keyField="Day"
                   data={arrays}
@@ -598,6 +679,45 @@ class StaffworktimeComponent extends Component {
                   data-dismiss="modal"
                 >
                   Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* Modal-editChecked */}
+        <div class="modal fade" id="EditCheckedModal">
+          <div class="modal-dialog" role="document">
+            <div
+              class="modal-content"
+              style={{
+                height: "200px",
+                width: "300px",
+                margin: " 150px 0px 0px 500px",
+              }}
+            >
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">
+                  Are you sure
+                </h5>
+              </div>
+              <div class="modal-body">
+                Bạn muốn thai đổi ngày check này phải không ??
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-dismiss="modal"
+                  onClick={this.editChecked}
+                >
+                  Yes
                 </button>
               </div>
             </div>
