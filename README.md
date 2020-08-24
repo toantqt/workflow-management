@@ -19,6 +19,6 @@ npm start
 ```
 If everything ok - you will get console message like:
 ```
-> Server is running on port 8080
+> Server is running on port 5566
 > Connected to db successfully
 ```
