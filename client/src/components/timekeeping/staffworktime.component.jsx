@@ -532,122 +532,147 @@ class StaffworktimeComponent extends Component {
           <hr />
           <div style={{ width: "800px" }}>
             <div
-              className=" row col-12"
+              className=" row col-12 ml-5"
               style={{
                 display: this.state.displays,
-                textAlign: "center",
               }}
             >
-              <h1>Information to find </h1>
               <br></br>
-              <div className="col-sm-4">
-                <div className="card" style={{ width: "20rem" }}>
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <div style={{ fontSize: "20px" }}>
-                    number of sessions this month
-                  </div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {this.state.countTimeTowork}
-                  </div>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>
+                    Working Day
+                  </span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {this.state.countTimeTowork}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-running fa-2x"></i>
                 </div>
               </div>
-              <div className="col-sm-4">
-                <div className="card" style={{ width: "20rem" }}>
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <div style={{ fontSize: "20px" }}>
-                    number of vacations this month
-                  </div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {this.state.countTimeNotwork}
-                  </div>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>
+                    Day Off
+                  </span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {this.state.countTimeNotwork}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-bed fa-2x"></i>
                 </div>
               </div>
-              <div className="col-sm-4">
-                <div
-                  className="card"
-                  style={{ width: "20rem", height: "18.3rem" }}
-                >
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <br></br>
-                  <div style={{ fontSize: "20px" }}>number of overtime</div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {this.state.countTimeOT}
-                  </div>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>OT</span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {this.state.countTimeOT}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-people-carry fa-2x"></i>
                 </div>
               </div>
             </div>
 
             <div
-              className=" row col-12"
-              style={{ display: this.state.displays, textAlign: "center" }}
+              className=" row col-12 ml-5"
+              style={{ display: this.state.displays }}
             >
-              <div className="col-sm-4">
-                <div className="card" style={{ width: "20rem" }}>
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <div style={{ fontSize: "20px" }}>total main days</div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {parseInt(
-                      (this.state.typeWage / 20) *
-                        (this.state.countTimeTowork / 2)
-                    ) + " VND"}
-                  </div>
+              <br></br>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>
+                    Salary
+                  </span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {parseInt(
+                    (this.state.typeWage / 20) *
+                      (this.state.countTimeTowork / 2)
+                  ) + " VND"}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-money-check-alt fa-2x"></i>
                 </div>
               </div>
-              <div className="col-sm-4">
-                <div className="card" style={{ width: "20rem" }}>
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <div style={{ fontSize: "20px" }}>total extra days</div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {this.state.OT *
-                      (this.state.typeWage / 20) *
-                      (this.state.countTimeOT / 2) +
-                      " VND"}
-                  </div>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>
+                    OT Pay
+                  </span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {this.state.OT *
+                    (this.state.typeWage / 20) *
+                    (this.state.countTimeOT / 2) +
+                    " VND"}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-money-check-alt fa-2x"></i>
                 </div>
               </div>
-              <div className="col-sm-4">
-                <div className="card" style={{ width: "20rem" }}>
-                  <img
-                    className="card-img-top "
-                    src="https://images.pexels.com/photos/807598/pexels-photo-807598.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940"
-                    alt="Card image cap"
-                    style={{ height: "80px" }}
-                  />
-                  <div style={{ fontSize: "20px" }}> the total you have</div>
-                  <div className="card-body" style={{ textAlign: "center" }}>
-                    {parseInt(
-                      (this.state.typeWage / 20) *
-                        (this.state.countTimeTowork / 2) +
-                        this.state.OT *
-                          (this.state.typeWage / 20) *
-                          (this.state.countTimeOT / 2)
-                    ) + " VND"}
-                  </div>
+              <div
+                className="col-sm-3 ml-5"
+                style={{
+                  backgroundColor: "#33b5e5",
+                  maxHeight: "100px",
+                  borderRadius: "5px",
+                }}
+              >
+                <div>
+                  <span style={{ fontSize: "22px", color: "white" }}>
+                    Total Salary
+                  </span>
+                </div>
+                <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
+                  {parseInt(
+                    (this.state.typeWage / 20) *
+                      (this.state.countTimeTowork / 2) +
+                      this.state.OT *
+                        (this.state.typeWage / 20) *
+                        (this.state.countTimeOT / 2)
+                  ) + " VND"}
+                </div>
+                <div style={{ float: "right", marginTop: "-30px" }}>
+                  <i class="fas fa-money-check-alt fa-2x"></i>
                 </div>
               </div>
               <br></br>

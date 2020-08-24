@@ -43,23 +43,13 @@ class AppBarComponent extends Component {
                   aria-labelledby="dropdownMenuButton"
                   style={{ width: "300px", height: "400px" }}
                 >
-                  <form
-                    className="form-inline my-2 my-lg-0"
-                    style={{ marginLeft: "9%" }}
-                  >
-                    <input
-                      className="form-control mr-sm-2"
-                      type="search"
-                      placeholder="Search"
-                      aria-label="Search"
-                    />
-                    <button
-                      className="btn btn-success my-2 my-sm-0"
-                      type="submit"
-                    >
-                      Search
-                    </button>
-                  </form>
+                  <input
+                    className="form-control mr-sm-2 mt-3 ml-5"
+                    type="search"
+                    placeholder="Search"
+                    aria-label="Search"
+                    style={{ width: "80%" }}
+                  />
                 </div>
               </li>
               <li className="nav-item dropdown"></li>
