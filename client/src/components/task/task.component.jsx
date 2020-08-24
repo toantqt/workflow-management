@@ -22,13 +22,14 @@ class TaskComponent extends Component {
     super(props);
     this.state = {
       showComponent: false,
-
+      //idModal: "",
       showModal: false,
       idTask: "",
       idStaff: "",
       idUser: "",
       lists: [],
       startDate: new Date(),
+      showEdit: "",
     };
   }
   componentDidMount() {
@@ -43,14 +44,14 @@ class TaskComponent extends Component {
   }
 
   //on click show modal edit
-  handleClickEdit = async (event, data) => {
+  handleClickEdit = (event, data) => {
     event.preventDefault();
     //console.log(data);
-    await this.setState({
+    this.setState({
       title: "",
     });
-    console.log(data.idStaff);
-    console.log(this.state.idUser);
+    //console.log(data.idStaff);
+    // console.log(this.state.idUser);
     if (this.state.idUser === data.idStaff) {
       this.setState({
         showModal: true,
@@ -58,6 +59,7 @@ class TaskComponent extends Component {
         title: data.title,
         deadline: data.deadline,
         idTask: data._id,
+        showEdit: "#showEdit",
       });
     }
 
@@ -220,7 +222,8 @@ class TaskComponent extends Component {
           <i
             class="far fa-edit"
             data-toggle="modal"
-            data-target={"#" + element.e._id}
+            //data-target={"#" + element.e._id}
+            data-target={this.state.showEdit}
             onClick={(event) => this.handleClickEdit(event, element.e)}
           ></i>
         ),
@@ -290,9 +293,11 @@ class TaskComponent extends Component {
               //  rowEvents={rowEvents} // goi event
             />
           </div>
+          {/* {this.state.showModal ? ( */}
           <div
             class="modal fade"
-            id={this.state.idModal}
+            // id={this.state.idModal}
+            id="showEdit"
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalLabel"
@@ -353,7 +358,7 @@ class TaskComponent extends Component {
               </div>
             </div>
           </div>
-
+          {/* ) : null} */}
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
               keyField="stt"
