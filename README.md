@@ -1,8 +1,11 @@
 #Work Management
+
 #Staff and job management projects for the company
 
 #Client: ReactJS
+
 #Server: NodeJS + MongoDb
+
 #Upload image on https://cloudinary.com/
 
 The sequence of setup commands:
