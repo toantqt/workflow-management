@@ -38,6 +38,7 @@ export const Timekeeping = async (accessToken, data) => {
         getToday: data.toDay,
         monthYear: data.monthYear,
         weekInMonth: data.weekInMonth,
+        isCheck: data.isCheck,
       },
       {
         headers: { Authorization: `${accessToken}` },

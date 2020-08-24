@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const wageSchema = new Schema(
   {
     rankWage: { type: String, default: "staff" },
-    workDay: { type: Number, default: 30 },
+    workDay: { type: Number, default: 20 },
     wageOt: { type: Number },
     typeWage: { type: Number },
     allowAnce: { type: String, default: "" },

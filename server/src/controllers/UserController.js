@@ -62,7 +62,7 @@ let createSalary = async (req, res) => {
       wageOt: req.body.Ot,
       typeWage: req.body.typeWage,
       userId: req.body.idUser,
-      workDay: req.body.workDay,
+      // workDay: req.body.workDay,
       allowAnce: req.body.allowAnce,
       rankWage: req.body.rank,
     };

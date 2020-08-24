@@ -21,7 +21,7 @@ class EditSalaryComponent extends Component {
       rank: "",
       typeWage: "",
       Ot: "",
-      workDay: "",
+      workDay: 20,
       allowAnce: "",
       showfromSalary: "none",
     };
@@ -107,7 +107,7 @@ class EditSalaryComponent extends Component {
           rank: "",
           typeWage: "",
           Ot: "",
-          workDay: "",
+          //workDay: "",
           allowAnce: "",
         });
         if (res.getSalary === null) {
@@ -117,7 +117,7 @@ class EditSalaryComponent extends Component {
             rank: "",
             typeWage: "",
             Ot: "",
-            workDay: "",
+            //  workDay: "",
             allowAnce: "",
           });
           return alert("người này chưa có thông tin salary mời bạn thêm vào");
@@ -128,7 +128,7 @@ class EditSalaryComponent extends Component {
           rank: res.getSalary.rankWage,
           typeWage: res.getSalary.typeWage,
           Ot: res.getSalary.wageOt,
-          workDay: res.getSalary.workDay,
+          // workDay: res.getSalary.workDay,
           allowAnce: res.getSalary.allowAnce,
         });
       }
@@ -356,7 +356,7 @@ class EditSalaryComponent extends Component {
                   }}
                   name="workDay"
                   value={this.state.workDay}
-                  onChange={this.handleChanEdit}
+                  // onChange={this.handleChanEdit}
                 />
               </div>
 

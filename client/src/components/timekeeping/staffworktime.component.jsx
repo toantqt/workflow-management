@@ -208,6 +208,7 @@ class StaffworktimeComponent extends Component {
       timeChecked: Date.now(),
       monthYear: this.state.monthOfYear,
       weekInMonth: this.state.weekOfMonth,
+      isCheck: true,
     };
 
     Timekeeping(this.state.accessToken, data).then((res) => {
@@ -253,6 +254,7 @@ class StaffworktimeComponent extends Component {
       timeChecked: Date.now(),
       monthYear: this.state.monthOfYear,
       weekInMonth: this.state.weekOfMonth,
+      isCheck: false,
     };
 
     Timekeeping(this.state.accessToken, data).then((res) => {
@@ -605,7 +607,7 @@ class StaffworktimeComponent extends Component {
                   <div style={{ fontSize: "20px" }}>total main days</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {parseInt(
-                      (this.state.typeWage / 30) *
+                      (this.state.typeWage / 20) *
                         (this.state.countTimeTowork / 2)
                     ) + " VND"}
                   </div>
@@ -622,7 +624,7 @@ class StaffworktimeComponent extends Component {
                   <div style={{ fontSize: "20px" }}>total extra days</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {this.state.OT *
-                      (this.state.typeWage / 30) *
+                      (this.state.typeWage / 20) *
                       (this.state.countTimeOT / 2) +
                       " VND"}
                   </div>
@@ -639,10 +641,10 @@ class StaffworktimeComponent extends Component {
                   <div style={{ fontSize: "20px" }}> the total you have</div>
                   <div className="card-body" style={{ textAlign: "center" }}>
                     {parseInt(
-                      (this.state.typeWage / 30) *
+                      (this.state.typeWage / 20) *
                         (this.state.countTimeTowork / 2) +
                         this.state.OT *
-                          (this.state.typeWage / 30) *
+                          (this.state.typeWage / 20) *
                           (this.state.countTimeOT / 2)
                     ) + " VND"}
                   </div>

@@ -101,6 +101,7 @@ class TimekeepingComponent extends Component {
       timeChecked: Date.now(),
       monthYear: this.state.dataTimeToDay.monthYear,
       weekInMonth: this.state.dataTimeToDay.weekInMonth,
+      isCheck: true,
     };
     if (event.target.name === "sang" && new Date().getHours() > 12) {
       return alert("ban da diem danh muon");
@@ -436,7 +437,7 @@ class TimekeepingComponent extends Component {
                     <div style={{ fontSize: "20px" }}>total main days</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {parseInt(
-                        (this.state.typeWage / 30) *
+                        (this.state.typeWage / 20) *
                           (this.state.countTimeTowork / 2)
                       ) + " VND"}
                     </div>
@@ -453,7 +454,7 @@ class TimekeepingComponent extends Component {
                     <div style={{ fontSize: "20px" }}>total extra days</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {this.state.OT *
-                        (this.state.typeWage / 30) *
+                        (this.state.typeWage / 20) *
                         (this.state.countTimeOT / 2) +
                         " VND"}
                     </div>
@@ -470,10 +471,10 @@ class TimekeepingComponent extends Component {
                     <div style={{ fontSize: "20px" }}> the total you have</div>
                     <div className="card-body" style={{ textAlign: "center" }}>
                       {parseInt(
-                        (this.state.typeWage / 30) *
+                        (this.state.typeWage / 20) *
                           (this.state.countTimeTowork / 2) +
                           this.state.OT *
-                            (this.state.typeWage / 30) *
+                            (this.state.typeWage / 20) *
                             (this.state.countTimeOT / 2)
                       ) + " VND"}
                     </div>

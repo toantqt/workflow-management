@@ -24,7 +24,7 @@ export const createSalary = async (accessToken, data, userId) => {
         rank: data.rank,
         typeWage: data.typeWage,
         Ot: data.Ot,
-        workDay: data.workDay,
+        //workDay: data.workDay,
         allowAnce: data.allowAnce,
       },
       {

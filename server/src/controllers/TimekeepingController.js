@@ -212,6 +212,7 @@ const CreateTimekeeping = async (req, res) => {
 const CheckedTime = async (req, res) => {
   try {
     console.log(req.body);
+
     let checkCreateTimeInWeek = await Timekeeping.CheckCreate(
       req.body.userId,
       req.body.monthYear,
@@ -255,20 +256,24 @@ const CheckedTime = async (req, res) => {
           checkCreateTimeInWeek.countTime - 1,
           "timecheck"
         );
-        await Timekeeping.updateTimeNotWork(
-          checkCreateTimeInWeek._id,
-          checkCreateTimeInWeek.countTimeNotWork + 1
-        );
+        if (!req.body.isCheck) {
+          await Timekeeping.updateTimeNotWork(
+            checkCreateTimeInWeek._id,
+            checkCreateTimeInWeek.countTimeNotWork + 1
+          );
+        }
       } else {
         await Timekeeping.updateCountTime(
           checkCreateTimeInWeek._id,
           checkCreateTimeInWeek.countTime + 1,
           "timecheck"
         );
-        await Timekeeping.updateTimeNotWork(
-          checkCreateTimeInWeek._id,
-          checkCreateTimeInWeek.countTimeNotWork - 1
-        );
+        if (!req.body.isCheck) {
+          await Timekeeping.updateTimeNotWork(
+            checkCreateTimeInWeek._id,
+            checkCreateTimeInWeek.countTimeNotWork - 1
+          );
+        }
       }
     } else {
       if (defaultChecked) {
@@ -361,8 +366,8 @@ const exportExcelFile = async (req, res) => {
       req.query.userId,
       req.query.timeget
     );
-    let salaryfDay = getWageUser.typeWage / 30;
-    let salaryHalfDay = salaryfDay / 2;
+    let salaryDay = getWageUser.typeWage / 20;
+    let salaryHalfDay = salaryDay / 2;
     // console.log(salaryHalfDay);
     getTime = getTime.sort(getTime.weekInMonth);
     // console.log(getWageUser);
@@ -374,6 +379,7 @@ const exportExcelFile = async (req, res) => {
     ws.column(5).setWidth(15);
     ws.column(6).setWidth(15);
 
+    // create time keeping table
     getTime.forEach((ele, i) => {
       let j = 4 * i + 1;
       ws.cell(j, 1)
@@ -448,12 +454,14 @@ const exportExcelFile = async (req, res) => {
     // tong luong lam viec Them
     ws.cell(2, 13).string("Total salary OT").style(styleTitle);
     ws.cell(3, 13)
-      .formula(`(K3/2)*${getWageUser.wageOt}*${salaryfDay}`)
+      .formula(`(K3/2)*${getWageUser.wageOt}*${salaryDay}`)
       .style(style1);
     // Tong Cong
     ws.cell(2, 14).string("Total").style(styleTitle);
     ws.cell(3, 14).formula(`SUM(L3,M3)`).style(style1);
-
+    // type salary
+    ws.cell(1, 13).string("TypeSalary =").style(style);
+    ws.cell(1, 14).number(getWageUser.typeWage).style(style1);
     let getToday =
       new Date().getMonth() +
       1 +
