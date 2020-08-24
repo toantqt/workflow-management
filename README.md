@@ -4,7 +4,7 @@
 
 #Client: ReactJS
 
-#Server: NodeJS + MongoDb
+#Server: ExpressJS + NodeJS + MongoDb
 
 #Upload image on https://cloudinary.com/
 
