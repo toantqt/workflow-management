@@ -22,6 +22,7 @@ class TaskComponent extends Component {
     super(props);
     this.state = {
       showComponent: false,
+
       showModal: false,
       idTask: "",
       idStaff: "",
@@ -48,17 +49,19 @@ class TaskComponent extends Component {
     await this.setState({
       title: "",
     });
+    console.log(data.idStaff);
+    console.log(this.state.idUser);
     if (this.state.idUser === data.idStaff) {
-      await this.setState({
+      this.setState({
         showModal: true,
         idModal: data._id,
         title: data.title,
         deadline: data.deadline,
+        idTask: data._id,
       });
-      //  //console.log(this.state.idModal + this.state.title);
     }
 
-    //console.log(this.state);
+    console.log(this.state);
   };
   //hande change input edit task
   onHandleChange = (event) => {
@@ -90,6 +93,7 @@ class TaskComponent extends Component {
       title: this.state.title,
       deadline: dates,
     };
+    console.log(data);
     await updateTask(this.state.accessToken, data)
       .then((res) => {
         window.location.reload();
@@ -216,8 +220,7 @@ class TaskComponent extends Component {
           <i
             class="far fa-edit"
             data-toggle="modal"
-            //data-target={"#" + element.e._id}
-            data-target="#showEdit"
+            data-target={"#" + element.e._id}
             onClick={(event) => this.handleClickEdit(event, element.e)}
           ></i>
         ),
@@ -254,21 +257,6 @@ class TaskComponent extends Component {
         };
         return Finish.push(abc);
       }
-
-      return (
-        <tr key={index}>
-          <th scope="row">{index}</th>
-          <td>{element.inforAuthor.username}</td>
-          <td id={element.e._id} onClick={this.handleClick}>
-            {element.e.title}
-          </td>
-          <td>{dates(element.e.start)}</td>
-          <td>{dates(element.e.deadline)}</td>
-          <td style={{ color: "red" }}>
-            <i className="fas fa-exclamation"></i>
-          </td>
-        </tr>
-      );
     });
 
     return (
@@ -302,11 +290,9 @@ class TaskComponent extends Component {
               //  rowEvents={rowEvents} // goi event
             />
           </div>
-          {/* {this.state.showModal ? ( */}
           <div
             class="modal fade"
-            // id={this.state.idModal}
-            id="showEdit"
+            id={this.state.idModal}
             tabindex="-1"
             role="dialog"
             aria-labelledby="exampleModalLabel"
@@ -367,7 +353,6 @@ class TaskComponent extends Component {
               </div>
             </div>
           </div>
-          {/* ) : null} */}
 
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
