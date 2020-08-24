@@ -507,9 +507,12 @@ class TimekeepingComponent extends Component {
                   </div>
                 </div>
                 <br></br>
+                <br />
+                <br />
+                <hr />
               </div>
 
-              <div className="col-12" style={{ textAlign: "center" }}>
+              <div className="col-12 mt-5" style={{ textAlign: "center" }}>
                 {showTimeChecked}
               </div>
             </div>
