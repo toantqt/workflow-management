@@ -563,7 +563,7 @@ class StaffworktimeComponent extends Component {
                   </span>
                 </div>
                 <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
-                  {this.state.countTimeTowork}
+                  {this.state.countTimeTowork / 2}
                 </div>
                 <div style={{ float: "right", marginTop: "-30px" }}>
                   <i class="fas fa-running fa-2x"></i>
@@ -583,7 +583,7 @@ class StaffworktimeComponent extends Component {
                   </span>
                 </div>
                 <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
-                  {this.state.countTimeNotwork}
+                  {this.state.countTimeNotwork / 2}
                 </div>
                 <div style={{ float: "right", marginTop: "-30px" }}>
                   <i class="fas fa-bed fa-2x"></i>
@@ -601,7 +601,7 @@ class StaffworktimeComponent extends Component {
                   <span style={{ fontSize: "22px", color: "white" }}>OT</span>
                 </div>
                 <div className="pt-3 pl-3" style={{ fontSize: "20px" }}>
-                  {this.state.countTimeOT}
+                  {this.state.countTimeOT / 2}
                 </div>
                 <div style={{ float: "right", marginTop: "-30px" }}>
                   <i class="fas fa-people-carry fa-2x"></i>
