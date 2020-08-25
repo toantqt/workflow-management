@@ -55,6 +55,8 @@ class TaskComponent extends Component {
     // });
     console.log(data.idStaff);
     console.log(this.state.idUser);
+    let defaultDate = new Date(data.deadline);
+
     if (this.state.idUser === data.idStaff) {
       await this.setState({
         showModal: true,
@@ -64,6 +66,7 @@ class TaskComponent extends Component {
         idTask: data._id,
         //showEdit: "#showEdit",
         showEdit: "showEdit",
+        defaultDate: defaultDate,
       });
     } else {
       await this.setState({
@@ -93,6 +96,7 @@ class TaskComponent extends Component {
   handleChangeDate = (date) => {
     this.setState({
       startDate: date,
+      defaultDate: date,
     });
   };
 
@@ -101,6 +105,7 @@ class TaskComponent extends Component {
     let date = this.state.startDate;
     let moonLanding = new Date(date);
     let dates = moonLanding.getTime();
+
     const data = {
       idTask: this.state.idTask,
       title: this.state.title,
@@ -305,7 +310,7 @@ class TaskComponent extends Component {
                 <label>Deadline</label>
                 <br />
                 <DatePicker
-                  selected={this.state.startDate}
+                  selected={this.state.defaultDate}
                   onChange={this.handleChangeDate}
                 />
               </div>
