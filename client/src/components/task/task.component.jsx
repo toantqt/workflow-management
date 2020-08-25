@@ -22,7 +22,7 @@ class TaskComponent extends Component {
     super(props);
     this.state = {
       showComponent: false,
-      //idModal: "",
+      idModal: "",
       showModal: false,
       idTask: "",
       idStaff: "",
@@ -30,6 +30,7 @@ class TaskComponent extends Component {
       lists: [],
       startDate: new Date(),
       showEdit: "",
+      // deadline: new Date(),
     };
   }
   componentDidMount() {

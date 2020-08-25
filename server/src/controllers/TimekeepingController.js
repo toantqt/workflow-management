@@ -317,7 +317,8 @@ const getTimeKeeping = async (req, res) => {
 };
 const updateTimeNotWork = async (req, res) => {
   try {
-    //console.log(req.body);
+    console.log("up date time not work");
+    console.log(req.body);
     let getWeekinMonth = getWeekOfMonth(new Date());
     //console.log(getWeekinMonth);
     let checkTime = await Timekeeping.checkSessionWorked(
@@ -330,24 +331,20 @@ const updateTimeNotWork = async (req, res) => {
     let countTimeNotWork = 0;
     checkTime.checkedOneWeek.forEach(async (e) => {
       if (e.isDayInMonth) {
-        if (e.dayOfWeek <= req.body.todays && !e.morning && e.dayOfWeek != 7) {
+        if (e.dayOfWeek < req.body.todays && !e.morning && e.dayOfWeek != 7) {
           await countTimeNotWork++;
         }
       }
     });
     checkTime.checkedOneWeek.forEach(async (e) => {
       if (e.isDayInMonth) {
-        if (
-          e.dayOfWeek <= req.body.todays &&
-          !e.afternoon &&
-          e.dayOfWeek != 7
-        ) {
+        if (e.dayOfWeek < req.body.todays && !e.afternoon && e.dayOfWeek != 7) {
           await countTimeNotWork++;
         }
       }
     });
     await Timekeeping.updateTimeNotWork(checkTime._id, countTimeNotWork);
-    //console.log(countTimeNotWork);
+    console.log(countTimeNotWork);
     return res.status(200).json({ countTimeNotWork });
   } catch (error) {
     return res.status(500).json({
