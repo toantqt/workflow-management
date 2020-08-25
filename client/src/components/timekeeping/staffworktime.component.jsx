@@ -199,7 +199,7 @@ class StaffworktimeComponent extends Component {
   // };
   CheckTime = (event) => {
     //event.preventDefault();
-    //console.log(this.state);
+    console.log(this.state);
     //console.log(event.target);
     let data = {
       toDay: this.state.toDay,
@@ -210,12 +210,6 @@ class StaffworktimeComponent extends Component {
       weekInMonth: this.state.weekOfMonth,
       isCheck: true,
     };
-
-    Timekeeping(this.state.accessToken, data).then((res) => {
-      alert("diem danh thanh cong");
-
-      //console.log("done");
-    });
     if (this.state.toDay > 2) {
       updateTimeNotWork(
         this.state.accessToken,
@@ -228,6 +222,23 @@ class StaffworktimeComponent extends Component {
         //console.log("check ngay nghi");
       });
     }
+    Timekeeping(this.state.accessToken, data).then((res) => {
+      alert("diem danh thanh cong");
+      return window.location.reload();
+      //console.log("done");
+    });
+    // if (this.state.toDay > 2) {
+    //   updateTimeNotWork(
+    //     this.state.accessToken,
+    //     this.state.ownerId,
+    //     this.state.monthOfYear,
+    //     // getweek,
+    //     this.state.toDay
+    //   ).then((res) => {
+    //     //console.log(res);
+    //     //console.log("check ngay nghi");
+    //   });
+    // }
     //console.log(data);
   };
   // admin edit checked
@@ -259,7 +270,7 @@ class StaffworktimeComponent extends Component {
 
     Timekeeping(this.state.accessToken, data).then((res) => {
       alert("thai doi thanh cong");
-
+      return window.location.reload();
       //console.log("done");
     });
     // if (this.state.toDay > 2) {

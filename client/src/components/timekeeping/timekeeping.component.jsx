@@ -114,9 +114,22 @@ class TimekeepingComponent extends Component {
     }
     Timekeeping(this.state.accessToken, data).then((res) => {
       alert("diem danh thanh cong");
-
+      return window.location.reload();
       //console.log("done");
     });
+    // if (this.state.toDay > 2) {
+    //   updateTimeNotWork(
+    //     accessToken,
+
+    //     // decoded.data._id,
+    //     // monthYear,
+    //     // getweek,
+    //     this.state.toDay
+    //   ).then((res) => {
+    //     //console.log(res);
+    //     //console.log("check ngay nghi");
+    //   });
+    // }
     //console.log(data);
   };
   //change deadline

@@ -22,7 +22,7 @@ class TaskComponent extends Component {
     super(props);
     this.state = {
       showComponent: false,
-      //idModal: "",
+      idModal: "",
       showModal: false,
       idTask: "",
       idStaff: "",
@@ -30,6 +30,7 @@ class TaskComponent extends Component {
       lists: [],
       startDate: new Date(),
       showEdit: "",
+      // deadline: new Date(),
     };
   }
   componentDidMount() {
@@ -44,22 +45,33 @@ class TaskComponent extends Component {
   }
 
   //on click show modal edit
-  handleClickEdit = (event, data) => {
-    event.preventDefault();
-    //console.log(data);
-    this.setState({
-      title: "",
-    });
-    //console.log(data.idStaff);
-    // console.log(this.state.idUser);
+  handleClickEdit = async (event, data) => {
+    //event.preventDefault();
+    console.log(data);
+    // this.setState({
+    //   title: "",
+    //   showModal: false,
+    //   showEdit: "",
+    //   // idModal: "",
+    // });
+    console.log(data.idStaff);
+    console.log(this.state.idUser);
     if (this.state.idUser === data.idStaff) {
-      this.setState({
+      await this.setState({
         showModal: true,
-        idModal: data._id,
+        // idModal: data._id,
         title: data.title,
         deadline: data.deadline,
         idTask: data._id,
-        showEdit: "#showEdit",
+        //showEdit: "#showEdit",
+        showEdit: "showEdit",
+      });
+    } else {
+      await this.setState({
+        showModal: false,
+        idModal: "",
+        title: "",
+        showEdit: "",
       });
     }
 
@@ -218,15 +230,18 @@ class TaskComponent extends Component {
             key={element.e._id}
           ></i>
         ),
-        edit: (
-          <i
-            class="far fa-edit"
-            data-toggle="modal"
-            //data-target={"#" + element.e._id}
-            data-target={this.state.showEdit}
-            onClick={(event) => this.handleClickEdit(event, element.e)}
-          ></i>
-        ),
+        edit:
+          this.state.idUser === element.e.idStaff ? (
+            <i
+              class="far fa-edit"
+              data-toggle="modal"
+              // data-target={"#" + element.e._id}
+              data-target="#showEdit"
+              onClick={(event) => this.handleClickEdit(event, element.e)}
+            ></i>
+          ) : (
+            <i></i>
+          ),
       };
       return player.push(abc);
     });
@@ -261,7 +276,63 @@ class TaskComponent extends Component {
         return Finish.push(abc);
       }
     });
-
+    // showmodeledit
+    let showModelEdit = (
+      // this.state.showModal ? (
+      <div
+        class="modal fade"
+        //id={this.state.idModal}
+        id="showEdit"
+        //id={this.state.showEdit}
+      >
+        <div class="modal-dialog" role="document">
+          <div class="modal-content" style={{ height: "300px !important" }}>
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">
+                Edit Task
+              </h5>
+            </div>
+            <div class="modal-body">
+              <div class="form-group">
+                <label>Title</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  value={this.state.title}
+                  onChange={this.onHandleChange}
+                  name="title"
+                />
+              </div>
+              <div class="form-group">
+                <label>Deadline</label>
+                <br />
+                <DatePicker
+                  selected={this.state.startDate}
+                  onChange={this.handleChangeDate}
+                />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onClick={this.handleSubmitEdit}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+    // ) : null;
     return (
       <div className="col-9 mt-4 ">
         <i className="fas fa-list-ol fa-2x"></i> &nbsp;
@@ -293,15 +364,16 @@ class TaskComponent extends Component {
               //  rowEvents={rowEvents} // goi event
             />
           </div>
-          {/* {this.state.showModal ? ( */}
-          <div
+          {showModelEdit}
+          {/* <div
             class="modal fade"
-            // id={this.state.idModal}
-            id="showEdit"
-            tabindex="-1"
-            role="dialog"
-            aria-labelledby="exampleModalLabel"
-            aria-hidden="true"
+            //id={this.state.idModal}
+            //id="showEdit"
+            id={this.state.showEdit}
+            // tabindex="-1"
+            // role="dialog"
+            // aria-labelledby="exampleModalLabel"
+            // aria-hidden="true"
           >
             <div class="modal-dialog" role="document">
               <div class="modal-content" style={{ height: "300px !important" }}>
@@ -334,7 +406,7 @@ class TaskComponent extends Component {
                     <label>Deadline</label>
                     <br />
                     <DatePicker
-                      selected={this.state.startDate}
+                      selected={this.state.deadline}
                       onChange={this.handleChangeDate}
                     />
                   </div>
@@ -357,8 +429,8 @@ class TaskComponent extends Component {
                 </div>
               </div>
             </div>
-          </div>
-          {/* ) : null} */}
+          </div> */}
+
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
               keyField="stt"
