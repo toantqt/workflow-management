@@ -276,7 +276,6 @@ class TaskComponent extends Component {
         return Finish.push(abc);
       }
     });
-    // showmodeledit
     let showModelEdit = (
       // this.state.showModal ? (
       <div
@@ -332,7 +331,6 @@ class TaskComponent extends Component {
         </div>
       </div>
     );
-    // ) : null;
     return (
       <div className="col-9 mt-4 ">
         <i className="fas fa-list-ol fa-2x"></i> &nbsp;
@@ -365,72 +363,6 @@ class TaskComponent extends Component {
             />
           </div>
           {showModelEdit}
-          {/* <div
-            class="modal fade"
-            //id={this.state.idModal}
-            //id="showEdit"
-            id={this.state.showEdit}
-            // tabindex="-1"
-            // role="dialog"
-            // aria-labelledby="exampleModalLabel"
-            // aria-hidden="true"
-          >
-            <div class="modal-dialog" role="document">
-              <div class="modal-content" style={{ height: "300px !important" }}>
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">
-                    Edit Task
-                  </h5>
-
-                  <button
-                    type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <div class="form-group">
-                    <label>Title</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      value={this.state.title}
-                      onChange={this.onHandleChange}
-                      name="title"
-                    />
-                  </div>
-                  <div class="form-group">
-                    <label>Deadline</label>
-                    <br />
-                    <DatePicker
-                      selected={this.state.deadline}
-                      onChange={this.handleChangeDate}
-                    />
-                  </div>
-                </div>
-                <div class="modal-footer">
-                  <button
-                    type="button"
-                    class="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-primary"
-                    onClick={this.handleSubmitEdit}
-                  >
-                    Save changes
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> */}
-
           <div className="tab-pane" id="tabs-2" role="tabpanel">
             <BootstrapTable
               keyField="stt"
