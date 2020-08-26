@@ -16,7 +16,11 @@ export const isLoggedIn = () => {
     //console.log(decoded);
     // console.log(new Date(decoded.iat));
     console.log(decoded);
-
+    if (!decoded.data.isActive) {
+      localStorage.clear();
+      alert("tài khoản chưa được xác thực");
+      return false;
+    }
     //console.log(new Date(decoded.exp) * 1000);
     // console.log(decoded.exp * 1000);
     if (Date.now() > new Date(decoded.exp) * 1000) {

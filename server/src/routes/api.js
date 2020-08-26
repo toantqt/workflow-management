@@ -11,6 +11,8 @@ let initAPIs = (app) => {
   router.post("/login", AuthController.login);
   router.post("/refresh-token", AuthController.refreshToken);
   router.post("/register", AuthController.postRegister);
+  // xác thực đăng ký tài khoản qua mail
+  router.get("/verify/:token", AuthController.verifyAccount);
   //Sử dụng authMiddleware.isAuth trước những api cần xác thực
   router.use(AuthMiddleWare.isAuth);
   //list Protect APIs:

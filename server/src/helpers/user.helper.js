@@ -1,6 +1,8 @@
 const userModel = require("../models/userModel");
+const sendMail = require("./sendMailActive");
+const uuidv4 = require("uuid/v4"); // varifytoken
 const debug = console.log.bind(console);
-let createUser = (email, username, password) => {
+let createUser = (email, username, password, protocol, host) => {
   return new Promise(async (resolve, reject) => {
     //debug('create user');
     let userByEmail = await userModel.findOne({ email });
@@ -11,21 +13,56 @@ let createUser = (email, username, password) => {
     if (checkusername) {
       return resolve({ message: "ten đăng nhập đã tồn tại", succeed: false });
     }
+
     let userItem = {
       username: username,
       email: email,
       password: await userModel.hashPassword(password),
+      verifyToken: uuidv4(), // tạo mã ngẫu nhiên
     };
 
     const newUser = await new userModel(userItem);
     await newUser.save();
+    // tính năng gữi mail tại đây
+    let linkVerify = `${protocol}://${host}/verify/${newUser.verifyToken}`;
+    sendMail(email, linkVerify)
+      .then((result) => {
+        return resolve({
+          message: " Tạo tài khoản thành công vào mail đã đăng ký đẻ xác nhận",
+          succeed: true,
+        });
+      })
+      .catch(async (error) => {
+        // remove user
+        await UserModel.removeById(newUser._id);
+        reject({
+          message: "có lỗi trong quá trình gữi mail active",
+          succeed: false,
+        });
+      });
+    // return resolve({
+    //   message: " Tạo tài khoản thành công",
+    //   succeed: true,
+    // });
+  });
+};
+// xác nhận tài khoản qua mail
+let verifyAccount = (token) => {
+  return new Promise(async (resolve, reject) => {
+    let userBytoken = await userModel.findByToken(token);
+    if (!userBytoken) {
+      return reject({
+        message: "có lỗi trong quá trình active",
+        succeed: false,
+      });
+    }
+    await userModel.verify(token);
     return resolve({
-      message: " Tạo tài khoản thành công",
+      message: " kích hoạt thành công",
       succeed: true,
     });
   });
 };
-
 let updateData = (_id, newData) => {
   //console.log(_id);
   //console.log(newData.username);
@@ -67,6 +104,7 @@ let getUser = (keyword) => {
 };
 module.exports = {
   createUser: createUser,
+  verifyAccount: verifyAccount,
   updateData: updateData,
   getDataUser: getDataUser,
   getUser: getUser,

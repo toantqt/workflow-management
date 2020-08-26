@@ -15,6 +15,9 @@ const userSchema = new Schema(
     },
     role: { type: String, default: "staff" },
     deletedAt: { type: Boolean, default: "false" },
+    // them chức năng xác thực qua mail
+    isActive: { type: Boolean, default: false },
+    verifyToken: String,
   },
   {
     timestamps: {
@@ -25,6 +28,19 @@ const userSchema = new Schema(
 );
 
 userSchema.statics = {
+  // remove user active
+  removeById(id) {
+    return this.findByIdAndRemove(id).exec();
+  },
+  findByToken(token) {
+    return this.findOne({ verifyToken: token }).exec();
+  },
+  verify(token) {
+    return this.findOneAndUpdate(
+      { verifyToken: token },
+      { isActive: true, verifyToken: null }
+    ).exec();
+  },
   //find by email
   findByEmail(email) {
     return this.findOne({ email: email }).exec();

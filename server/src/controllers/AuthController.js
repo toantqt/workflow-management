@@ -42,6 +42,10 @@ let login = async (req, res) => {
     if (user == null) {
       res.status(404).json({ message: "email failed" });
     } else {
+      // mới thêm vào
+      // if (!user.isActive) {
+      //   res.status(404).json({ message: "tài khoản chưa được kích hoạt" });
+      // }
       let checkPassword = await user.comparePassword(password);
       if (!checkPassword) {
         res.status(404).json({ message: "password failed" });
@@ -53,6 +57,7 @@ let login = async (req, res) => {
         role: user.role,
         fullName: user.fullName,
         deletedAt: user.deletedAt,
+        isActive: user.isActive,
       };
       //thực hiện tạo mã Token, thời gian sống là 1 giờ
       const accessToken = await jwtHelper.generateToken(
@@ -140,13 +145,15 @@ let postRegister = async (req, res) => {
     //debug("aaaaa");
     if (result) {
       // return res.status(200).json(result.value);
-
+      // phan nay edit để xác thực mail
       let createUser = await userHelper.createUser(
         req.body.email,
         req.body.username,
-        req.body.password
+        req.body.password,
+        req.protocol,
+        req.get("host")
       );
-      debug("result success");
+      // debug("result success");
 
       return res.status(200).json({ createUser });
     } else {
@@ -160,7 +167,17 @@ let postRegister = async (req, res) => {
     });
   }
 };
-
+//
+let verifyAccount = async (req, res) => {
+  try {
+    await userHelper.verifyAccount(req.params.token);
+    return res.status(200).json({ message: " xác nhận thành công" });
+  } catch (error) {
+    return res.status(500).json({
+      message: "loi roi xác nhận mail",
+    });
+  }
+};
 //get Profile
 let getProfile = async (req, res) => {
   //debug("hhahaah");
@@ -283,4 +300,5 @@ module.exports = {
   getProfile: getProfile,
   updatePassword: updatePassword,
   updateAvatar: updateAvatar,
+  verifyAccount: verifyAccount,
 };
