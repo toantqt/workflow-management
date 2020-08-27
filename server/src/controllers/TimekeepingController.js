@@ -256,7 +256,7 @@ const CheckedTime = async (req, res) => {
           checkCreateTimeInWeek.countTime - 1,
           "timecheck"
         );
-        if (!req.body.isCheck) {
+        if (!req.body.isCheck && req.body.getToday <= new Date().getDay() + 1) {
           await Timekeeping.updateTimeNotWork(
             checkCreateTimeInWeek._id,
             checkCreateTimeInWeek.countTimeNotWork + 1
@@ -268,7 +268,7 @@ const CheckedTime = async (req, res) => {
           checkCreateTimeInWeek.countTime + 1,
           "timecheck"
         );
-        if (!req.body.isCheck) {
+        if (!req.body.isCheck && req.body.getToday <= new Date().getDay() + 1) {
           await Timekeeping.updateTimeNotWork(
             checkCreateTimeInWeek._id,
             checkCreateTimeInWeek.countTimeNotWork - 1

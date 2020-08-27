@@ -20,6 +20,7 @@ export const isLoggedIn = () => {
       localStorage.clear();
       alert("tài khoản chưa được xác thực");
       return false;
+      //return window.location.reload();
     }
     //console.log(new Date(decoded.exp) * 1000);
     // console.log(decoded.exp * 1000);
