@@ -30,7 +30,7 @@ function App() {
         {/* <Route path="/edit-profile" component={EditProfileComponent}></Route> */}
 
         <Route
-          // exact
+          //exact
           path="/login"
           render={() =>
             isLoggedIn() ? <Redirect to="/" /> : <LoginComponent />
